@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>CarJourney</title>
+  <title>Car Listing Template</title>
   <link rel="stylesheet" href="styles.css">
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght@600&display=swap" rel="stylesheet">
@@ -15,7 +15,7 @@
   <!-- Header / Top Task Bar -->
   <header>
     <div class="container">
-      <h1>CarJourney</h1>
+      <h1>Car Listing</h1>
       <nav>
         <ul>
           <li><a href="#" class="active"><i class="fas fa-home"></i> Home</a></li>
@@ -27,22 +27,48 @@
     </div>
   </header>
 
-  <!-- Main Body Section with a Square Box and Template Text -->
+  <!-- Main Car Listing Section -->
   <main>
-    <div class="white-body">
-      <div class="container">
-        <!-- Template text for car name -->
-        <p class="car-name"><strong>Insert Car Name Here</strong></p>
-        <!-- Square box added here -->
-        <div class="image-box"></div>
+    <div class="container car-details">
+      <!-- Car Name, Cost, and Odometer -->
+      <h2 class="car-name"><strong>Car Name: Toyota Camry</strong></h2>
+      <p class="car-cost"><strong>Cost:</strong> $22,000</p>
+      <p class="car-odometer"><strong>Odometer:</strong> 32,000 miles</p>
+
+      <!-- Place to Store Pictures -->
+      <div class="image-gallery">
+        <img src="https://via.placeholder.com/300" alt="Car Image" class="car-image">
+        <img src="https://via.placeholder.com/300" alt="Car Image" class="car-image">
+        <img src="https://via.placeholder.com/300" alt="Car Image" class="car-image">
       </div>
+
+      <!-- Overview of the Car -->
+      <section class="car-overview">
+        <h3>Overview</h3>
+        <p>This is a placeholder for the overview of the car. The Toyota Camry is a reliable, fuel-efficient sedan that offers comfortable seating and advanced safety features, making it a popular choice for commuters and families alike.</p>
+      </section>
+
+      <!-- Features and Specs -->
+      <section class="car-features">
+        <h3>Features and Specs</h3>
+        <ul>
+          <li>Engine: 2.5L 4-Cylinder</li>
+          <li>Transmission: Automatic</li>
+          <li>Fuel Economy: 28 MPG city / 39 MPG highway</li>
+          <li>Seats: 5</li>
+          <li>Bluetooth Connectivity</li>
+          <li>Backup Camera</li>
+          <li>Lane Departure Warning</li>
+          <li>Adaptive Cruise Control</li>
+        </ul>
+      </section>
     </div>
   </main>
 
   <!-- Footer / Bottom Task Bar -->
   <footer>
     <div class="container">
-      <p>&copy; 2024 CarJourney. All rights reserved.</p>
+      <p>&copy; 2024 Car Listings. All rights reserved.</p>
       <div class="social-icons">
         <a href="#"><i class="fab fa-facebook-f"></i></a>
         <a href="#"><i class="fab fa-twitter"></i></a>
