@@ -126,6 +126,13 @@
         <label for="register-password">Password:</label>
         <input type="password" id="register-password" name="password" required>
 
+        <!-- Password validation feedback -->
+        <div class="password-requirements">
+          <p id="length-criteria" class="invalid">Password must be at least 8 characters long.</p>
+          <p id="number-criteria" class="invalid">Password must contain at least one numeric value.</p>
+          <p id="special-char-criteria" class="invalid">Password must contain at least one special character.</p>
+        </div>
+
         <!-- Error message container for register -->
         <div id="register-error"></div>
 

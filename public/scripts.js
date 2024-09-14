@@ -50,7 +50,7 @@ const vehicles = [
 function displayListings(vehicleData) {
   const listingsContainer = document.getElementById("listings-container");
   listingsContainer.innerHTML = "";
-  
+
   if (vehicleData.length === 0) {
     listingsContainer.innerHTML = "<p>No vehicles found matching your criteria.</p>";
     return;
@@ -90,13 +90,13 @@ function displayListings(vehicleData) {
 // Function to handle search form submission
 document.getElementById("search-form").addEventListener("submit", function(event) {
   event.preventDefault();
-  
+
   const make = document.getElementById("make").value.trim().toLowerCase();
   const model = document.getElementById("model").value.trim().toLowerCase();
   const minPrice = parseFloat(document.getElementById("min-price").value);
   const maxPrice = parseFloat(document.getElementById("max-price").value);
   const year = parseInt(document.getElementById("year").value);
-  
+
   // Validate input data
   if (!isNaN(minPrice) && !isNaN(maxPrice) && minPrice > maxPrice) {
     alert("Minimum price cannot be greater than maximum price.");
@@ -110,10 +110,10 @@ document.getElementById("search-form").addEventListener("submit", function(event
     const priceMatch = (isNaN(minPrice) || vehicle.price >= minPrice) &&
                        (isNaN(maxPrice) || vehicle.price <= maxPrice);
     const yearMatch = isNaN(year) || vehicle.year === year;
-    
+
     return makeMatch && modelMatch && priceMatch && yearMatch;
   });
-  
+
   displayListings(filteredVehicles);
 });
 
@@ -162,23 +162,48 @@ function showError(container, message) {
   container.innerHTML = `<p style="color: red;">${message}</p>`;
 }
 
-// Password validation function
-function validatePassword(password) {
+// Password validation function with real-time feedback
+function validatePasswordRealTime(password) {
   const minLength = 8;
-  const hasNumber = /\d/; // Checks for at least one numeric value
-  const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/; // Checks for at least one special character
+  const hasNumber = /\d/;
+  const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/;
 
-  if (password.length < minLength) {
-    return `Password must be at least ${minLength} characters long.`;
+  const lengthCriteria = document.getElementById('length-criteria');
+  const numberCriteria = document.getElementById('number-criteria');
+  const specialCharCriteria = document.getElementById('special-char-criteria');
+
+  // Check length
+  if (password.length >= minLength) {
+    lengthCriteria.classList.remove('invalid');
+    lengthCriteria.classList.add('valid');
+  } else {
+    lengthCriteria.classList.remove('valid');
+    lengthCriteria.classList.add('invalid');
   }
-  if (!hasNumber.test(password)) {
-    return "Password must contain at least one numeric value.";
+
+  // Check for number
+  if (hasNumber.test(password)) {
+    numberCriteria.classList.remove('invalid');
+    numberCriteria.classList.add('valid');
+  } else {
+    numberCriteria.classList.remove('valid');
+    numberCriteria.classList.add('invalid');
   }
-  if (!hasSpecialChar.test(password)) {
-    return "Password must contain at least one special character.";
+
+  // Check for special character
+  if (hasSpecialChar.test(password)) {
+    specialCharCriteria.classList.remove('invalid');
+    specialCharCriteria.classList.add('valid');
+  } else {
+    specialCharCriteria.classList.remove('valid');
+    specialCharCriteria.classList.add('invalid');
   }
-  return ""; // Valid password
 }
+
+// Dynamically update password requirements as the user types
+document.getElementById('register-password').addEventListener('input', function() {
+  validatePasswordRealTime(this.value);
+});
 
 // Register Form Submission
 document.getElementById('register-form').addEventListener('submit', function(event) {
@@ -192,9 +217,23 @@ document.getElementById('register-form').addEventListener('submit', function(eve
   showError(errorContainer, "");
 
   // Validate password
-  const passwordError = validatePassword(password);
-  if (passwordError) {
-    showError(errorContainer, passwordError);
+  const minLength = 8;
+  const hasNumber = /\d/;
+  const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/;
+
+  let errorMessage = "";
+  if (password.length < minLength) {
+    errorMessage += "Password must be at least 8 characters long. ";
+  }
+  if (!hasNumber.test(password)) {
+    errorMessage += "Password must contain at least one numeric value. ";
+  }
+  if (!hasSpecialChar.test(password)) {
+    errorMessage += "Password must contain at least one special character. ";
+  }
+
+  if (errorMessage) {
+    showError(errorContainer, errorMessage);
     return;
   }
 
