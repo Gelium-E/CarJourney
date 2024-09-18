@@ -1,15 +1,8 @@
-// Toggle heart icon between empty and filled (FontAwesome)
-document.getElementById("heart-icon").addEventListener("click", function() {
-  const heartIcon = document.getElementById("heart-icon");
-  heartIcon.classList.toggle("fas");  // Filled heart
-  heartIcon.classList.toggle("far");  // Empty heart
-});
-
-// Image gallery images (you can update these paths)
+// Image gallery images (ensure these paths are correct in your project)
 const carImages = [
-   // Replace with actual paths
-  C:/Users/026570048/Downloads/camry1.jpg,
-  "/path/to/camry3.jpg"
+  "images/camry1.jpg",  // Path to camry1.jpg
+  "images/camry2.jpg",  // Path to camry2.jpg
+  "images/camry3.jpg"   // Path to camry3.jpg
 ];
 
 let currentIndex = 0;
@@ -18,19 +11,19 @@ let currentIndex = 0;
 function updateImage() {
   const imageElement = document.getElementById("car-image");
   if (imageElement) {
-    imageElement.src = carImages[currentIndex];
+    imageElement.src = carImages[currentIndex]; // Update the src of the image to the current image
   }
 }
 
 // Go to the previous image
 function prevImage() {
-  currentIndex = (currentIndex > 0) ? currentIndex - 1 : carImages.length - 1;
+  currentIndex = (currentIndex > 0) ? currentIndex - 1 : carImages.length - 1; // Cycle back to the last image
   updateImage();
 }
 
 // Go to the next image
 function nextImage() {
-  currentIndex = (currentIndex < carImages.length - 1) ? currentIndex + 1 : 0;
+  currentIndex = (currentIndex < carImages.length - 1) ? currentIndex + 1 : 0; // Cycle to the first image after the last one
   updateImage();
 }
 
