@@ -31,3 +31,18 @@ function nextImage() {
 window.onload = function() {
   updateImage();
 };
+
+// Toggle heart icon between outlined and filled on click
+const heartIcon = document.getElementById('heart-icon');
+
+heartIcon.addEventListener('click', function () {
+  // Check the current class and toggle between outlined and filled heart
+  if (heartIcon.classList.contains('far')) {
+    heartIcon.classList.remove('far'); // Remove the outlined heart class
+    heartIcon.classList.add('fas');    // Add the filled heart class
+  } else {
+    heartIcon.classList.remove('fas'); // Remove the filled heart class
+    heartIcon.classList.add('far');    // Add the outlined heart class
+  }
+});
+
