@@ -7,8 +7,8 @@ document.getElementById("heart-icon").addEventListener("click", function() {
 
 // Image gallery images (you can update these paths)
 const carImages = [
-  "/path/to/camry1.jpg",  // Replace with actual paths
-  "/path/to/camry2.jpg",
+   // Replace with actual paths
+  C:/Users/026570048/Downloads/camry1.jpg,
   "/path/to/camry3.jpg"
 ];
 
