@@ -131,8 +131,6 @@ nav ul li a.active {
   background-color: rgba(0, 0, 0, 0.8);
 }
 
-
-
 /* Vehicle Highlights Section */
 .vehicle-highlights {
   background-color: #f9f9f9;
@@ -219,10 +217,17 @@ footer p {
   }
 
   .image-gallery {
-    flex-direction: column;
+    width: 100%;
+    height: auto; /* Auto height for smaller screens */
   }
 
   .car-image {
-    width: 100%;
+    height: auto; /* Adjust image to maintain aspect ratio */
+  }
+
+  .prev, .next {
+    font-size: 24px;  /* Slightly smaller buttons on mobile */
+    left: 10px;
+    right: 10px;
   }
 }
