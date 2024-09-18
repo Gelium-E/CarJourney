@@ -11,7 +11,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-
   <!-- Header / Top Task Bar -->
   <header>
     <div class="container">
@@ -26,7 +25,52 @@
       </nav>
     </div>
   </header>
-<!-- Body goes here/ Between Header and Footer -->
+
+  <!-- Main Content Wrapper -->
+  <div class="main-content">
+    <!-- Sidebar with Search Filters -->
+    <section class="filter-section">
+      <h2>Filter Vehicles</h2>
+      <form id="search-form">
+        <!-- Add more filters here -->
+        <input type="text" id="make" placeholder="Make">
+        <input type="text" id="model" placeholder="Model">
+        <input type="number" id="min-price" placeholder="Min Price">
+        <input type="number" id="max-price" placeholder="Max Price">
+        <input type="number" id="year" placeholder="Year">
+        <input type="number" id="min-mileage" placeholder="Min Mileage">
+        <input type="number" id="max-mileage" placeholder="Max Mileage">
+        <select id="drivetrain">
+          <option value="">All Drivetrains</option>
+          <option value="FWD">FWD</option>
+          <option value="AWD">AWD</option>
+          <option value="RWD">RWD</option>
+        </select>
+        <!-- Add new filters like fuelType, bodyStyle, transmission -->
+        <button type="submit">Filter</button>
+      </form>
+    </section>
+
+    <!-- Sorting Section -->
+    <section class="sorting-section container">
+      <label for="sort-by">Sort by:</label>
+      <select id="sort-by">
+        <option value="price-asc">Price: Low to High</option>
+        <option value="price-desc">Price: High to Low</option>
+        <option value="year-desc">Year: Newest to Oldest</option>
+        <option value="year-asc">Year: Oldest to Newest</option>
+        <option value="mileage-asc">Mileage: Low to High</option>
+        <option value="mileage-desc">Mileage: High to Low</option>
+        <option value="date-desc">Date Listed: Newest to Oldest</option>
+        <option value="date-asc">Date Listed: Oldest to Newest</option>
+      </select>
+    </section>
+
+    <!-- Vehicle Listings -->
+    <section class="vehicle-listings-section">
+      <div class="container" id="vehicle-listings"></div> <!-- Ensure this element is here -->
+    </section>
+  </div>
 
   <!-- Footer / Bottom Task Bar -->
   <footer>
@@ -40,6 +84,6 @@
     </div>
   </footer>
 
-  <script src="scripts.js"></script>
+  <script src="scripts.js"></script> <!-- Ensure your JS is linked correctly -->
 </body>
 </html>
