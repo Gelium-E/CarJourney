@@ -28,21 +28,21 @@ const vehicles = [
     model: "Corolla",
     year: 2018,
     price: 15000,
-    image: "https://source.unsplash.com/400x300/?toyota,corolla"
+    image: "car pics/2018-toyota-corolla.jpg"
   },
   {
     make: "Honda",
     model: "Civic",
     year: 2019,
     price: 17000,
-    image: "https://source.unsplash.com/400x300/?honda,civic"
+    image: "car pics/2019-honda-civic.jpeg"
   },
   {
     make: "Ford",
     model: "Fusion",
     year: 2017,
     price: 14000,
-    image: "https://source.unsplash.com/400x300/?ford,fusion"
+    image: "car pics/2017-ford-fusion.jpg"
   }
 ];
 
