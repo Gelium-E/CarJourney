@@ -277,17 +277,12 @@ function calculateAffordability() {
 
     var interestRate_month = (affordInterestRate) / 12;   // Interest rate per month
 
-    console.log("Afford Value: " + affordTradeValue);
-    console.log("interestRate_month: " + interestRate_month);
-
     /*  Calculate Total Finance
         https://www.calculatorsoup.com/calculators/financial/loan-calculator.php  */
     let totalFinance;
     if (interestRate_month > 0) {
       totalFinance = (monthlyPayment / interestRate_month) * (1 - ((1) / ((1 + interestRate_month) ** affordLoanTerm)))
     } else { totalFinance = monthlyPayment * affordLoanTerm; }
-
-    console.log("Total Finance: " + totalFinance);
 
     /* Calculate Total Loan
        totalFinance * affordLoanTerm  */
@@ -296,33 +291,23 @@ function calculateAffordability() {
     /* Calculate Sales Tax
        totalFinance * affordSalesTaxRate  */
     var salesTax = (totalFinance) * (affordSalesTaxRate);
-    console.log("salesTax: " + salesTax)
 
     // Calculate Total Interest
     let totalInterest = (totalLoan) - (totalFinance);
-    console.log("totalInterest: " + totalInterest)
 
     // Calculate Estimated Car Price
-    let totalcarPrice = (totalFinance) + (salesTax) - (affordDownPayment) - (affordTradeValue) + (affordTradeOwed);
+    let totalcarPrice = (totalFinance) - (salesTax) + (affordDownPayment) + (affordTradeValue) - (affordTradeOwed);
 
     // Display the results
     document.getElementById("affordEstCarPrice").textContent = `$${totalcarPrice.toFixed(2)}`;
     document.getElementById("preferredDisplay").innerText = '$' + monthlyPayment + '/month';
     document.getElementById("affordDownPaymentDisplay").innerText = '$' + affordDownPayment;
-    document.getElementById("affordSalesTaxDisplay").innerText = '$' + salesTax;
+    document.getElementById("affordSalesTaxDisplay").innerText = '$' + Math.round(salesTax);
+    document.getElementById("affordTradeInDisplay").innerText = '$' +  affordTradeValue;
+    document.getElementById("affordTradeOwedDisplay").innerText = '$' + affordTradeOwed;
     document.getElementById("affordTotalFinanced").innerText = '$' + Math.round(totalFinance);
     document.getElementById("affordTotalInterest").innerText = '$' +  Math.round(totalInterest);
     document.getElementById("affordTotalLoan").innerText = '$' + totalLoan;
-    // document.getElementById("affordTradeOwedDisplay").innerText = '$' + affordTradeOwed;
-    /*
-    document.getElementById("affordEstCarPrice").textContent = `$${totalCarPrice.toFixed(2)}`;
-    document.getElementById("preferredDisplay").textContent = `$${preferredPayment.toFixed(2)}`;
-    document.getElementById("affordDownPaymentDisplay").textContent = `$${affordDownPayment.toFixed(2)}`;
-    document.getElementById("affordTradeValueDisplay").innerText = '$' + affordTradeValue;
-    document.getElementById("affordTradeOwedDisplay").innerText = '$' + affordTradeOwed;
-    document.getElementById("affordSalesTax").textContent = `$${salesTax.toFixed(2)}`;
-    document.getElementById("affordTotalFinanced").textContent = `$${totalCarPrice.toLocaleString()}`;
-    */
   }
   
   // Function to calculate the monthly lease payment (Lease Calculator)
