@@ -1,7 +1,8 @@
 // Import the Firebase modules needed
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-auth.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification, signOut } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-auth.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-analytics.js";
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-auth.js";
 
 // Firebase configuration
 const firebaseConfig = {
@@ -296,4 +297,60 @@ document.getElementById('login-form').addEventListener('submit', function(event)
       console.error('Error during login:', error);
       showError(errorContainer, `Login failed: ${error.message}`);
     });
+});
+
+// Firebase Auth state change listener to show/hide login, register, and user icon
+onAuthStateChanged(auth, (user) => {
+  const loginBtn = document.getElementById('login-btn');
+  const registerBtn = document.getElementById('register-btn');
+  const userIcon = document.getElementById('user-icon');
+
+  if (user) {
+    // User is signed in, hide Login and Register, show user icon
+    loginBtn.style.display = 'none';
+    registerBtn.style.display = 'none';
+    userIcon.style.display = 'block';
+  } else {
+    // No user is signed in, show Login and Register, hide user icon
+    loginBtn.style.display = 'inline-block';
+    registerBtn.style.display = 'inline-block';
+    userIcon.style.display = 'none';
+  }
+});
+
+// Toggle dropdown visibility when user icon is clicked
+document.getElementById('user-icon-link').addEventListener('click', function(event) {
+  event.preventDefault(); // Prevent default link behavior
+
+  const dropdownMenu = document.getElementById('dropdown-menu');
+  
+  // Toggle the dropdown visibility
+  dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
+});
+
+// Close the dropdown if the user clicks outside of it
+window.addEventListener('click', function(event) {
+  const dropdownMenu = document.getElementById('dropdown-menu');
+  const userIconLink = document.getElementById('user-icon-link');
+
+  if (!userIconLink.contains(event.target) && !dropdownMenu.contains(event.target)) {
+    dropdownMenu.style.display = 'none'; // Hide dropdown if clicked outside
+  }
+});
+
+// Sign-out functionality
+document.getElementById('sign-out').addEventListener('click', function() {
+  signOut(auth)
+    .then(() => {
+      console.log("User signed out successfully.");
+      // Optionally show a message or perform other actions
+    })
+    .catch((error) => {
+      console.error("Error signing out:", error);
+    });
+});
+
+document.getElementById('account-settings').addEventListener('click', function() {
+  // Add account settings navigation logic here
+  console.log('Account settings clicked');
 });
