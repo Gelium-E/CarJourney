@@ -124,14 +124,25 @@
         <div class="calculator-inputs">
           <label for="leaseCarPrice">Car Price</label>
           <input type="number" id="leaseCarPrice" placeholder="$0">
-          <label for="leaseInterestRate">Interest Rate (APR)</label>
-          <input type="number" id="leaseInterestRate" placeholder="0.0%">
+          <label for="leaseSalesTax">Sales Tax</label>
+          <input type="number" id="leaseSalesTax" placeholder="0.0%">
           <label for="leaseTerm">Lease Term (months)</label>
           <select id="leaseTerm">
+            <option value="12">12</option>
+            <option value="24">24</option>
             <option value="36">36</option>
             <option value="48">48</option>
             <option value="60" selected>60</option>
+            <option value="72">72</option>
           </select>
+          <label for="leaseInterestRate">Interest Rate (APR)</label>
+          <input type="number" id="leaseInterestRate" placeholder="0.0%">
+          <label for="leaseTradeValue">Trade-In Value</label>
+          <input type="number" id="leaseTradeValue" placeholder="$0">
+          <label for="leaseTradeOwed">Amount Owed on Trade</label>
+          <input type="number" id="leaseTradeOwed" placeholder="$0">
+          <label for="leaseDownPayment">Add'l Down Payment</label>
+          <input type="number" id="leaseDownPayment" placeholder="$0">
           <label for="residualValue">Residual Value</label>
           <input type="number" id="residualValue" placeholder="62.0%">
           <label for="leaseMiles">Miles Per Year</label>
@@ -143,8 +154,12 @@
           <p><strong id="leaseEstMonthlyPayment">$0/month</strong></p> <!-- Added an ID for updating -->
           <ul>
             <li>Car Price: <span id="leasePrice">$0</span></li>
-            <li>Residual Value: <span id="leaseResidual">$0</span></li>
+            <li>Sales Tax: <span id="leaseSalesDisplay">$0</span></li>
+            <li>Net Trade-In Amount: <span id="netTradeDisplay">$0</span></li>
+            <li>Add'l Down Payment: <span id="leaseDownPaymentDisplay">$0</span></li>
             <li>Est. Total Lease: <span id="leaseTotal">$0</span></li>
+            <li>Est. Total Interest Paid: <span id="leaseTotalInterest">$0</span></li>
+            <li>Est. Total Loan: <span id="leaseTotalLoan">$0</span></li>
           </ul>
         </div>
       </div>

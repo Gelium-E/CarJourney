@@ -312,20 +312,60 @@ function calculateAffordability() {
   
   // Function to calculate the monthly lease payment (Lease Calculator)
   function calculateLease() {
-    const leaseCarPrice = parseFloat(document.getElementById("leaseCarPrice").value) || 0;
-    const leaseInterestRate = parseFloat(document.getElementById("leaseInterestRate").value) || 0;
-    const leaseTerm = parseInt(document.getElementById("leaseTerm").value) || 60;
-    const residualValue = parseFloat(document.getElementById("residualValue").value) || 62.0;
-  
-    const residualAmount = leaseCarPrice * (residualValue / 100);
-    const totalLeaseCost = leaseCarPrice - residualAmount;
-    const monthlyLeasePayment = (totalLeaseCost / leaseTerm) + ((leaseInterestRate / 100) * totalLeaseCost / 12);
-  
+    // Variables
+    // Set variables to 0 if it's not a number, float, or integer
+    var leaseCarPrice = parseFloat(document.getElementById("leaseCarPrice").value) || 0;
+    var leaseTerm = parseInt(document.getElementById("leaseTerm").value) || 60;
+    var leaseTradeValue = parseFloat(document.getElementById("leaseTradeValue").value) || 0;
+    var leaseTradeOwed = parseFloat(document.getElementById("leaseTradeOwed").value) || 0;
+    var leaseDownPayment = parseFloat(document.getElementById("leaseDownPayment").value) || 0;
+
+    // Convert Rates
+    var leaseInterestRate = (parseFloat(document.getElementById("leaseInterestRate").value) || 0) / 100; // Divides by 100 to convert to percentage
+    var leaseSalesRate = (parseFloat(document.getElementById("leaseSalesTax").value) || 0) / 100; // Divides by 100 to convert to percentage
+    var residualValue = (parseFloat(document.getElementById("residualValue").value) || 62.0) / 100;
+
+    var interestRate_month = (leaseInterestRate) / 12;   // Interest rate per month
+
+    // Convert to Residual
+    var residualAmount = leaseCarPrice * (residualValue);
+    
+    /*
+    var totalLeaseCost = leaseCarPrice - residualAmount;
+    var monthlyLeasePayment = (totalLeaseCost / leaseTerm) + ((leaseInterestRate / 100) * totalLeaseCost / 12);
+    */
+
+    // Calculate Sales Tax
+    var salesTax = (leaseCarPrice) * (leaseSalesRate);
+    
+    // Calculate Net Trade-In Amount
+    var netTrade = (leaseTradeValue) - (leaseTradeOwed);
+
+    // Calculate total Lease Amount
+    let totalLease = (leaseCarPrice) + (salesTax) - (leaseDownPayment) - (netTrade);
+
+    // Calculate Total Interest
+    /*
+    let monthlyPayment;
+    if (interestRate_month > 0) {
+      monthlyPayment = totalLease * ((interestRate_month) * ((1 + interestRate_month) ** leaseTerm)) / (((1 + interestRate_month) ** loanTerm) - 1);;
+    } else { monthlyPayment = totalLease / leaseTerm; }
+    */
+
+    // let totalInterest = (monthlyPayment * leaseTerm) - (totalLease);
+    let leaseTotalInterest = totalLease + residualAmount - leaseCarPrice;
+    console.log("total Interest: " + leaseTotalInterest);
+
     // Display the results
-    document.getElementById("leaseEstMonthlyPayment").textContent = `$${monthlyLeasePayment.toFixed(2)}/month`;
-    document.getElementById("leasePrice").textContent = `$${leaseCarPrice.toFixed(2)}`;
-    document.getElementById("leaseResidual").textContent = `$${residualAmount.toFixed(2)}`;
-    document.getElementById("leaseTotal").textContent = `$${totalLeaseCost.toFixed(2)}`;
+    // document.getElementById("leaseEstMonthlyPayment").textContent = `$${monthlyLeasePayment.toFixed(2)}/month`;
+    document.getElementById("leaseSalesDisplay").innerText = '$' + salesTax.toFixed(2);
+    document.getElementById("leasePrice").innerText = '$' + leaseCarPrice;
+    document.getElementById("netTradeDisplay").innerText = '$' + netTrade.toFixed(2);
+    document.getElementById("leaseDownPaymentDisplay").innerText = '$' + leaseDownPayment.toFixed(2);
+
+    // document.getElementById("leaseResidual").textContent = `$${residualAmount.toFixed(2)}`;
+    document.getElementById("leaseTotalInterest").innerText = '$' + leaseTotalInterest.toFixed(2);
+    document.getElementById("leaseTotal").textContent = `$${totalLease.toFixed(2)}`;
   }
   
     // Event listeners for switching between tabs
@@ -359,8 +399,12 @@ function calculateAffordability() {
   
     // Add event listeners for real-time updates in Lease Calculator
     document.getElementById("leaseCarPrice").addEventListener("input", calculateLease);
-    document.getElementById("leaseInterestRate").addEventListener("input", calculateLease);
+    document.getElementById("leaseSalesTax").addEventListener("input", calculateLease);
     document.getElementById("leaseTerm").addEventListener("change", calculateLease);
+    document.getElementById("leaseInterestRate").addEventListener("input", calculateLease);
+    document.getElementById("leaseTradeValue").addEventListener("input", calculateLease);
+    document.getElementById("leaseTradeOwed").addEventListener("input", calculateLease);
+    document.getElementById("leaseDownPayment").addEventListener("input", calculateLease);
     document.getElementById("residualValue").addEventListener("input", calculateLease);
     document.getElementById("leaseMiles").addEventListener("input", calculateLease);
   
