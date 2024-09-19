@@ -297,4 +297,3 @@ document.getElementById('login-form').addEventListener('submit', function(event)
       showError(errorContainer, `Login failed: ${error.message}`);
     });
 });
-
