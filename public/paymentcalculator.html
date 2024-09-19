@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>CarJourney</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="paymentcalculator.css">
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght@600&display=swap" rel="stylesheet">
   <!-- Font Awesome for icons -->
@@ -26,7 +26,178 @@
       </nav>
     </div>
   </header>
-<!-- Body goes here/ Between Header and Footer -->
+
+  <!-- Main Content -->
+  <main>
+    <section class="calculator-section">
+      <h2>Car Loan Calculators</h2>
+      <p>Choose a calculator to estimate your car payment options:</p>
+
+      <!-- Calculator Tabs -->
+      <div class="tabs">
+        <button id="finance-tab" class="active">Finance</button>
+        <button id="affordability-tab">Affordability</button>
+        <button id="lease-tab">Lease</button>
+      </div>
+
+      <!-- Finance Calculator (Visible by default) -->
+      <div id="finance-calculator" class="calculator-form">
+        <div class="calculator-inputs">
+          <label for="carPrice">Car Price</label>
+          <input type="number" id="carPrice" placeholder="$0">
+          <label for="interestRate">Interest Rate (%)</label>
+          <input type="number" id="interestRate" placeholder="0.0">
+          <label for="loanTerm">Loan Term (months)</label>
+          <select id="loanTerm">
+            <option value="36">36</option>
+            <option value="48">48</option>
+            <option value="60" selected>60</option>
+            <option value="72">72</option>
+          </select>
+          <label for="salesTaxRate">Sales Tax Rate (%)</label>
+          <input type="number" id="salesTaxRate" placeholder="0.0">
+          <label for="downPayment">Down Payment</label>
+          <input type="number" id="downPayment" placeholder="$0">
+          <label for="tradeInValue">Trade-In Value</label>
+          <input type="number" id="tradeInValue" placeholder="$0">
+          <label for="amountOwedOnTrade">Amount Owed on Trade</label>
+          <input type="number" id="amountOwedOnTrade" placeholder="$0">
+        </div>
+
+        <div class="calculator-results">
+          <h3>Est. Monthly Payment</h3>
+          <ul>
+            <li>Car Price: <span id="price">$0</span></li>
+            <li>Sales Tax: <span id="salesTax">$0</span></li>
+            <li>Down Payment: <span id="downPaymentDisplay">$0</span></li>
+            <li>Trade-In Value: <span id="tradeInDisplay">$0</span></li>
+            <li>Amount Owed on Trade: <span id="amountOwedDisplay">$0</span></li>
+            <li>Est. Total Financed: <span id="totalFinanced">$0</span></li>
+            <li>Est. Total Interest: <span id="totalInterest">$0</span></li>
+            <li>Est. Total Loan: <span id="totalLoan">$0</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Affordability Calculator -->
+      <div id="affordability-calculator" class="calculator-form" style="display: none;">
+        <div class="calculator-inputs">
+          <label for="preferredPayment">Preferred Monthly Payment</label>
+          <input type="number" id="preferredPayment" placeholder="$0">
+          <label for="affordInterestRate">Interest Rate (%)</label>
+          <input type="number" id="affordInterestRate" placeholder="0.0">
+          <label for="affordLoanTerm">Loan Term (months)</label>
+          <select id="affordLoanTerm">
+            <option value="36">36</option>
+            <option value="48">48</option>
+            <option value="60" selected>60</option>
+            <option value="72">72</option>
+          </select>
+          <label for="affordSalesTaxRate">Sales Tax Rate (%)</label>
+          <input type="number" id="affordSalesTaxRate" placeholder="0.0">
+          <label for="affordDownPayment">Down Payment</label>
+          <input type="number" id="affordDownPayment" placeholder="$0">
+        </div>
+
+        <div class="calculator-results">
+          <h3>Est. Car Price</h3>
+          <p><strong id="affordEstCarPrice">$0</strong></p> <!-- Added an ID for updating -->
+          <ul>
+            <li>Preferred Payment: <span id="preferredDisplay">$0</span></li>
+            <li>Down Payment: <span id="affordDownPaymentDisplay">$0</span></li>
+            <li>Sales Tax: <span id="affordSalesTax">$0</span></li>
+            <li>Est. Total Financed: <span id="affordTotalFinanced">$0</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Lease Calculator -->
+      <div id="lease-calculator" class="calculator-form" style="display: none;">
+        <div class="calculator-inputs">
+          <label for="leaseCarPrice">Car Price</label>
+          <input type="number" id="leaseCarPrice" placeholder="$0">
+          <label for="leaseInterestRate">Interest Rate (%)</label>
+          <input type="number" id="leaseInterestRate" placeholder="0.0">
+          <label for="leaseTerm">Lease Term (months)</label>
+          <select id="leaseTerm">
+            <option value="36">36</option>
+            <option value="48">48</option>
+            <option value="60" selected>60</option>
+          </select>
+          <label for="residualValue">Residual Value (%)</label>
+          <input type="number" id="residualValue" placeholder="62.0">
+          <label for="leaseMiles">Miles Per Year</label>
+          <input type="number" id="leaseMiles" placeholder="0">
+        </div>
+
+        <div class="calculator-results">
+          <h3>Est. Monthly Lease Payment</h3>
+          <p><strong id="leaseEstMonthlyPayment">$0/month</strong></p> <!-- Added an ID for updating -->
+          <ul>
+            <li>Car Price: <span id="leasePrice">$0</span></li>
+            <li>Residual Value: <span id="leaseResidual">$0</span></li>
+            <li>Est. Total Lease: <span id="leaseTotal">$0</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Login Modal -->
+  <div id="login-modal" class="modal">
+    <div class="modal-content">
+      <span class="close" id="login-close">&times;</span>
+      <h2>Login</h2>
+      <form id="login-form">
+        <label for="login-email">Email:</label>
+        <input type="email" id="login-email" name="email" required>
+
+        <label for="login-password">Password:</label>
+        <input type="password" id="login-password" name="password" required>
+
+        <!-- Error message container for login -->
+        <div id="login-error"></div>
+
+        <button type="submit" class="btn">Login</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Register Modal -->
+  <div id="register-modal" class="modal">
+    <div class="modal-content">
+      <span class="close" id="register-close">&times;</span>
+      <h2>Register</h2>
+      <form id="register-form">
+        <label for="first-name">First Name:</label>
+        <input type="text" id="first-name" name="first-name" required>
+
+        <label for="last-name">Last Name:</label>
+        <input type="text" id="last-name" name="last-name" required>
+
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+
+        <label for="register-email">Email:</label>
+        <input type="email" id="register-email" name="email" required>
+
+        <label for="register-password">Password:</label>
+        <input type="password" id="register-password" name="password" required>
+
+        <!-- Password validation feedback -->
+        <div class="password-requirements">
+          <p id="length-criteria" class="invalid">Password must be at least 8 characters long.</p>
+          <p id="number-criteria" class="invalid">Password must contain at least one numeric value.</p>
+          <p id="special-char-criteria" class="invalid">Password must contain at least one special character.</p>
+        </div>
+
+        <!-- Error message container for register -->
+        <div id="register-error"></div>
+
+        <button type="submit" class="btn">Register</button>
+      </form>
+    </div>
+  </div>
 
   <!-- Footer / Bottom Task Bar -->
   <footer>
@@ -40,6 +211,6 @@
     </div>
   </footer>
 
-  <script src="scripts.js"></script>
+  <script type="module" src="payment-calculator.js"></script>
 </body>
 </html>
