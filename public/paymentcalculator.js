@@ -325,15 +325,16 @@ function calculateAffordability() {
     var leaseSalesRate = (parseFloat(document.getElementById("leaseSalesTax").value) || 0) / 100; // Divides by 100 to convert to percentage
     var residualValue = (parseFloat(document.getElementById("residualValue").value) || 62.0) / 100;
 
-    var interestRate_month = (leaseInterestRate) / 12;   // Interest rate per month
-
-    // Convert to Residual
+    // Misc
     var residualAmount = leaseCarPrice * (residualValue);
-    
-    /*
-    var totalLeaseCost = leaseCarPrice - residualAmount;
-    var monthlyLeasePayment = (totalLeaseCost / leaseTerm) + ((leaseInterestRate / 100) * totalLeaseCost / 12);
-    */
+    var deprecCost = leaseCarPrice - residualAmount;
+    var monthlyDeprec = deprecCost / leaseTerm;
+    var avgCarValue = (leaseCarPrice + residualValue) / 2;
+    var moneyFactor = leaseInterestRate / 2400;
+    var monthlyFinanceCharge = avgCarValue * moneyFactor;
+
+    // Calculate Monthly Lease Payment
+    var monthlyLease = monthlyDeprec + monthlyFinanceCharge
 
     // Calculate Sales Tax
     var salesTax = (leaseCarPrice) * (leaseSalesRate);
@@ -345,27 +346,20 @@ function calculateAffordability() {
     let totalLease = (leaseCarPrice) + (salesTax) - (leaseDownPayment) - (netTrade);
 
     // Calculate Total Interest
-    /*
-    let monthlyPayment;
-    if (interestRate_month > 0) {
-      monthlyPayment = totalLease * ((interestRate_month) * ((1 + interestRate_month) ** leaseTerm)) / (((1 + interestRate_month) ** loanTerm) - 1);;
-    } else { monthlyPayment = totalLease / leaseTerm; }
-    */
-
-    // let totalInterest = (monthlyPayment * leaseTerm) - (totalLease);
     let leaseTotalInterest = totalLease + residualAmount - leaseCarPrice;
-    console.log("total Interest: " + leaseTotalInterest);
+
+    // Calculate Total Interest
+    let leaseTotalLoan = totalLease + leaseTotalInterest;
 
     // Display the results
-    // document.getElementById("leaseEstMonthlyPayment").textContent = `$${monthlyLeasePayment.toFixed(2)}/month`;
+    document.getElementById("leaseEstMonthlyPayment").textContent = `$${monthlyLease.toFixed(2)}/month`;
     document.getElementById("leaseSalesDisplay").innerText = '$' + salesTax.toFixed(2);
     document.getElementById("leasePrice").innerText = '$' + leaseCarPrice;
     document.getElementById("netTradeDisplay").innerText = '$' + netTrade.toFixed(2);
     document.getElementById("leaseDownPaymentDisplay").innerText = '$' + leaseDownPayment.toFixed(2);
-
-    // document.getElementById("leaseResidual").textContent = `$${residualAmount.toFixed(2)}`;
-    document.getElementById("leaseTotalInterest").innerText = '$' + leaseTotalInterest.toFixed(2);
     document.getElementById("leaseTotal").textContent = `$${totalLease.toFixed(2)}`;
+    document.getElementById("leaseTotalInterest").innerText = '$' + leaseTotalInterest.toFixed(2);
+    document.getElementById("leaseTotalLoan").innerText = '$' + leaseTotalLoan.toFixed(2);
   }
   
     // Event listeners for switching between tabs
