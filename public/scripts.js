@@ -22,32 +22,14 @@ const auth = getAuth(app);
 const analytics = getAnalytics(app);
 console.log("Firebase initialized successfully.");
 
-// Sample vehicle data (replace with real data from Firebase)
+// Sample vehicle data
 const vehicles = [
-  {
-    make: "Toyota",
-    model: "Corolla",
-    year: 2018,
-    price: 15000,
-    image: "car pics/2018-toyota-corolla.jpg"
-  },
-  {
-    make: "Honda",
-    model: "Civic",
-    year: 2019,
-    price: 17000,
-    image: "car pics/2019-honda-civic.jpeg"
-  },
-  {
-    make: "Ford",
-    model: "Fusion",
-    year: 2017,
-    price: 14000,
-    image: "car pics/2017-ford-fusion.jpg"
-  }
+  { make: "Toyota", model: "Corolla", year: 2018, price: 15000, image: "car pics/2018-toyota-corolla.jpg" },
+  { make: "Honda", model: "Civic", year: 2019, price: 17000, image: "car pics/2019-honda-civic.jpeg" },
+  { make: "Ford", model: "Fusion", year: 2017, price: 14000, image: "car pics/2017-ford-fusion.jpg" }
 ];
 
-// Function to display vehicle listings
+// Display vehicle listings
 function displayListings(vehicleData) {
   const listingsContainer = document.getElementById("listings-container");
   listingsContainer.innerHTML = "";
@@ -61,13 +43,11 @@ function displayListings(vehicleData) {
     const card = document.createElement("div");
     card.classList.add("vehicle-card");
 
-    // Vehicle Image
     const img = document.createElement("img");
     img.src = vehicle.image || "https://via.placeholder.com/400x300?text=No+Image";
     img.alt = `${vehicle.make} ${vehicle.model}`;
     card.appendChild(img);
 
-    // Card Content
     const cardContent = document.createElement("div");
     cardContent.classList.add("card-content");
 
@@ -88,7 +68,7 @@ function displayListings(vehicleData) {
   });
 }
 
-// Function to handle search form submission
+// Handle search form submission
 document.getElementById("search-form").addEventListener("submit", function(event) {
   event.preventDefault();
 
@@ -98,13 +78,11 @@ document.getElementById("search-form").addEventListener("submit", function(event
   const maxPrice = parseFloat(document.getElementById("max-price").value);
   const year = parseInt(document.getElementById("year").value);
 
-  // Validate input data
   if (!isNaN(minPrice) && !isNaN(maxPrice) && minPrice > maxPrice) {
     alert("Minimum price cannot be greater than maximum price.");
     return;
   }
 
-  // Filter vehicles based on search criteria
   const filteredVehicles = vehicles.filter(vehicle => {
     const makeMatch = !make || vehicle.make.toLowerCase().includes(make);
     const modelMatch = !model || vehicle.model.toLowerCase().includes(model);
@@ -121,7 +99,7 @@ document.getElementById("search-form").addEventListener("submit", function(event
 // Initial display of vehicle listings
 displayListings(vehicles);
 
-// Modal Functionality
+// Modal handling
 const loginModal = document.getElementById('login-modal');
 const registerModal = document.getElementById('register-modal');
 const loginBtn = document.getElementById('login-btn');
@@ -131,39 +109,45 @@ const registerClose = document.getElementById('register-close');
 
 // Open login modal
 loginBtn.addEventListener('click', function () {
+  clearFormFields('login-form');
   loginModal.style.display = 'block';
 });
 
 // Open register modal
 registerBtn.addEventListener('click', function () {
+  clearFormFields('register-form');
   registerModal.style.display = 'block';
 });
 
-// Close login modal
+// Close modals and clear input fields
 loginClose.addEventListener('click', function () {
+  clearFormFields('login-form');
   loginModal.style.display = 'none';
 });
 
-// Close register modal
 registerClose.addEventListener('click', function () {
+  clearFormFields('register-form');
   registerModal.style.display = 'none';
 });
 
 // Close modal when clicking outside
 window.addEventListener('click', function (event) {
   if (event.target === loginModal) {
+    clearFormFields('login-form');
     loginModal.style.display = 'none';
   } else if (event.target === registerModal) {
+    clearFormFields('register-form');
     registerModal.style.display = 'none';
   }
 });
 
-// Helper function to show error messages
-function showError(container, message) {
-  container.innerHTML = `<p style="color: red;">${message}</p>`;
+// Clear input fields when closing modals
+function clearFormFields(formId) {
+  const form = document.getElementById(formId);
+  form.reset();
 }
 
-// Password validation function with real-time feedback
+// Password validation with real-time feedback
 function validatePasswordRealTime(password) {
   const minLength = 8;
   const hasNumber = /\d/;
@@ -173,124 +157,92 @@ function validatePasswordRealTime(password) {
   const numberCriteria = document.getElementById('number-criteria');
   const specialCharCriteria = document.getElementById('special-char-criteria');
 
-  // Check length
   if (password.length >= minLength) {
-    lengthCriteria.classList.remove('invalid');
     lengthCriteria.classList.add('valid');
+    lengthCriteria.classList.remove('invalid');
   } else {
-    lengthCriteria.classList.remove('valid');
     lengthCriteria.classList.add('invalid');
+    lengthCriteria.classList.remove('valid');
   }
 
-  // Check for number
   if (hasNumber.test(password)) {
-    numberCriteria.classList.remove('invalid');
     numberCriteria.classList.add('valid');
+    numberCriteria.classList.remove('invalid');
   } else {
-    numberCriteria.classList.remove('valid');
     numberCriteria.classList.add('invalid');
+    numberCriteria.classList.remove('valid');
   }
 
-  // Check for special character
   if (hasSpecialChar.test(password)) {
-    specialCharCriteria.classList.remove('invalid');
     specialCharCriteria.classList.add('valid');
+    specialCharCriteria.classList.remove('invalid');
   } else {
-    specialCharCriteria.classList.remove('valid');
     specialCharCriteria.classList.add('invalid');
+    specialCharCriteria.classList.remove('valid');
   }
 }
 
-// Dynamically update password requirements as the user types
 document.getElementById('register-password').addEventListener('input', function() {
   validatePasswordRealTime(this.value);
 });
 
-// Register Form Submission
+// Register form submission
 document.getElementById('register-form').addEventListener('submit', function(event) {
-  event.preventDefault(); // Prevent form from submitting the default way
+  event.preventDefault();
 
   const email = document.getElementById('register-email').value;
   const password = document.getElementById('register-password').value;
-  const errorContainer = document.getElementById('register-error'); // Error message container
+  const errorContainer = document.getElementById('register-error');
 
-  // Clear previous error messages
   showError(errorContainer, "");
 
-  // Validate password
-  const minLength = 8;
-  const hasNumber = /\d/;
-  const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/;
-
-  let errorMessage = "";
-  if (password.length < minLength) {
-    errorMessage += "Password must be at least 8 characters long. ";
-  }
-  if (!hasNumber.test(password)) {
-    errorMessage += "Password must contain at least one numeric value. ";
-  }
-  if (!hasSpecialChar.test(password)) {
-    errorMessage += "Password must contain at least one special character. ";
-  }
-
-  if (errorMessage) {
-    showError(errorContainer, errorMessage);
+  if (!validatePassword(password)) {
+    showError(errorContainer, "Invalid password. Ensure it meets the criteria.");
     return;
   }
 
-  console.log(`Attempting to register user with email: ${email}`);
-
-  // Firebase sign-up
   createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       const user = userCredential.user;
-
-      console.log('User registered successfully:', user);
-
-      // Send email verification after registration
-      sendEmailVerification(user).then(() => {
-        showError(errorContainer, 'Verification email sent! Please check your inbox.');
-      }).catch(error => {
-        showError(errorContainer, "Error sending verification email.");
-        console.error("Error sending verification email:", error);
-      });
-
-      // Optionally: Hide modal after registration
-      // document.getElementById('register-modal').style.display = 'none';
+      sendEmailVerification(user)
+        .then(() => {
+          showError(errorContainer, 'Verification email sent! Please check your inbox.');
+        })
+        .catch((error) => {
+          showError(errorContainer, "Error sending verification email.");
+        });
     })
     .catch((error) => {
-      console.error('Error during registration:', error);
       showError(errorContainer, `Registration failed: ${error.message}`);
     });
 });
 
-// Login Form Submission
+// Handle login form submission with POST
 document.getElementById('login-form').addEventListener('submit', function(event) {
-  event.preventDefault(); // Prevent form from submitting the default way
+  event.preventDefault(); // Prevent default form submission
 
   const email = document.getElementById('login-email').value;
   const password = document.getElementById('login-password').value;
-  const errorContainer = document.getElementById('login-error'); // Error message container
+  const errorContainer = document.getElementById('login-error');
 
-  // Clear previous error messages
-  showError(errorContainer, "");
+  showError(errorContainer, ""); // Clear any previous errors
 
-  console.log(`Attempting to log in with email: ${email}`);
-
-  // Firebase sign-in
+  // Use Firebase sign-in method to authenticate
   signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       const user = userCredential.user;
 
-      console.log('User signed in successfully:', user);
-
-      // Check if the user is verified
       if (user.emailVerified) {
         showError(errorContainer, 'Login successful!');
-        document.getElementById('login-modal').style.display = 'none'; // Close modal
+        loginModal.style.display = 'none'; // Close modal on success
+
+        // Optionally, redirect to a new page (without appending the login info to the URL)
+        // window.location.href = "/homepage.html"; // Redirect after login
       } else {
         showError(errorContainer, 'Please verify your email before logging in.');
-        console.log("Login attempted, but email is not verified for user:", user);
+        sendEmailVerification(user).then(() => {
+          showError(errorContainer, 'Verification email sent again. Please check your inbox.');
+        });
       }
     })
     .catch((error) => {
@@ -299,65 +251,61 @@ document.getElementById('login-form').addEventListener('submit', function(event)
     });
 });
 
-// Firebase Auth state change listener to show/hide login, register, and user icon
+
+// Authentication state change handler
 onAuthStateChanged(auth, (user) => {
   const loginBtn = document.getElementById('login-btn');
   const registerBtn = document.getElementById('register-btn');
   const userIcon = document.getElementById('user-icon');
 
-  if (user) {
-    // User is signed in, hide Login and Register, show user icon
+  if (user && user.emailVerified) {
     loginBtn.style.display = 'none';
     registerBtn.style.display = 'none';
     userIcon.style.display = 'block';
   } else {
-    // No user is signed in, show Login and Register, hide user icon
     loginBtn.style.display = 'inline-block';
     registerBtn.style.display = 'inline-block';
     userIcon.style.display = 'none';
   }
 });
 
+// Sign-out functionality
+document.getElementById('sign-out').addEventListener('click', function() {
+  signOut(auth).then(() => {
+    console.log("User signed out successfully.");
+  }).catch((error) => {
+    console.error("Error signing out:", error);
+  });
+});
+
+// Helper function to show error messages
+function showError(container, message) {
+  container.innerHTML = `<p style="color: red;">${message}</p>`;
+}
+
+// Validate password structure
+function validatePassword(password) {
+  const minLength = 8;
+  const hasNumber = /\d/;
+  const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/;
+
+  return password.length >= minLength && hasNumber.test(password) && hasSpecialChar.test(password);
+}
+
 // Toggle dropdown visibility when user icon is clicked
 document.getElementById('user-icon-link').addEventListener('click', function(event) {
-  event.preventDefault(); // Prevent default link behavior
+  event.preventDefault();
 
   const dropdownMenu = document.getElementById('dropdown-menu');
-  
-  // Close any other open dropdowns
-  document.querySelectorAll('.dropdown-menu').forEach(menu => {
-    if (menu !== dropdownMenu) {
-      menu.style.display = 'none';
-    }
-  });
-
-  // Toggle the dropdown visibility
   dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
 });
 
-// Close the dropdown if the user clicks outside of it
+// Close dropdown if clicked outside
 window.addEventListener('click', function(event) {
   const dropdownMenu = document.getElementById('dropdown-menu');
   const userIconLink = document.getElementById('user-icon-link');
 
   if (!userIconLink.contains(event.target) && !dropdownMenu.contains(event.target)) {
-    dropdownMenu.style.display = 'none'; // Hide dropdown if clicked outside
+    dropdownMenu.style.display = 'none';
   }
-});
-
-// Sign-out functionality
-document.getElementById('sign-out').addEventListener('click', function() {
-  signOut(auth)
-    .then(() => {
-      console.log("User signed out successfully.");
-      // Optionally show a message or perform other actions
-    })
-    .catch((error) => {
-      console.error("Error signing out:", error);
-    });
-});
-
-document.getElementById('account-settings').addEventListener('click', function() {
-  // Add account settings navigation logic here
-  console.log('Account settings clicked');
 });
