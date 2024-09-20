@@ -324,6 +324,13 @@ document.getElementById('user-icon-link').addEventListener('click', function(eve
 
   const dropdownMenu = document.getElementById('dropdown-menu');
   
+  // Close any other open dropdowns
+  document.querySelectorAll('.dropdown-menu').forEach(menu => {
+    if (menu !== dropdownMenu) {
+      menu.style.display = 'none';
+    }
+  });
+
   // Toggle the dropdown visibility
   dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
 });
