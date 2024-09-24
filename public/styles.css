@@ -91,12 +91,12 @@ nav ul li a.active {
 .image-gallery {
   position: relative;
   display: flex;
-  justify-content: center; /* Center the gallery horizontally */
+  justify-content: center; 
   align-items: center;
-  width: 80%;  /* Make the gallery take 80% of the page width */
-  max-width: 800px; /* Set a max width to prevent it from getting too big */
-  height: 500px; /* Increase the height */
-  margin: 40px auto; /* Center the gallery with auto margin */
+  width: 80%;  
+  max-width: 800px; 
+  height: 500px; 
+  margin: 40px auto; 
 }
 
 .car-image {
@@ -112,20 +112,13 @@ nav ul li a.active {
   transform: translateY(-50%);
   background-color: rgba(0, 0, 0, 0.5);
   color: white;
-  font-size: 40px;  /* Increase font size for bigger buttons */
+  font-size: 40px;  /*Increase font size for buttons
   border: none;
   padding: 15px;
   cursor: pointer;
-  z-index: 1;
-}
+  z-index: 1; */
 
-.prev {
-  left: -50px; /* Move the button slightly outside the image to the left */
-}
-
-.next {
-  right: -50px; /* Move the button slightly outside the image to the right */
-}
+  }
 
 .prev:hover, .next:hover {
   background-color: rgba(0, 0, 0, 0.8);
