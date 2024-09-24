@@ -219,6 +219,34 @@ footer p {
 .social-icons a:hover {
   color: #e74c3c;
 }
+/* Styling for Questions & Comments Section */
+.comment-box {
+  width: 100%; 
+  height: 150px; 
+  border: 2px solid black; 
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 16px;
+  margin-top: 10px;
+  margin-bottom: 15px;
+  resize: none; /* Prevents resizing */
+}
+
+.send-btn {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #3498db; /* Blue background */
+  color: #fff; 
+  text-decoration: none;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.send-btn:hover {
+  background-color: #2980b9; /* Darker blue when hovered */
+}
 
 /* Responsive Design */
 @media (max-width: 768px) {
