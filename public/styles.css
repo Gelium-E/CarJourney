@@ -112,13 +112,20 @@ nav ul li a.active {
   transform: translateY(-50%);
   background-color: rgba(0, 0, 0, 0.5);
   color: white;
-  font-size: 40px;  /*Increase font size for buttons
+  font-size: 40px;  /* Increase font size for buttons */
   border: none;
   padding: 15px;
   cursor: pointer;
-  z-index: 1; */
+  z-index: 1;
+}
 
-  }
+.prev {
+  left: -120px; /* Position the prev button to the left */
+}
+
+.next {
+  right: -120px; /* Position the next button to the right */
+}
 
 .prev:hover, .next:hover {
   background-color: rgba(0, 0, 0, 0.8);
@@ -161,6 +168,22 @@ nav ul li a.active {
 .highlight-item p {
   font-size: 1em;
   color: #34495e;
+}
+
+/* Contact Seller Button */
+.contact-seller-btn {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #3498db;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  margin-top: 10px;
+  transition: background-color 0.3s;
+}
+
+.contact-seller-btn:hover {
+  background-color: #2980b9;
 }
 
 /* Footer / Bottom Task Bar */
