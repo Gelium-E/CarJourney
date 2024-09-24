@@ -2,7 +2,10 @@
 const carImages = [
   "images/camry1.jpg", 
   "images/camry2.jpg", 
-  "images/camry3.jpg"   
+  "images/camry3.jpg",
+  "images/camry4.jpg",
+  "images/camry5.jpg",
+  "images/camry6.jpg"   
 ];
 
 let currentIndex = 0;
