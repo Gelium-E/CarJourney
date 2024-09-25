@@ -184,6 +184,7 @@ document.getElementById('login-form').addEventListener('submit', function (event
     });
 });
 
+// Update Calculator on Load
 document.addEventListener("DOMContentLoaded", function () {
     // Function to switch between calculator tabs
     function switchCalculator(type) {
