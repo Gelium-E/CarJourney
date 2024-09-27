@@ -1,6 +1,6 @@
 // Import the Firebase modules needed
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification, signOut } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-auth.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification, signOut, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-auth.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-analytics.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-auth.js";
 
@@ -102,10 +102,12 @@ displayListings(vehicles);
 // Modal handling
 const loginModal = document.getElementById('login-modal');
 const registerModal = document.getElementById('register-modal');
+const forgotPasswordModal = document.getElementById('forgot-password-modal'); // Added Forgot Password Modal
 const loginBtn = document.getElementById('login-btn');
 const registerBtn = document.getElementById('register-btn');
 const loginClose = document.getElementById('login-close');
 const registerClose = document.getElementById('register-close');
+const forgotPasswordClose = document.getElementById('forgot-password-close'); // Close for Forgot Password Modal
 
 // Open login modal
 loginBtn.addEventListener('click', function () {
@@ -119,6 +121,14 @@ registerBtn.addEventListener('click', function () {
   registerModal.style.display = 'block';
 });
 
+// Open Forgot Password modal
+document.getElementById('forgot-password-link').addEventListener('click', function (event) {
+  event.preventDefault();
+  loginModal.style.display = 'none';
+  clearFormFields('forgot-password-form');
+  forgotPasswordModal.style.display = 'block';
+});
+
 // Close modals and clear input fields
 loginClose.addEventListener('click', function () {
   clearFormFields('login-form');
@@ -130,15 +140,17 @@ registerClose.addEventListener('click', function () {
   registerModal.style.display = 'none';
 });
 
-// Close modal when clicking outside
-window.addEventListener('click', function (event) {
-  if (event.target === loginModal) {
-    clearFormFields('login-form');
-    loginModal.style.display = 'none';
-  } else if (event.target === registerModal) {
-    clearFormFields('register-form');
-    registerModal.style.display = 'none';
-  }
+forgotPasswordClose.addEventListener('click', function () {
+  clearFormFields('forgot-password-form');
+  forgotPasswordModal.style.display = 'none';
+});
+
+// Back to Login link functionality
+document.getElementById('back-to-login-link').addEventListener('click', function (event) {
+  event.preventDefault();
+  forgotPasswordModal.style.display = 'none';
+  clearFormFields('login-form');
+  loginModal.style.display = 'block';
 });
 
 // Clear input fields when closing modals
@@ -146,6 +158,26 @@ function clearFormFields(formId) {
   const form = document.getElementById(formId);
   form.reset();
 }
+
+// Forgot Password form submission
+document.getElementById('forgot-password-form').addEventListener('submit', function (event) {
+  event.preventDefault();
+
+  const email = document.getElementById('forgot-password-email').value;
+  const errorContainer = document.getElementById('forgot-password-error');
+
+  showError(errorContainer, ""); // Clear any previous errors
+
+  // Use Firebase's sendPasswordResetEmail function to send the reset email
+  sendPasswordResetEmail(auth, email)
+    .then(() => {
+      showError(errorContainer, 'If an account exists, a reset email has been sent.');
+    })
+    .catch((error) => {
+      console.error('Error during password reset:', error);
+      showError(errorContainer, `Failed to send reset email: ${error.message}`);
+    });
+});
 
 // Password validation with real-time feedback
 function validatePasswordRealTime(password) {
@@ -251,9 +283,6 @@ document.getElementById('login-form').addEventListener('submit', function(event)
       if (user.emailVerified) {
         showError(errorContainer, 'Login successful!');
         loginModal.style.display = 'none'; // Close modal on success
-
-        // Optionally, redirect to a new page (without appending the login info to the URL)
-        // window.location.href = "/homepage.html"; // Redirect after login
       } else {
         showError(errorContainer, 'Please verify your email before logging in.');
         sendEmailVerification(user).then(() => {
@@ -266,7 +295,6 @@ document.getElementById('login-form').addEventListener('submit', function(event)
       showError(errorContainer, `Login failed: ${error.message}`);
     });
 });
-
 
 // Authentication state change handler
 onAuthStateChanged(auth, (user) => {

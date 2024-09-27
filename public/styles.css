@@ -182,6 +182,56 @@ nav ul li a.active {
   color: #2c3e50;
 }
 
+/* Forgot Password link styling */
+.forgot-password-link {
+  color: #3498db;
+  text-decoration: none;
+  font-size: 0.9em;
+  transition: color 0.3s;
+}
+
+.forgot-password-link:hover {
+  color: #2980b9;
+}
+
+/* Back to Login link styling */
+.back-to-login-link {
+  color: #e74c3c;
+  text-decoration: none;
+  font-size: 0.9em;
+  display: block;
+  text-align: center;
+  margin-top: 10px;
+  transition: color 0.3s;
+}
+
+.back-to-login-link:hover {
+  color: #c0392b;
+}
+
+/* Modal styling for Forgot Password */
+#forgot-password-modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Black background with transparency */
+}
+
+#forgot-password-modal .modal-content {
+  background-color: #fff;
+  margin: 10% auto;
+  padding: 20px;
+  border-radius: 8px;
+  width: 80%;
+  max-width: 400px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  transition: height 0.3s ease-in-out; /* Smooth expansion */
+  animation: fadeIn 0.3s ease-in-out;
+}
 
 /* Search Section */
 #search-section {
