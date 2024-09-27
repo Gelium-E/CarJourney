@@ -186,6 +186,22 @@ document.getElementById('register-password').addEventListener('input', function(
   validatePasswordRealTime(this.value);
 });
 
+// Password visibility toggle
+document.querySelectorAll('.toggle-password').forEach(toggleIcon => {
+  toggleIcon.addEventListener('click', function () {
+    const targetInput = document.querySelector(this.getAttribute('data-toggle'));
+    if (targetInput.type === 'password') {
+      targetInput.type = 'text';
+      this.classList.remove('fa-eye');
+      this.classList.add('fa-eye-slash');
+    } else {
+      targetInput.type = 'password';
+      this.classList.remove('fa-eye-slash');
+      this.classList.add('fa-eye');
+    }
+  });
+});
+
 // Register form submission
 document.getElementById('register-form').addEventListener('submit', function(event) {
   event.preventDefault();

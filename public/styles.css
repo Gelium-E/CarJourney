@@ -84,7 +84,7 @@ nav ul li a.active {
 
 /* Hero Section */
 #hero {
-  background: url('https://source.unsplash.com/1600x900/?car,road') no-repeat center center/cover;
+  background: url('https://images.unsplash.com/photo-1583350882721-e4f58f6baf7c?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1600&q=80') no-repeat center center/cover;
   height: 60vh;
   display: flex;
   align-items: center;
@@ -134,6 +134,54 @@ nav ul li a.active {
   background-color: #c0392b;
   transform: translateY(-3px);
 }
+
+/* Loader/Spinner Styling */
+.loader {
+  display: none; /* Hidden by default */
+  position: fixed;
+  z-index: 1000; /* Ensure it's above other elements */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 8px solid #f3f3f3; /* Light gray */
+  border-top: 8px solid #e74c3c; /* Red */
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Password visibility toggle */
+.password-container {
+  position: relative;
+  width: fit-content; /* Adjust this if you want to control container width */
+}
+
+.password-container input {
+  padding-right: 35px; /* Ensure there's space for the eye icon */
+  width: 360px; /* Revert to the original size if it was adjusted */
+}
+
+.password-container .toggle-password {
+  position: absolute;
+  right: 10px;
+  top: 40%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #ccc;
+  transition: color 0.3s;
+  pointer-events: all; /* Ensure it can be clicked */
+}
+
+.password-container .toggle-password:hover {
+  color: #2c3e50;
+}
+
 
 /* Search Section */
 #search-section {
