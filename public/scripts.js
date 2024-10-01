@@ -49,7 +49,7 @@ heartIcon.addEventListener('click', function () {
   }
   // Fetch and display data from the 'carListings' collection
 function fetchCarListings() {
-  db.collection("carListings").get()
+  db.collection("carList").get()
     .then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
         const carData = doc.data();
