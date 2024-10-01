@@ -1,3 +1,7 @@
+import firebase from 'firebase/app';
+import 'firebase/auth';
+import 'firebase/firestore';
+
 // Image gallery images 
 const carImages = [
   "images/camry1.jpg", 

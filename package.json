@@ -12,5 +12,9 @@
   "repository": {
     "type": "git",
     "url": "CarJourney"
+  },
+  "dependencies": {
+    "@firebasegen/default": "file:generated/javascript/default",
+    "firebase": "^10.14.0"
   }
 }
