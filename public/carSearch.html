@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CarJourney</title>
+  <link rel="stylesheet" href="styles.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght@600&display=swap" rel="stylesheet">
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <!-- Header / Top Task Bar -->
+  <header>
+    <div class="container">
+      <h1>CarJourney</h1>
+      <nav>
+        <ul>
+          <li><a href="#" class="active"><i class="fas fa-home"></i> Home</a></li>
+          <li><a href="#"><i class="fas fa-search"></i> Search</a></li>
+          <li><a href="#" id="login-btn"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+          <li><a href="#" id="register-btn"><i class="fas fa-user-plus"></i> Register</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content Wrapper -->
+  <div class="main-content">
+    <!-- Sidebar with Search Filters -->
+    <section class="filter-section">
+      <h2>Filter Vehicles</h2>
+      <form id="search-form">
+        <!-- Add more filters here -->
+        <input type="text" id="make" placeholder="Make">
+        <input type="text" id="model" placeholder="Model">
+        <input type="number" id="min-price" placeholder="Min Price">
+        <input type="number" id="max-price" placeholder="Max Price">
+        <input type="number" id="year" placeholder="Year">
+        <input type="number" id="min-mileage" placeholder="Min Mileage">
+        <input type="number" id="max-mileage" placeholder="Max Mileage">
+        <select id="drivetrain">
+          <option value="">All Drivetrains</option>
+          <option value="FWD">FWD</option>
+          <option value="AWD">AWD</option>
+          <option value="RWD">RWD</option>
+        </select>
+        <!-- Add new filters like fuelType, bodyStyle, transmission -->
+        <button type="submit">Filter</button>
+      </form>
+    </section>
+
+    <!-- Sorting Section -->
+    <section class="sorting-section container">
+      <label for="sort-by">Sort by:</label>
+      <select id="sort-by">
+        <option value="price-asc">Price: Low to High</option>
+        <option value="price-desc">Price: High to Low</option>
+        <option value="year-desc">Year: Newest to Oldest</option>
+        <option value="year-asc">Year: Oldest to Newest</option>
+        <option value="mileage-asc">Mileage: Low to High</option>
+        <option value="mileage-desc">Mileage: High to Low</option>
+        <option value="date-desc">Date Listed: Newest to Oldest</option>
+        <option value="date-asc">Date Listed: Oldest to Newest</option>
+      </select>
+    </section>
+
+    <!-- Vehicle Listings -->
+    <section class="vehicle-listings-section">
+      <div class="container" id="vehicle-listings"></div> <!-- Ensure this element is here -->
+    </section>
+  </div>
+
+  <!-- Footer / Bottom Task Bar -->
+  <footer>
+    <div class="container">
+      <p>&copy; 2024 CarJourney. All rights reserved.</p>
+      <div class="social-icons">
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="scripts.js"></script> <!-- Ensure your JS is linked correctly -->
+</body>
+</html>
