@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Favorite Cars - CarJourney</title>
+  <link rel="stylesheet" href="styles.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght@600&display=swap" rel="stylesheet">
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <!-- Header / Top Task Bar -->
+  <header>
+    <div class="container">
+      <h1>CarJourney</h1>
+      <nav>
+        <ul>
+          <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+          <li><a href="carListing.html"><i class="fas fa-search"></i> Used & New Cars</a></li>
+          <li><a href="#" id="login-btn"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+          <li><a href="#" id="register-btn"><i class="fas fa-user-plus"></i> Register</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Section for Favorite Cars -->
+  <main>
+    <div class="container car-details">
+      <h2>Favorited Cars</h2>
+      <div id="favorite-cars-container" class="car-list">
+        <!-- Favorited cars will be displayed here -->
+        <p>Loading your favorite cars...</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer / Bottom Task Bar -->
+  <footer>
+    <div class="container">
+      <p>&copy; 2024 Car Listings. All rights reserved.</p>
+      <div class="social-icons">
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Function to display favorited cars from localStorage
+    function displayFavoritedCars() {
+      const favCarsContainer = document.getElementById("favorite-cars-container");
+      const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+
+      favCarsContainer.innerHTML = ""; // Clear any existing content
+
+      if (favorites.length === 0) {
+        favCarsContainer.innerHTML = "<p>No favorited cars found.</p>";
+      } else {
+        favorites.forEach(car => {
+          const carElement = `
+            <div class="car-item" style="border: 1px solid #ddd; padding: 15px; margin-bottom: 15px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+              <h3 class="car-name" style="color: #2c3e50;">${car.name} 
+                <i class="fas fa-heart heart-icon" style="color: red;"></i>
+              </h3>
+              <p><strong>Cost:</strong> ${car.cost}</p>
+              <p><strong>Odometer:</strong> ${car.odometer} miles</p>
+              <p><strong>Seller:</strong> ${car.seller}</p>
+              <img src="${car.image}" alt="${car.name}" class="car-image" style="max-width: 100%; height: auto; border-radius: 5px; margin-top: 10px;"/>
+            </div>
+          `;
+          favCarsContainer.innerHTML += carElement;
+        });
+      }
+    }
+
+    // Call the function to display favorited cars on page load
+    document.addEventListener("DOMContentLoaded", displayFavoritedCars);
+  </script>
+</body>
+</html>

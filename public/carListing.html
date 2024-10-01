@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Car Listing Template</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght@600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-storage.js"></script>
+  
+    <script>
+      // Your Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyBpRdNjtxVGiC6NCjt58-gnJUdvnbODXpc",
+        authDomain: "carjourney491b.firebaseapp.com",
+        projectId: "carjourney491b",
+        storageBucket: "carjourney491b.appspot.com",
+        messagingSenderId: "248223244957",
+        appId: "1:248223244957:web:4b1d289950719d829d6a74",
+        measurementId: "G-WF2R4YV2CS"
+      };
+  
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      const auth = firebase.auth();
+      const db = firebase.firestore();
+      const storage = firebase.storage();
+    </script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Car Listing Template</title>
+  <link rel="stylesheet" href="styles.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght@600&display=swap" rel="stylesheet">
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <!-- Header / Top Task Bar -->
+  <header>
+    <div class="container">
+      <h1>CarJourney</h1>
+      <nav>
+        <ul>
+          <li><a href="#" class="active"><i class="fas fa-home"></i> Home</a></li>
+          <li><a href="#"><i class="fas fa-search"></i> Used & New Cars</a></li>
+          <li><a href="#" id="login-btn"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+          <li><a href="#" id="register-btn"><i class="fas fa-user-plus"></i> Register</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Car Listing Section -->
+  <main>
+    <div class="container car-details">
+      <!-- Car Name, Cost, and Odometer -->
+      <h2 class="car-name">
+        <strong>Toyota Camry</strong>
+        <i class="far fa-heart heart-icon" id="heart-icon"></i> <!-- Initially outlined heart -->
+      </h2>
+      <p class="car-cost"><strong>Cost:</strong> $22,000</p>
+      <p class="car-odometer"><strong>Odometer:</strong> 32,000 miles</p>
+      <p class="car-seller"><strong>Sold by:</strong> John Adams</p>
+      <a href="contact_seller.html" class="contact-seller-btn">Contact Seller</a>
+
+      <!-- Image Gallery with navigation -->
+      <div class="image-gallery">
+        <button class="prev" onclick="prevImage()">&#10094;</button>
+        <img src="images/camry1.jpg" id="car-image" alt="Car Image" class="car-image">
+        <button class="next" onclick="nextImage()">&#10095;</button>
+      </div>
+
+      <!-- Overview of the Car -->
+      <section class="car-overview">
+        <h3>Overview</h3>
+        <p>This is a placeholder for the overview of the car. The Toyota Camry is a reliable, fuel-efficient sedan that offers comfortable seating and advanced safety features, making it a popular choice for commuters and families alike.</p>
+      </section>
+
+      <!-- Vehicle Highlights Section -->
+      <section class="vehicle-highlights">
+        <h3>Vehicle Highlights</h3>
+        <div class="highlights-container">
+          <div class="highlight-item">
+            <i class="fas fa-car-side"></i>
+            <p><strong>Body Style</strong><br>SUV</p>
+          </div>
+          <div class="highlight-item">
+            <i class="fas fa-gas-pump"></i>
+            <p><strong>MPG City/Hwy</strong><br>50</p>
+          </div>
+          <div class="highlight-item">
+            <i class="fas fa-cogs"></i>
+            <p><strong>Drive Type</strong><br>RWD</p>
+          </div>
+          <div class="highlight-item">
+            <i class="fas fa-tachometer-alt"></i>
+            <p><strong>Transmission</strong><br>Automatic</p>
+          </div>
+          <div class="highlight-item">
+            <i class="fas fa-toolbox"></i>
+            <p><strong>Engine</strong><br>6 Cyl</p>
+          </div>
+          <div class="highlight-item">
+            <i class="fas fa-gas-pump"></i>
+            <p><strong>Fuel</strong><br>Gasoline</p>
+          </div>
+          <div class="highlight-item">
+            <i class="fa-solid fa-paint-roller"></i>
+            <p><strong>Interior Color</strong><br>Black</p>
+          </div>
+          <div class="highlight-item">
+            <i class="fa-solid fa-fill-drip"></i>
+            <p><strong>Exterior Color</strong><br>White</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Features and Specs -->
+      <section class="car-features">
+        <h3>Features and Specs</h3>
+        <ul>
+          <li>Engine: 2.5L 4-Cylinder</li>
+          <li>Transmission: Automatic</li>
+          <li>Fuel Economy: 28 MPG city / 39 MPG highway</li>
+          <li>Seats: 5</li>
+          <li>Bluetooth Connectivity</li>
+          <li>Backup Camera</li>
+          <li>Lane Departure Warning</li>
+          <li>Adaptive Cruise Control</li>
+        </ul>
+      </section>
+    </div>
+  </main>
+
+  <!-- Favorite Function -->
+  <script>
+    // Function to toggle the favorite state of a car
+    function toggleFavorite(carName, carDetails) {
+      let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+      
+      // Check if the car is already in favorites
+      const carIndex = favorites.findIndex(car => car.name === carName);
+      
+      if (carIndex > -1) {
+        // If car is already favorited, remove it from the list
+        favorites.splice(carIndex, 1);
+        alert(`${carName} has been removed from your favorites.`);
+      } else {
+        // If car is not favorited, add it to the list
+        favorites.push(carDetails);
+        alert(`${carName} has been added to your favorites.`);
+      }
+  
+      // Save the updated list to local storage
+      localStorage.setItem("favorites", JSON.stringify(favorites));
+  
+      // Update the heart icon
+      updateHeartIcon(carName);
+    }
+  
+    // Function to update the heart icon based on favorite status
+    function updateHeartIcon(carName) {
+      const heartIcon = document.getElementById("heart-icon");
+      let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+      
+      // Check if the car is in favorites
+      const isFavorited = favorites.some(car => car.name === carName);
+      
+      if (isFavorited) {
+        heartIcon.classList.remove("far"); // Outline heart
+        heartIcon.classList.add("fas");    // Solid heart
+      } else {
+        heartIcon.classList.remove("fas"); // Solid heart
+        heartIcon.classList.add("far");    // Outline heart
+      }
+    }
+  
+    // Example data for the car displayed
+    const carDetails = {
+      name: "Toyota Camry",
+      cost: "$22,000",
+      odometer: "32,000 miles",
+      seller: "John Adams",
+      image: "images/camry1.jpg"
+    };
+  
+    // Ensure the heart icon updates on page load
+    document.addEventListener("DOMContentLoaded", () => {
+      updateHeartIcon(carDetails.name);
+  
+      // Add event listener for toggling favorite
+      document.getElementById("heart-icon").addEventListener("click", () => {
+        toggleFavorite(carDetails.name, carDetails);
+      });
+    });
+  </script>
+
+  <!-- Footer / Bottom Task Bar -->
+  <footer>
+    <div class="container">
+      <p>&copy; 2024 Car Listings. All rights reserved.</p>
+      <div class="social-icons">
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="scripts.js"></script>
+</body>
+</html>
