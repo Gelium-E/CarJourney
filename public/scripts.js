@@ -3,6 +3,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebas
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification, signOut, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-auth.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-analytics.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-auth.js";
+import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-firestore.js";
 
 // Firebase configuration
 const firebaseConfig = {
@@ -20,6 +21,7 @@ console.log("Initializing Firebase...");
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const analytics = getAnalytics(app);
+const db = getFirestore(app);  // Initialize Firestore
 console.log("Firebase initialized successfully.");
 
 // Sample vehicle data
@@ -240,6 +242,8 @@ document.getElementById('register-form').addEventListener('submit', function(eve
 
   const email = document.getElementById('register-email').value;
   const password = document.getElementById('register-password').value;
+  const firstName = document.getElementById('first-name').value;
+  const lastName = document.getElementById('last-name').value;
   const errorContainer = document.getElementById('register-error');
 
   showError(errorContainer, "");
@@ -252,13 +256,23 @@ document.getElementById('register-form').addEventListener('submit', function(eve
   createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       const user = userCredential.user;
-      sendEmailVerification(user)
-        .then(() => {
-          showError(errorContainer, 'Verification email sent! Please check your inbox.');
-        })
-        .catch((error) => {
-          showError(errorContainer, "Error sending verification email.");
-        });
+
+      // Add the user to Firestore using the UID
+      return setDoc(doc(db, "users", user.uid), {
+        email: user.email,
+        name: `${firstName} ${lastName}`
+      }).then(() => {
+        sendEmailVerification(user)
+          .then(() => {
+            showError(errorContainer, 'Verification email sent! Please check your inbox.');
+          })
+          .catch((error) => {
+            showError(errorContainer, "Error sending verification email.");
+          });
+      }).catch((error) => {
+        console.error("Error creating user in Firestore: ", error);
+        showError(errorContainer, "Error saving user data.");
+      });
     })
     .catch((error) => {
       showError(errorContainer, `Registration failed: ${error.message}`);
