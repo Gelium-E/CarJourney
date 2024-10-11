@@ -266,27 +266,42 @@ function validatePassword(password) {
   return password.length >= minLength && hasNumber.test(password) && hasSpecialChar.test(password);
 }
 
+// Handle dealer count selection
+document.getElementById('dealer-count-select').addEventListener('change', function() {
+    const dealerCount = this.value;
+    // Call the function to limit the displayed dealers
+    limitDealerResults(dealerCount);
+});
+
 // Locate a Dealer Functionality
 document.getElementById('zipcode-form').addEventListener('submit', function(event) {
     event.preventDefault();
+
     const zipcode = document.getElementById('zipcode-input').value;
+    const radius = document.getElementById('radius-select').value;
+
     if (!zipcode) return;
-    findDealersNearZipcode(zipcode);
+
+    // Convert Zipcode to geographic coordinates
+    findDealersNearZipcode(zipcode, radius);
 });
 
-function findDealersNearZipcode(zipcode) {
+function findDealersNearZipcode(zipcode, radius) {
     const geocoder = new google.maps.Geocoder();
     geocoder.geocode({ 'address': zipcode }, function(results, status) {
         if (status == google.maps.GeocoderStatus.OK) {
             const location = results[0].geometry.location;
+
+            // Use Google Places API to search for car dealers within the selected radius
             const service = new google.maps.places.PlacesService(document.createElement('div'));
             service.nearbySearch({
                 location: location,
-                radius: 5000,  // Search within 5 km
-                type: ['car_dealer']  // Search for car dealers
+                radius: parseInt(radius),  // Search within the user-selected radius
+                type: ['car_dealer']
             }, function(results, status) {
                 if (status === google.maps.places.PlacesServiceStatus.OK) {
-                    displayDealerResults(results);
+                    const uniqueDealers = removeDuplicates(results); // Remove duplicates
+                    displayDealerResults(uniqueDealers, location);
                 } else {
                     console.log('No dealers found:', status);
                 }
@@ -297,17 +312,83 @@ function findDealersNearZipcode(zipcode) {
     });
 }
 
-function displayDealerResults(dealers) {
+// Remove duplicate dealers by name
+function removeDuplicates(dealers) {
+    const uniqueDealers = [];
+    const dealerNames = new Set();
+
+    dealers.forEach(dealer => {
+        if (!dealerNames.has(dealer.name)) {
+            dealerNames.add(dealer.name);
+            uniqueDealers.push(dealer);
+        }
+    });
+
+    return uniqueDealers;
+}
+
+// Display dealer results, sorted by distance
+function displayDealerResults(dealers, userLocation) {
     const resultsContainer = document.getElementById('dealer-results');
     resultsContainer.innerHTML = ''; // Clear previous results
-    if (dealers.length === 0) {
-        resultsContainer.innerHTML = '<p>No dealers found near this Zipcode.</p>';
-        return;
-    }
-    dealers.forEach(dealer => {
-        const dealerDiv = document.createElement('div');
-        dealerDiv.classList.add('dealer');
-        dealerDiv.innerHTML = `<h3>${dealer.name}</h3><p>${dealer.vicinity}</p>`;
-        resultsContainer.appendChild(dealerDiv);
+
+    // Use Distance Matrix to calculate distance and sort by distance
+    const distanceService = new google.maps.DistanceMatrixService();
+    const dealerPromises = dealers.map(dealer => {
+        return new Promise((resolve) => {
+            distanceService.getDistanceMatrix({
+                origins: [userLocation],
+                destinations: [dealer.geometry.location],
+                travelMode: 'DRIVING'
+            }, function (response, status) {
+                if (status === 'OK' && response.rows[0].elements[0].status === 'OK') {
+                    const distanceInMiles = response.rows[0].elements[0].distance.value * 0.000621371; // Convert meters to miles
+                    dealer.distanceInMiles = distanceInMiles.toFixed(1);
+                    resolve(dealer);
+                } else {
+                    resolve(null); // Handle errors gracefully
+                }
+            });
+        });
+    });
+    
+    Promise.all(dealerPromises).then((dealerResults) => {
+        // Filter out any null results
+        const validDealers = dealerResults.filter(dealer => dealer !== null);
+        
+        // Sort by distance
+        validDealers.sort((a, b) => parseFloat(a.distanceInMiles) - parseFloat(b.distanceInMiles));
+
+        // Display sorted results
+        validDealers.forEach(dealer => {
+            const dealerDiv = document.createElement('div');
+            dealerDiv.classList.add('dealer-item');
+
+            const photoUrl = dealer.photos ? dealer.photos[0].getUrl({ maxWidth: 200 }) : 'placeholder.jpg';
+
+            dealerDiv.innerHTML = `
+                <div class="dealer-photo">
+                    <img src="${photoUrl}" alt="${dealer.name}">
+                </div>
+                <div class="dealer-info">
+                    <h3>${dealer.name}</h3>
+                    <p>${dealer.vicinity}</p>
+                    <p>${dealer.distanceInMiles} miles away</p>
+                    <div>
+                        <button class="visit-site-btn">Visit Site</button>
+                        <button class="view-cars-btn">View Cars</button>
+                    </div>
+                </div>
+            `;
+            resultsContainer.appendChild(dealerDiv);
+        });
+    });
+}
+
+// Limit the number of displayed dealers
+function limitDealerResults(limit) {
+    const allDealers = document.querySelectorAll('.dealer-item');
+    allDealers.forEach((dealer, index) => {
+        dealer.style.display = (index < limit) ? 'flex' : 'none';
     });
 }

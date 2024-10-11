@@ -53,7 +53,26 @@
       <form id="zipcode-form">
         <label for="zipcode-input">Enter your Zipcode:</label>
         <input type="text" id="zipcode-input" placeholder="Enter Zipcode" required>
-        <button type="submit" class="btn">Search</button>
+        
+        <!-- Radius Selector -->
+        <label for="radius-select">Distance Radius:</label>
+        <select id="radius-select">
+          <option value="5000">5 miles</option>
+          <option value="10000">10 miles</option>
+          <option value="25000">25 miles</option>
+          <option value="50000">50 miles</option>
+          <option value="100000">100 miles</option>
+          <option value="200000">200+ miles</option>
+        </select>
+
+        <!-- Dealer Count Selector -->
+        <label for="dealer-count-select">Show:</label>
+        <select id="dealer-count-select">
+          <option value="25">25 dealers</option>
+          <option value="50">50 dealers</option>
+        </select>
+
+        <button type="submit" class="btn">Find Dealers</button>
       </form>
 
       <!-- Dealer Results -->
@@ -145,7 +164,7 @@
     </div>
   </div>
 
-  <!-- Footer remains intact -->
+  <!-- Footer -->
   <footer>
     <div class="container">
       <p>&copy; 2024 CarJourney. All rights reserved.</p>
