@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CarJourney</title>
+  <link rel="stylesheet" href="blank-template.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght@600&display=swap" rel="stylesheet">
+  <!-- Font Awesome (Optional for icons) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Firebase SDKs -->
+  <script type="module" src="https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js"></script>
+  <script type="module" src="https://www.gstatic.com/firebasejs/9.19.1/firebase-auth.js"></script>
+  <script type="module" src="https://www.gstatic.com/firebasejs/9.19.1/firebase-analytics.js"></script>
+  <script type="module" src="blank-template.js"></script>
+</head>
+<body>
+  <!-- Loader/Spinner -->
+  <div id="loader" class="loader"></div>
+
+  <header>
+    <div class="container">
+      <h1>CarJourney</h1>
+      <nav>
+        <ul>
+          <li><a href="homepage.html" class="active"><i class="fas fa-home"></i> Home</a></li>
+          <li><a href="#"><i class="fas fa-search"></i> Used & New Cars</a></li>
+          <li><a href="#" id="login-btn"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+          <li><a href="#" id="register-btn"><i class="fas fa-user-plus"></i> Register</a></li>
+          <!-- User icon placeholder (hidden by default) -->
+          <li id="user-icon" style="display: none; position: relative;">
+            <a href="#" id="user-icon-link">
+              <img src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png" alt="User Icon" style="width: 24px; height: 24px;">
+            </a>
+            <!-- Dropdown Menu -->
+            <div id="dropdown-menu" class="dropdown-menu">
+              <a href="#" id="account-settings">Account Settings</a>
+              <a href="#" id="sign-out">Sign Out</a>
+            </div>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main section removed -->
+  <main></main>
+
+  <!-- Login Modal -->
+  <div id="login-modal" class="modal">
+    <div class="modal-content">
+      <span class="close" id="login-close">&times;</span>
+      <h2>Login</h2>
+      <form id="login-form">
+        <label for="login-email">Email:</label>
+        <input type="email" id="login-email" name="email" required>
+
+        <label for="login-password">Password:</label>
+        <div class="password-container">
+          <input type="password" id="login-password" name="password" required>
+          <i class="fas fa-eye toggle-password" data-toggle="#login-password"></i>
+        </div>
+
+        <!-- Error message container for login -->
+        <div id="login-error"></div>
+
+        <button type="submit" class="btn">Login</button>
+      </form>
+
+      <!-- Forgot Password link -->
+      <p style="text-align: center; margin-top: 10px;">
+        <a href="#" id="forgot-password-link" class="forgot-password-link">Forgot Password?</a>
+      </p>
+    </div>
+  </div>
+
+  <!-- Register Modal -->
+  <div id="register-modal" class="modal">
+    <div class="modal-content">
+      <span class="close" id="register-close">&times;</span>
+      <h2>Register</h2>
+      <form id="register-form">
+        <label for="first-name">First Name:</label>
+        <input type="text" id="first-name" name="first-name" required>
+
+        <label for="last-name">Last Name:</label>
+        <input type="text" id="last-name" name="last-name" required>
+
+        <label for="register-email">Email:</label>
+        <input type="email" id="register-email" name="email" required>
+
+        <label for="register-password">Password:</label>
+        <div class="password-container">
+          <input type="password" id="register-password" name="password" required>
+          <i class="fas fa-eye toggle-password" data-toggle="#register-password"></i>
+        </div>
+
+        <!-- Password validation feedback -->
+        <div class="password-requirements">
+          <p id="length-criteria" class="invalid">Password must be at least 8 characters long.</p>
+          <p id="number-criteria" class="invalid">Password must contain at least one numeric value.</p>
+          <p id="special-char-criteria" class="invalid">Password must contain at least one special character.</p>
+        </div>
+
+        <!-- Error message container for register -->
+        <div id="register-error"></div>
+
+        <button type="submit" class="btn">Register</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Forgot Password Modal -->
+  <div id="forgot-password-modal" class="modal">
+    <div class="modal-content">
+      <span class="close" id="forgot-password-close">&times;</span>
+      <h2>Reset Password</h2>
+      <p>If an account exists with the email provided, you will be sent an email to reset your password.</p>
+      <form id="forgot-password-form">
+        <label for="forgot-password-email">Email:</label>
+        <input type="email" id="forgot-password-email" name="email" required>
+        <div id="forgot-password-error"></div>
+        <button type="submit" class="btn">Send Reset Email</button>
+      </form>
+      
+      <!-- Back to Login link -->
+      <p style="text-align: center; margin-top: 10px;">
+        <a href="#" id="back-to-login-link" class="forgot-password-link">Back to Login</a>
+      </p>
+    </div>
+  </div>
+
+  <!-- Footer remains intact -->
+  <footer>
+    <div class="container">
+      <p>&copy; 2024 CarJourney. All rights reserved.</p>
+      <div class="social-icons">
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="blank-template.js"></script>
+</body>
+</html>
