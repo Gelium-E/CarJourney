@@ -3,7 +3,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-  }
+}
   
 /* Body Styling */
 body {
@@ -507,4 +507,19 @@ footer p {
   
 .visit-site-btn:hover, .view-cars-btn:hover {
     background-color: #34495e;
+}
+
+/* Load More Button */
+#load-more-btn {
+    padding: 10px 20px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+#load-more-btn:hover {
+    background-color: #2980b9;
 }

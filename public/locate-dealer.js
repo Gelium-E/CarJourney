@@ -24,10 +24,12 @@ const analytics = getAnalytics(app);
 const db = getFirestore(app); // Initialize Firestore
 console.log("Firebase initialized successfully.");
 
+let uniqueDealerIds = new Set();  // Track unique dealer IDs to avoid duplicates
+
 // Modal Handling (For header/login functionality)
 const loginModal = document.getElementById('login-modal');
 const registerModal = document.getElementById('register-modal');
-const forgotPasswordModal = document.getElementById('forgot-password-modal'); // Forgot Password Modal
+const forgotPasswordModal = document.getElementById('forgot-password-modal');
 const loginBtn = document.getElementById('login-btn');
 const registerBtn = document.getElementById('register-btn');
 const loginClose = document.getElementById('login-close');
@@ -273,9 +275,15 @@ document.getElementById('zipcode-form').addEventListener('submit', function(even
 
     if (!zipcode) return;
 
+    // Clear previous results
+    document.getElementById('dealer-results').innerHTML = '';
+    uniqueDealerIds.clear();  // Clear tracked dealer IDs to avoid duplicates
+
     // Convert Zipcode to geographic coordinates
     findDealersNearZipcode(zipcode, radius);
 });
+
+let currentPagination = null;  // Store pagination data globally
 
 function findDealersNearZipcode(zipcode, radius) {
     const geocoder = new google.maps.Geocoder();
@@ -286,23 +294,21 @@ function findDealersNearZipcode(zipcode, radius) {
             const service = new google.maps.places.PlacesService(document.createElement('div'));
             let allDealers = [];
 
-            // Function to handle pagination
-            function getMoreResults(pagination) {
-                if (pagination.hasNextPage) {
-                    setTimeout(function() {
-                        pagination.nextPage();  // Fetch the next set of results
-                    }, 2000);  // Add a small delay to prevent rapid-fire requests
-                }
-            }
-
             function handleResults(results, status, pagination) {
                 if (status === google.maps.places.PlacesServiceStatus.OK) {
-                    allDealers = allDealers.concat(removeDuplicates(results));  // Accumulate results and remove duplicates
-                    displayDealerResults(allDealers, location);  // Display all accumulated results
+                    const newDealers = removeDuplicates(results);  // Accumulate and remove duplicates
+                    allDealers = allDealers.concat(newDealers);  // Add non-duplicate results
+                    displayDealerResults(newDealers, location);  // Only display newly added dealers
                     
-                    getMoreResults(pagination);
+                    currentPagination = pagination;  // Save pagination for future use
+                    if (pagination.hasNextPage) {
+                        showLoadMoreButton();  // Show Load More button if there are more results
+                    } else {
+                        hideLoadMoreButton();  // Hide if no more results
+                    }
                 } else {
                     console.log('No dealers found:', status);
+                    hideLoadMoreButton();  // No more results
                 }
             }
 
@@ -317,14 +323,13 @@ function findDealersNearZipcode(zipcode, radius) {
     });
 }
 
-// Remove duplicate dealers by name
+// Remove duplicate dealers by unique place_id
 function removeDuplicates(dealers) {
     const uniqueDealers = [];
-    const dealerNames = new Set();
 
     dealers.forEach(dealer => {
-        if (!dealerNames.has(dealer.name)) {
-            dealerNames.add(dealer.name);
+        if (!uniqueDealerIds.has(dealer.place_id)) {  // Check by unique place_id
+            uniqueDealerIds.add(dealer.place_id);     // Track the dealer by its place_id
             uniqueDealers.push(dealer);
         }
     });
@@ -335,7 +340,6 @@ function removeDuplicates(dealers) {
 // Display dealer results, sorted by distance
 function displayDealerResults(dealers, userLocation) {
     const resultsContainer = document.getElementById('dealer-results');
-    resultsContainer.innerHTML = ''; // Clear previous results
 
     const distanceService = new google.maps.DistanceMatrixService();
     const dealerPromises = dealers.map(dealer => {
@@ -365,7 +369,8 @@ function displayDealerResults(dealers, userLocation) {
             const dealerDiv = document.createElement('div');
             dealerDiv.classList.add('dealer-item');
 
-            const photoUrl = dealer.photos ? dealer.photos[0].getUrl({ maxWidth: 200 }) : 'placeholder.jpg';
+            // Use a placeholder image for dealers with no photo
+            const photoUrl = dealer.photos ? dealer.photos[0].getUrl({ maxWidth: 200 }) : 'public\placeholder-locate-dealer.jpg';
 
             dealerDiv.innerHTML = `
                 <div class="dealer-photo">
@@ -384,4 +389,23 @@ function displayDealerResults(dealers, userLocation) {
             resultsContainer.appendChild(dealerDiv);
         });
     });
+}
+
+// Load More functionality
+document.getElementById('load-more-btn').addEventListener('click', function() {
+    if (currentPagination && currentPagination.hasNextPage) {
+        currentPagination.nextPage();  // Fetch the next set of results
+    }
+});
+
+// Show Load More button
+function showLoadMoreButton() {
+    const loadMoreBtn = document.getElementById('load-more-btn');
+    loadMoreBtn.style.display = 'block';  // Show the button
+}
+
+// Hide Load More button
+function hideLoadMoreButton() {
+    const loadMoreBtn = document.getElementById('load-more-btn');
+    loadMoreBtn.style.display = 'none';  // Hide the button
 }
