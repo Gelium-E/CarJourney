@@ -305,113 +305,6 @@
     background-color: #c0392b;
   }
   
-  /* Quiz Styling */
-  .quiz-container {
-    max-width: 600px;
-    margin: 40px auto;
-    background-color: #fff;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    border: 1px solid #ddd;
-  }
-  
-  .quiz-container h1 {
-    font-family: 'Montserrat', sans-serif;
-    color: #2c3e50;
-    margin-bottom: 20px;
-    text-align: center;
-  }
-  
-  .quiz-question {
-    margin-bottom: 30px;
-  }
-  
-  .quiz-question h2 {
-    font-family: 'Roboto', sans-serif;
-    color: #2c3e50;
-    font-size: 1.4em;
-    margin-bottom: 15px;
-  }
-  
-  .quiz-options {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  
-  .quiz-options label {
-    background-color: #f4f4f4;
-    padding: 12px 20px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, color 0.3s ease;
-  }
-  
-  .quiz-options input[type="radio"] {
-    display: none;
-  }
-  
-  .quiz-options input[type="radio"]:checked + label {
-    background-color: #3498db;
-    color: white;
-    border: 1px solid #3498db;
-  }
-  
-  .quiz-options label:hover {
-    background-color: #34495e;
-    color: white;
-  }
-
-  .quiz-options label.selected {
-    background-color: #3498db;
-    color: white;
-    border: 1px solid #3498db;
-  }
-  
-  /* Quiz Button */
-  .next-btn, #retake-quiz {
-    background-color: #e74c3c;
-    color: white;
-    padding: 12px 20px;
-    border: none;
-    border-radius: 8px;
-    font-size: 1.1em;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .next-btn:hover, #retake-quiz:hover {
-    background-color: #c0392b;
-  }
-  
-  /* Progress Bar */
-  .progress-bar {
-    background-color: #ddd;
-    border-radius: 8px;
-    height: 12px;
-    margin-bottom: 30px;
-    overflow: hidden;
-  }
-  
-  .progress {
-    background-color: #3498db;
-    height: 12px;
-    width: 0;
-    border-radius: 8px;
-    transition: width 0.3s ease;
-  }
-  
-  /* Result Section */
-  #car-recommendation {
-    font-size: 1.2em;
-    font-family: 'Roboto', sans-serif;
-    color: #2c3e50;
-    text-align: center;
-    margin-bottom: 30px;
-  }
-  
   /* Footer */
   footer {
     background-color: #2c3e50;
@@ -456,8 +349,21 @@
       gap: 10px;
     }
   
-    .quiz-container {
-      width: 90%;
+    #hero h2 {
+      font-size: 2em;
+    }
+  
+    #search-form {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  
+    .form-group {
+      flex: 1 1 100%;
+    }
+  
+    #search-form button {
+      max-width: 100%;
     }
   }
   

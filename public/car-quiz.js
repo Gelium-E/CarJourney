@@ -21,18 +21,18 @@ console.log("Initializing Firebase...");
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const analytics = getAnalytics(app);
-const db = getFirestore(app);
+const db = getFirestore(app);  // Initialize Firestore
 console.log("Firebase initialized successfully.");
 
 // Modal handling (For future use with header/login functionality)
 const loginModal = document.getElementById('login-modal');
 const registerModal = document.getElementById('register-modal');
-const forgotPasswordModal = document.getElementById('forgot-password-modal');
+const forgotPasswordModal = document.getElementById('forgot-password-modal'); // Added Forgot Password Modal
 const loginBtn = document.getElementById('login-btn');
 const registerBtn = document.getElementById('register-btn');
 const loginClose = document.getElementById('login-close');
 const registerClose = document.getElementById('register-close');
-const forgotPasswordClose = document.getElementById('forgot-password-close');
+const forgotPasswordClose = document.getElementById('forgot-password-close'); // Close for Forgot Password Modal
 
 // Open login modal
 loginBtn.addEventListener('click', function () {
@@ -289,115 +289,4 @@ window.addEventListener('click', function(event) {
   if (!userIconLink.contains(event.target) && !dropdownMenu.contains(event.target)) {
     dropdownMenu.style.display = 'none';
   }
-});
-
-/* Car Recommendation Quiz Logic */
-let currentQuestion = 1;
-const totalQuestions = 3;
-
-// Disable the next button until an option is selected
-document.querySelectorAll('.next-btn').forEach(button => {
-  button.disabled = true;
-});
-
-document.querySelectorAll('input[type="radio"]').forEach(radio => {
-  radio.addEventListener('change', function() {
-    const questionId = this.closest('.quiz-question').id;
-    document.querySelector(`#${questionId} .next-btn`).disabled = false;
-  });
-});
-
-// Handle "Next" button clicks
-document.querySelectorAll('.next-btn').forEach(button => {
-  button.addEventListener('click', function() {
-    const currentDiv = document.getElementById(`question-${currentQuestion}`);
-    const nextDiv = document.getElementById(`question-${currentQuestion + 1}`);
-
-    if (nextDiv) {
-      currentDiv.style.display = 'none';
-      nextDiv.style.display = 'block';
-      updateProgress();
-      currentQuestion++;
-    } else {
-      showResults();
-    }
-  });
-});
-
-function updateProgress() {
-  const progressPercent = (currentQuestion / totalQuestions) * 100;
-  document.querySelector('.progress').style.width = `${progressPercent}%`;
-}
-
-function showResults() {
-  const quizResult = document.getElementById('quiz-result');
-  quizResult.style.display = 'block';
-
-  // Hide the form
-  document.getElementById('car-quiz-form').style.display = 'none';
-
-  // Retrieve user answers
-  const use = document.querySelector('input[name="use"]:checked').value;
-  const budget = document.querySelector('input[name="budget"]:checked').value;
-  const priority = document.querySelector('input[name="priority"]:checked').value;
-
-  const recommendation = getCarRecommendation(use, budget, priority);
-  document.getElementById('car-recommendation').innerText = recommendation;
-}
-
-function getCarRecommendation(use, budget, priority) {
-  const carDatabase = {
-    commute: {
-      "under-20000": "Honda Civic, Toyota Corolla, Hyundai Elantra",
-      "20000-30000": "Mazda 3, Subaru Impreza, Volkswagen Jetta",
-      "30000-50000": "Tesla Model 3, Audi A4, BMW 3 Series",
-      "over-50000": "Mercedes-Benz E-Class, BMW 5 Series, Tesla Model S"
-    },
-    family: {
-      "under-20000": "Honda Fit, Toyota Prius, Kia Soul",
-      "20000-30000": "Toyota RAV4, Honda CR-V, Subaru Forester",
-      "30000-50000": "Ford Explorer, Toyota Highlander, Kia Telluride",
-      "over-50000": "BMW X5, Audi Q7, Volvo XC90"
-    },
-    adventure: {
-      "under-20000": "Jeep Renegade, Subaru Crosstrek, Nissan Kicks",
-      "20000-30000": "Toyota 4Runner, Jeep Cherokee, Ford Bronco Sport",
-      "30000-50000": "Land Rover Discovery, Toyota Land Cruiser, Ford Bronco",
-      "over-50000": "Mercedes G-Class, Land Rover Defender, Lexus LX"
-    },
-    luxury: {
-      "under-20000": "Used BMW 3 Series, Lexus IS, Acura TLX",
-      "20000-30000": "Audi A3, Volvo S60, Lexus ES",
-      "30000-50000": "BMW 5 Series, Mercedes C-Class, Genesis G80",
-      "over-50000": "Porsche Panamera, Tesla Model S, Mercedes S-Class"
-    }
-  };
-
-  const budgetCars = carDatabase[use][budget];
-
-  switch (priority) {
-    case "fuel-economy":
-      return `${budgetCars} - Known for Fuel Economy`;
-    case "safety":
-      return `${budgetCars} - Excellent Safety Ratings`;
-    case "performance":
-      return `${budgetCars} - Best for Performance Enthusiasts`;
-    case "comfort":
-      return `${budgetCars} - Known for Comfort and Features`;
-    default:
-      return `${budgetCars}`;
-  }
-}
-
-document.getElementById('retake-quiz').addEventListener('click', function() {
-  location.reload();
-});
-
-// Highlight the selected option
-document.querySelectorAll('.quiz-options label').forEach(label => {
-  label.addEventListener('click', function() {
-    const siblings = this.parentNode.querySelectorAll('label');
-    siblings.forEach(sib => sib.classList.remove('selected'));
-    this.classList.add('selected');
-  });
 });
