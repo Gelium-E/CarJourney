@@ -1,3 +1,25 @@
+import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
+
+// TODO: Replace the following with your app's Firebase project configuration
+// See: https://support.google.com/firebase/answer/7015592
+const firebaseConfig = {
+    apiKey: "AIzaSyBpRdNjtxVGiC6NCjt58-gnJUdvnbODXpc",
+    authDomain: "carjourney491b.firebaseapp.com",
+    projectId: "carjourney491b",
+    storageBucket: "carjourney491b.appspot.com",
+    messagingSenderId: "248223244957",
+    appId: "1:248223244957:web:4b1d289950719d829d6a74",
+    measurementId: "G-WF2R4YV2CS"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+
+
+// Initialize Cloud Firestore and get a reference to the service
+const db = getFirestore(app);
+
 // First JavaScript file wrapped in an IIFE
 (function() {
   // Example code from the first JavaScript file
