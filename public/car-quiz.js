@@ -24,6 +24,40 @@ const analytics = getAnalytics(app);
 const db = getFirestore(app);  // Initialize Firestore
 console.log("Firebase initialized successfully.");
 
+// Car Quiz Implementation
+document.getElementById('car-quiz-form').addEventListener('submit', function (event) {
+    event.preventDefault();
+  
+    // Get the user's answers from the quiz form
+    const location = document.querySelector('input[name="driving-location"]:checked').value;
+    const offRoading = document.querySelector('input[name="off-roading"]:checked').value;
+    const cargoSpace = document.querySelector('input[name="cargo-space"]:checked').value;
+    const carUse = document.querySelector('input[name="car-use"]:checked').value;
+    const mustHave = document.querySelector('input[name="must-have"]:checked').value;
+    const higherUp = document.querySelector('input[name="higher-up"]:checked').value;
+    const towing = document.querySelector('input[name="towing"]:checked').value;
+    const seatingRows = document.querySelector('input[name="seating-rows"]:checked').value;
+  
+    // Determine the recommended car type based on the answers
+    let recommendation = '';
+  
+    if (location === 'off-road' || offRoading === 'yes' || mustHave === 'off-road' || towing === 'yes') {
+      recommendation = 'Truck';
+    } else if (cargoSpace === 'family' || carUse === 'kids' || seatingRows === '3') {
+      recommendation = 'Minivan';
+    } else if (location === 'suburbs' || higherUp === 'yes' || cargoSpace === 'extra' || towing === 'maybe') {
+      recommendation = 'SUV';
+    } else if (carUse === 'performance' || seatingRows === '1') {
+      recommendation = 'Coupe';
+    } else {
+      recommendation = 'Sedan';
+    }
+  
+    // Display the quiz result
+    const resultDiv = document.getElementById('quiz-result');
+    resultDiv.textContent = `We recommend you get a ${recommendation}!`;
+    resultDiv.style.display = 'block';
+  });
 // Modal handling (For future use with header/login functionality)
 const loginModal = document.getElementById('login-modal');
 const registerModal = document.getElementById('register-modal');
