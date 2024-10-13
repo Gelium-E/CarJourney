@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CarJourney - Compare Cars</title>
+  <link rel="stylesheet" href="styles.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght@600&display=swap" rel="stylesheet">
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    .compare-page .car-section {
+      width: 45%;
+      margin: auto;
+      padding: 20px;
+      box-shadow: 0px 0px 10px #ccc;
+      border-radius: 8px;
+      background: #fff;
+    }
+  
+    .compare-page .car-image {
+      width: 100%;
+      height: auto;
+      border-bottom: 1px solid #ccc;
+    }
+  
+    .compare-page select {
+      width: 100%;
+      padding: 8px;
+      margin-top: 10px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+  
+    .compare-page .compare-container {
+      display: flex;
+      justify-content: space-around;
+    }
+  
+    .compare-page .compare-button-wrapper {
+      text-align: center;
+      margin-top: 20px;
+      width: 100%;
+    }
+  
+    .compare-page .compare-btn {
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: white;
+      border-radius: 5px;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+  
+    .compare-page .compare-btn:hover {
+      background-color: #0056b3;
+    }
+  
+    @media (max-width: 768px) {
+      .compare-page .compare-container {
+        flex-direction: column;
+      }
+    }
+  </style>
+  
+</head>
+<body class="compare-cars-page">
+  <!-- Header / Top Task Bar -->
+  <header>
+    <div class="container">
+      <h1>CarJourney</h1>
+      <nav>
+        <ul>
+          <li><a href="#" class="active"><i class="fas fa-home"></i> Home</a></li>
+          <li><a href="#"><i class="fas fa-search"></i> Search</a></li>
+          <li><a href="#" id="login-btn"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+          <li><a href="#" id="register-btn"><i class="fas fa-user-plus"></i> Register</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content Wrapper for Car Compare Page -->
+  <div class="compare-container">
+    <!-- Car Comparison Section -->
+    <section class="car-section">
+      <h2>Add first car</h2>
+      <div class="car-form">
+        <label for="make1">Make</label>
+        <select id="make1">
+          <option>Choose a make</option>
+          <!-- Add car makes -->
+        </select>
+        <label for="model1">Model</label>
+        <select id="model1">
+          <option>Choose a model</option>
+          <!-- Add car models -->
+        </select>
+        <label for="year1">Year</label>
+        <select id="year1">
+          <option>Choose a year</option>
+          <!-- Add car years -->
+        </select>
+      </div>
+    </section>
+
+    <section class="car-section">
+      <h2>Add second car</h2>
+      <div class="car-form">
+        <label for="make2">Make</label>
+        <select id="make2">
+          <option>Choose a make</option>
+          <!-- Add car makes -->
+        </select>
+        <label for="model2">Model</label>
+        <select id="model2">
+          <option>Choose a model</option>
+          <!-- Add car models -->
+        </select>
+        <label for="year2">Year</label>
+        <select id="year2">
+          <option>Choose a year</option>
+          <!-- Add car years -->
+        </select>
+      </div>
+    </section>
+  </div>
+
+  <!-- Single Compare Button -->
+  <div class="compare-button-wrapper">
+    <button type="button" class="compare-btn">Compare</button>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p>&copy; 2024 CarJourney. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="scripts.js"></script> <!-- Ensure your JS is linked correctly -->
+</body>
+</html>
