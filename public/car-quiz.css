@@ -29,13 +29,13 @@ header {
 header .container {
     display: flex;
     justify-content: space-between;
-    align-items: center; /* Ensures vertical alignment */
+    align-items: center;
 }
 
 header h1 {
     font-family: 'Montserrat', sans-serif;
     font-size: 2em;
-    margin-right: auto; /* Pushes h1 (CarJourney) to the very left */
+    margin-right: auto;
 }
 
 /* Navigation */
@@ -43,13 +43,13 @@ nav ul {
     list-style-type: none;
     display: flex;
     gap: 15px;
-    margin-left: auto; /* Pushes nav links to the right */
-    align-items: center; /* Ensures vertical alignment of nav items */
+    margin-left: auto;
+    align-items: center;
 }
 
 nav ul li {
     display: flex;
-    align-items: center; /* Ensures that the text and icons in each list item are vertically aligned */
+    align-items: center;
 }
 
 nav ul li a {
@@ -65,33 +65,16 @@ nav ul li a.active {
     border-radius: 4px;
 }
 
-/* User Icon */
-#user-icon {
-    display: flex;
-    align-items: center;
-}
-
-#user-icon img {
-    width: 24px;
-    height: 24px;
-}
-
-/* Optional: add padding between the user icon and dropdown arrow if needed */
-#user-icon-link {
-    display: flex;
-    align-items: center;
-}
-
 /* Loader/Spinner Styling */
 .loader {
-    display: none; /* Hidden by default */
+    display: none;
     position: fixed;
-    z-index: 1000; /* Ensure it's above other elements */
+    z-index: 1000;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    border: 8px solid #f3f3f3; /* Light gray */
-    border-top: 8px solid #e74c3c; /* Red */
+    border: 8px solid #f3f3f3;
+    border-top: 8px solid #e74c3c;
     border-radius: 50%;
     width: 60px;
     height: 60px;
@@ -106,12 +89,12 @@ nav ul li a.active {
 /* Password visibility toggle */
 .password-container {
     position: relative;
-    width: fit-content; /* Adjust this if you want to control container width */
+    width: fit-content;
 }
 
 .password-container input {
-    padding-right: 35px; /* Ensure there's space for the eye icon */
-    width: 360px; /* Revert to the original size if it was adjusted */
+    padding-right: 35px;
+    width: 360px;
 }
 
 .password-container .toggle-password {
@@ -122,7 +105,6 @@ nav ul li a.active {
     cursor: pointer;
     color: #ccc;
     transition: color 0.3s;
-    pointer-events: all; /* Ensure it can be clicked */
 }
 
 .password-container .toggle-password:hover {
@@ -158,14 +140,14 @@ nav ul li a.active {
 
 /* Modal styling for Forgot Password */
 #forgot-password-modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
+    display: none;
+    position: fixed;
+    z-index: 1;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Black background with transparency */
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
 #forgot-password-modal .modal-content {
@@ -176,31 +158,31 @@ nav ul li a.active {
     width: 80%;
     max-width: 400px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    transition: height 0.3s ease-in-out; /* Smooth expansion */
+    transition: height 0.3s ease-in-out;
     animation: fadeIn 0.3s ease-in-out;
 }
 
 /* Modal Styling */
 .modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
+    display: none;
+    position: fixed;
+    z-index: 1;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Black background with transparency */
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
 .modal-content {
     background-color: #fff;
-    margin: 10% auto; /* 15% from the top and centered */
+    margin: 10% auto;
     padding: 20px;
     border-radius: 8px;
     width: 80%;
     max-width: 400px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    transition: height 0.3s ease-in-out; /* Smooth expansion */
+    transition: height 0.3s ease-in-out;
     animation: fadeIn 0.3s ease-in-out;
 }
 
@@ -344,8 +326,8 @@ form {
 
 .question input[type="radio"] {
     margin-right: 10px;
-    transform: scale(1.2); /* Make radio buttons larger */
-    accent-color: #e74c3c; /* Custom color for radio buttons */
+    transform: scale(1.2);
+    accent-color: #e74c3c;
 }
 
 /* Submit Button */
@@ -444,16 +426,16 @@ footer p {
 /* Style for user icon link in the navigation */
 #user-icon a {
     display: inline-flex;
-    align-items: center; /* Aligns the icon vertically with the text */
+    align-items: center;
     justify-content: center;
-    padding: 8px 12px; /* Similar padding as other nav items */
+    padding: 8px 12px;
     border-radius: 4px;
     transition: background-color 0.3s, color 0.3s;
 }
 
 /* Adjust the size of the user icon */
 #user-icon img {
-    width: 20px; /* Set the same size for all icons */
+    width: 20px;
     height: 20px;
 }
 
@@ -462,43 +444,53 @@ footer p {
     background-color: #34495e;
 }
 
-/* Optional: remove the "user icons" tooltip */
-#user-icon a[title]::after {
-    content: none; /* Prevent the default tooltip */
-}
-
 /* Dropdown menu styling */
 .dropdown-menu {
-    display: none; /* Hidden by default */
+    display: none;
     position: absolute;
-    top: 40px; /* Adjust to align below the user icon */
-    right: 0; /* Align to the right side */
+    top: 40px;
+    right: 0;
     background-color: #ffffff;
     border: 1px solid #ddd;
     border-radius: 4px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     min-width: 160px;
     z-index: 1000;
-    padding: 8px 0; /* Padding added around the links */
+    padding: 8px 0;
 }
 
 .dropdown-menu a {
     display: block;
-    padding: 12px 16px; /* Increase padding for better click area */
+    padding: 12px 16px;
     color: #34495e;
     text-decoration: none;
-    background-color: transparent; /* Ensure background is transparent by default */
+    background-color: transparent;
     transition: background-color 0.3s ease, color 0.3s ease;
     border-radius: 4px;
 }
 
 .dropdown-menu a:hover {
-    background-color: #f0f0f0; /* Light background on hover */
-    color: #f0f0f0; /* Keep text color visible */
-    z-index: 1; /* Ensure text is above background */
+    background-color: #f0f0f0;
+    color: #f0f0f0;
+    z-index: 1;
 }
 
-/* Ensure hover doesn't extend too far */
 .dropdown-menu a {
-    background-clip: padding-box; /* Limit hover background to padding area */
+    background-clip: padding-box;
+}
+
+/* Ensure each step is initially hidden, except the first one */
+.quiz-step {
+    display: none;
+}
+
+.quiz-step[data-step="1"] {
+    display: block;
+}
+
+/* Navigation button styles */
+.quiz-navigation {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
 }

@@ -24,49 +24,15 @@ const analytics = getAnalytics(app);
 const db = getFirestore(app);  // Initialize Firestore
 console.log("Firebase initialized successfully.");
 
-// Car Quiz Implementation
-document.getElementById('car-quiz-form').addEventListener('submit', function (event) {
-    event.preventDefault();
-  
-    // Get the user's answers from the quiz form
-    const location = document.querySelector('input[name="driving-location"]:checked').value;
-    const offRoading = document.querySelector('input[name="off-roading"]:checked').value;
-    const cargoSpace = document.querySelector('input[name="cargo-space"]:checked').value;
-    const carUse = document.querySelector('input[name="car-use"]:checked').value;
-    const mustHave = document.querySelector('input[name="must-have"]:checked').value;
-    const higherUp = document.querySelector('input[name="higher-up"]:checked').value;
-    const towing = document.querySelector('input[name="towing"]:checked').value;
-    const seatingRows = document.querySelector('input[name="seating-rows"]:checked').value;
-  
-    // Determine the recommended car type based on the answers
-    let recommendation = '';
-  
-    if (location === 'off-road' || offRoading === 'yes' || mustHave === 'off-road' || towing === 'yes') {
-      recommendation = 'Truck';
-    } else if (cargoSpace === 'family' || carUse === 'kids' || seatingRows === '3') {
-      recommendation = 'Minivan';
-    } else if (location === 'suburbs' || higherUp === 'yes' || cargoSpace === 'extra' || towing === 'maybe') {
-      recommendation = 'SUV';
-    } else if (carUse === 'performance' || seatingRows === '1') {
-      recommendation = 'Coupe';
-    } else {
-      recommendation = 'Sedan';
-    }
-  
-    // Display the quiz result
-    const resultDiv = document.getElementById('quiz-result');
-    resultDiv.textContent = `We recommend you get a ${recommendation}!`;
-    resultDiv.style.display = 'block';
-  });
 // Modal handling (For future use with header/login functionality)
 const loginModal = document.getElementById('login-modal');
 const registerModal = document.getElementById('register-modal');
-const forgotPasswordModal = document.getElementById('forgot-password-modal'); // Added Forgot Password Modal
+const forgotPasswordModal = document.getElementById('forgot-password-modal');
 const loginBtn = document.getElementById('login-btn');
 const registerBtn = document.getElementById('register-btn');
 const loginClose = document.getElementById('login-close');
 const registerClose = document.getElementById('register-close');
-const forgotPasswordClose = document.getElementById('forgot-password-close'); // Close for Forgot Password Modal
+const forgotPasswordClose = document.getElementById('forgot-password-close');
 
 // Open login modal
 loginBtn.addEventListener('click', function () {
@@ -125,9 +91,8 @@ document.getElementById('forgot-password-form').addEventListener('submit', funct
   const email = document.getElementById('forgot-password-email').value;
   const errorContainer = document.getElementById('forgot-password-error');
 
-  showError(errorContainer, ""); // Clear any previous errors
+  showError(errorContainer, "");
 
-  // Use Firebase's sendPasswordResetEmail function to send the reset email
   sendPasswordResetEmail(auth, email)
     .then(() => {
       showError(errorContainer, 'If an account exists, a reset email has been sent.');
@@ -214,7 +179,6 @@ document.getElementById('register-form').addEventListener('submit', function(eve
     .then((userCredential) => {
       const user = userCredential.user;
 
-      // Add the user to Firestore using the UID
       return setDoc(doc(db, "users", user.uid), {
         email: user.email,
         name: `${firstName} ${lastName}`
@@ -238,22 +202,21 @@ document.getElementById('register-form').addEventListener('submit', function(eve
 
 // Handle login form submission with POST
 document.getElementById('login-form').addEventListener('submit', function(event) {
-  event.preventDefault(); // Prevent default form submission
+  event.preventDefault();
 
   const email = document.getElementById('login-email').value;
   const password = document.getElementById('login-password').value;
   const errorContainer = document.getElementById('login-error');
 
-  showError(errorContainer, ""); // Clear any previous errors
+  showError(errorContainer, "");
 
-  // Use Firebase sign-in method to authenticate
   signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       const user = userCredential.user;
 
       if (user.emailVerified) {
         showError(errorContainer, 'Login successful!');
-        loginModal.style.display = 'none'; // Close modal on success
+        loginModal.style.display = 'none';
       } else {
         showError(errorContainer, 'Please verify your email before logging in.');
         sendEmailVerification(user).then(() => {
@@ -322,5 +285,90 @@ window.addEventListener('click', function(event) {
 
   if (!userIconLink.contains(event.target) && !dropdownMenu.contains(event.target)) {
     dropdownMenu.style.display = 'none';
+  }
+});
+
+// Car Quiz Implementation - Step by Step Navigation
+document.addEventListener("DOMContentLoaded", function () {
+  let currentStep = 1;
+  const totalSteps = document.querySelectorAll('.quiz-step').length;
+
+  document.getElementById('next-button').addEventListener('click', function() {
+    if (currentStep < totalSteps && validateStep(currentStep)) {
+      showStep(currentStep + 1);
+    } else if (currentStep === totalSteps) {
+      document.getElementById('car-quiz-form').dispatchEvent(new Event('submit'));
+    }
+  });
+
+  document.getElementById('car-quiz-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const location = document.querySelector('input[name="driving-location"]:checked')?.value;
+    const offRoading = document.querySelector('input[name="off-roading"]:checked')?.value;
+    const cargoSpace = document.querySelector('input[name="cargo-space"]:checked')?.value;
+    const carUse = document.querySelector('input[name="car-use"]:checked')?.value;
+    const mustHave = document.querySelector('input[name="must-have"]:checked')?.value;
+    const higherUp = document.querySelector('input[name="higher-up"]:checked')?.value;
+    const towing = document.querySelector('input[name="towing"]:checked')?.value;
+    const seatingRows = document.querySelector('input[name="seating-rows"]:checked')?.value;
+
+    if (!location || !offRoading || !cargoSpace || !carUse || !mustHave || !higherUp || !towing || !seatingRows) {
+      alert('Please complete all questions before submitting.');
+      return;
+    }
+
+    let recommendation = '';
+    let recommendationDescription = '';
+
+    if (location === 'off-road' || offRoading === 'yes' || mustHave === 'off-road' || towing === 'yes') {
+      recommendation = 'Truck';
+      recommendationDescription = 'Trucks are ideal for off-roading and towing heavy loads.';
+    } else if (cargoSpace === 'family' || carUse === 'kids' || seatingRows === '3') {
+      recommendation = 'Minivan';
+      recommendationDescription = 'Minivans provide ample space for families and multiple rows of seating.';
+    } else if (location === 'suburbs' || higherUp === 'yes' || cargoSpace === 'extra' || towing === 'maybe') {
+      recommendation = 'SUV';
+      recommendationDescription = 'SUVs offer a balance of cargo space, higher driving position, and sometimes off-road capabilities.';
+    } else if (carUse === 'performance' || seatingRows === '1') {
+      recommendation = 'Coupe';
+      recommendationDescription = 'Coupes are sporty vehicles designed for high performance.';
+    } else {
+      recommendation = 'Sedan';
+      recommendationDescription = 'Sedans offer a great balance of performance, comfort, and efficiency.';
+    }
+
+    const resultDiv = document.getElementById('quiz-result');
+    resultDiv.innerHTML = `<h3>We recommend you get a ${recommendation}!</h3><p>${recommendationDescription}</p>`;
+    resultDiv.style.display = 'block';
+
+    document.querySelector('.quiz-navigation').style.display = 'none';
+  });
+
+  function showStep(step) {
+    const currentStepElement = document.querySelector(`.quiz-step[data-step="${currentStep}"]`);
+    if (currentStepElement) {
+      currentStepElement.style.display = 'none';
+    }
+
+    if (step > totalSteps || step < 1) {
+      console.error(`Element for step ${step} not found.`);
+      return;
+    }
+
+    const newStepElement = document.querySelector(`.quiz-step[data-step="${step}"]`);
+    if (newStepElement) {
+      newStepElement.style.display = 'block';
+      currentStep = step;
+    }
+  }
+
+  function validateStep(step) {
+    const inputs = document.querySelectorAll(`.quiz-step[data-step="${step}"] input[type="radio"]`);
+    for (const input of inputs) {
+      if (input.checked) return true;
+    }
+    alert('Please answer the question before proceeding.');
+    return false;
   }
 });
