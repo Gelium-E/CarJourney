@@ -291,7 +291,6 @@ window.addEventListener('click', function(event) {
   }
 });
 
-// New Code for Car Questionnaire
 document.addEventListener("DOMContentLoaded", () => {
   const questionContainer = document.getElementById("question-container");
   const resultContainer = document.getElementById("result-container");
@@ -335,6 +334,14 @@ document.addEventListener("DOMContentLoaded", () => {
     // Add more combinations based on research...
   };
 
+  const generalizedRecommendations = {
+    "Sedan": "Honda Accord, a versatile sedan with great efficiency and comfort.",
+    "SUV": "Toyota RAV4, a reliable and popular choice for both families and commuters.",
+    "Truck": "Ford F-150, America's best-selling truck for all-around performance.",
+    "Coupe": "BMW 4 Series, for a balance of luxury, performance, and style.",
+    "Convertible": "Mazda MX-5 Miata, a sporty and fun convertible with great handling."
+  };
+
   let currentQuestionIndex = 0;
   let selectedAnswers = [];
 
@@ -367,13 +374,22 @@ document.addEventListener("DOMContentLoaded", () => {
     questionContainer.style.display = "none";
     resultContainer.style.display = "block";
     const resultKey = selectedAnswers.join(",");
-    const recommendedCar = carRecommendations[resultKey] || "Sorry, no exact match found. Try again.";
+    const recommendedCar = carRecommendations[resultKey];
 
-    resultContainer.innerHTML = `
-      <div class="result-title">Your Car Recommendation</div>
-      <div class="result-car">${recommendedCar}</div>
-      <div class="result-description">Based on your preferences, this car best matches your needs.</div>
-    `;
+    if (recommendedCar) {
+      resultContainer.innerHTML = `
+        <div class="result-title">Your Car Recommendation</div>
+        <div class="result-car">${recommendedCar}</div>
+        <div class="result-description">Based on your preferences, this car best matches your needs.</div>
+      `;
+    } else {
+      const fallbackRecommendation = generalizedRecommendations[selectedAnswers[0]];  // Use the first answer (car type)
+      resultContainer.innerHTML = `
+        <div class="result-title">Your Car Recommendation</div>
+        <div class="result-car">${fallbackRecommendation}</div>
+        <div class="result-description">Based on your preferences, this car is a popular and versatile choice.</div>
+      `;
+    }
   }
 
   // Start the questionnaire by loading the first question
