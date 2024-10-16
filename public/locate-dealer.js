@@ -24,8 +24,6 @@ const analytics = getAnalytics(app);
 const db = getFirestore(app); // Initialize Firestore
 console.log("Firebase initialized successfully.");
 
-let uniqueDealerIds = new Set();  // Track unique dealer IDs to avoid duplicates
-
 // Modal Handling (For header/login functionality)
 const loginModal = document.getElementById('login-modal');
 const registerModal = document.getElementById('register-modal');
@@ -266,146 +264,114 @@ function validatePassword(password) {
   return password.length >= minLength && hasNumber.test(password) && hasSpecialChar.test(password);
 }
 
-// Locate a Dealer Functionality
+let uniqueDealerIds = new Set();  // Track unique dealer IDs to avoid duplicates
+let userLocation = null;  // Store user's location globally
+
+// Updated Locate a Dealer Functionality
 document.getElementById('zipcode-form').addEventListener('submit', function(event) {
-    event.preventDefault();
+  event.preventDefault();
 
-    const zipcode = document.getElementById('zipcode-input').value;
-    const radius = document.getElementById('radius-select').value;
+  const zipcode = document.getElementById('zipcode-input').value;
 
-    if (!zipcode) return;
+  if (!zipcode) return;
 
-    // Clear previous results
-    document.getElementById('dealer-results').innerHTML = '';
-    uniqueDealerIds.clear();  // Clear tracked dealer IDs to avoid duplicates
+  uniqueDealerIds.clear();  // Clear tracked dealer IDs to avoid duplicates
 
-    // Convert Zipcode to geographic coordinates
-    findDealersNearZipcode(zipcode, radius);
+  // Convert Zipcode to geographic coordinates
+  findDealersNearZipcode(zipcode);
 });
 
-let currentPagination = null;  // Store pagination data globally
+function findDealersNearZipcode(zipcode) {
+  const geocoder = new google.maps.Geocoder();
+  geocoder.geocode({ 'address': zipcode }, function(results, status) {
+      if (status == google.maps.GeocoderStatus.OK) {
+          userLocation = results[0].geometry.location;
 
-function findDealersNearZipcode(zipcode, radius) {
-    const geocoder = new google.maps.Geocoder();
-    geocoder.geocode({ 'address': zipcode }, function(results, status) {
-        if (status == google.maps.GeocoderStatus.OK) {
-            const location = results[0].geometry.location;
+          const service = new google.maps.places.PlacesService(document.createElement('div'));
 
-            const service = new google.maps.places.PlacesService(document.createElement('div'));
-            let allDealers = [];
+          service.nearbySearch({
+              location: userLocation,
+              radius: 50000,  // Set a large radius (50km) to get more results
+              type: ['car_dealer']
+          }, handleResults);
+      } else {
+          console.log('Geocoding failed:', status);
+      }
+  });
+}
 
-            function handleResults(results, status, pagination) {
-                if (status === google.maps.places.PlacesServiceStatus.OK) {
-                    const newDealers = removeDuplicates(results);  // Accumulate and remove duplicates
-                    allDealers = allDealers.concat(newDealers);  // Add non-duplicate results
-                    displayDealerResults(newDealers, location);  // Only display newly added dealers
-                    
-                    currentPagination = pagination;  // Save pagination for future use
-                    if (pagination.hasNextPage) {
-                        showLoadMoreButton();  // Show Load More button if there are more results
-                    } else {
-                        hideLoadMoreButton();  // Hide if no more results
-                    }
-                } else {
-                    console.log('No dealers found:', status);
-                    hideLoadMoreButton();  // No more results
-                }
-            }
-
-            service.nearbySearch({
-                location: location,
-                radius: parseInt(radius),  // Search within the user-selected radius
-                type: ['car_dealer']
-            }, handleResults);
-        } else {
-            console.log('Geocoding failed:', status);
-        }
-    });
+function handleResults(results, status) {
+  if (status === google.maps.places.PlacesServiceStatus.OK) {
+      const newDealers = removeDuplicates(results);  // Remove duplicates
+      displayDealerResults(newDealers);  // Display newly added dealers
+  } else {
+      console.log('No dealers found:', status);
+  }
 }
 
 // Remove duplicate dealers by unique place_id
 function removeDuplicates(dealers) {
-    const uniqueDealers = [];
+  const uniqueDealers = [];
 
-    dealers.forEach(dealer => {
-        if (!uniqueDealerIds.has(dealer.place_id)) {  // Check by unique place_id
-            uniqueDealerIds.add(dealer.place_id);     // Track the dealer by its place_id
-            uniqueDealers.push(dealer);
-        }
-    });
+  dealers.forEach(dealer => {
+      if (!uniqueDealerIds.has(dealer.place_id)) {  // Check by unique place_id
+          uniqueDealerIds.add(dealer.place_id);     // Track the dealer by its place_id
+          uniqueDealers.push(dealer);
+      }
+  });
 
-    return uniqueDealers;
+  return uniqueDealers;
 }
 
 // Display dealer results, sorted by distance
-function displayDealerResults(dealers, userLocation) {
-    const resultsContainer = document.getElementById('dealer-results');
+function displayDealerResults(dealers) {
+  const resultsContainer = document.getElementById('dealer-results');
 
-    const distanceService = new google.maps.DistanceMatrixService();
-    const dealerPromises = dealers.map(dealer => {
-        return new Promise((resolve) => {
-            distanceService.getDistanceMatrix({
-                origins: [userLocation],
-                destinations: [dealer.geometry.location],
-                travelMode: 'DRIVING'
-            }, function (response, status) {
-                if (status === 'OK' && response.rows[0].elements[0].status === 'OK') {
-                    const distanceInMiles = response.rows[0].elements[0].distance.value * 0.000621371; // Convert meters to miles
-                    dealer.distanceInMiles = distanceInMiles.toFixed(1);
-                    resolve(dealer);
-                } else {
-                    resolve(null); // Handle errors gracefully
-                }
-            });
-        });
-    });
-    
-    Promise.all(dealerPromises).then((dealerResults) => {
-        const validDealers = dealerResults.filter(dealer => dealer !== null);
-        
-        validDealers.sort((a, b) => parseFloat(a.distanceInMiles) - parseFloat(b.distanceInMiles));
+  const distanceService = new google.maps.DistanceMatrixService();
+  const dealerPromises = dealers.map(dealer => {
+      return new Promise((resolve) => {
+          distanceService.getDistanceMatrix({
+              origins: [userLocation],
+              destinations: [dealer.geometry.location],
+              travelMode: 'DRIVING'
+          }, function (response, status) {
+              if (status === 'OK' && response.rows[0].elements[0].status === 'OK') {
+                  const distanceInMiles = response.rows[0].elements[0].distance.value * 0.000621371; // Convert meters to miles
+                  dealer.distanceInMiles = distanceInMiles.toFixed(1);
+                  resolve(dealer);
+              } else {
+                  resolve(null); // Handle errors gracefully
+              }
+          });
+      });
+  });
 
-        validDealers.forEach(dealer => {
-            const dealerDiv = document.createElement('div');
-            dealerDiv.classList.add('dealer-item');
+  Promise.all(dealerPromises).then((dealerResults) => {
+      const validDealers = dealerResults.filter(dealer => dealer !== null);
+      
+      validDealers.sort((a, b) => parseFloat(a.distanceInMiles) - parseFloat(b.distanceInMiles));
 
-            // Use a placeholder image for dealers with no photo
-            const photoUrl = dealer.photos ? dealer.photos[0].getUrl({ maxWidth: 200 }) : 'public\placeholder-locate-dealer.jpg';
+      // Clear previous results before displaying new ones
+      resultsContainer.innerHTML = ''; 
 
-            dealerDiv.innerHTML = `
-                <div class="dealer-photo">
-                    <img src="${photoUrl}" alt="${dealer.name}">
-                </div>
-                <div class="dealer-info">
-                    <h3>${dealer.name}</h3>
-                    <p>${dealer.vicinity}</p>
-                    <p>${dealer.distanceInMiles} miles away</p>
-                    <div>
-                        <button class="visit-site-btn">Visit Site</button>
-                        <button class="view-cars-btn">View Cars</button>
-                    </div>
-                </div>
-            `;
-            resultsContainer.appendChild(dealerDiv);
-        });
-    });
-}
+      validDealers.forEach(dealer => {
+          const dealerDiv = document.createElement('div');
+          dealerDiv.classList.add('dealer-item');
 
-// Load More functionality
-document.getElementById('load-more-btn').addEventListener('click', function() {
-    if (currentPagination && currentPagination.hasNextPage) {
-        currentPagination.nextPage();  // Fetch the next set of results
-    }
-});
+          // Use a placeholder image for dealers with no photo
+          const photoUrl = dealer.photos ? dealer.photos[0].getUrl({ maxWidth: 200 }) : 'public/placeholder-locate-dealer.jpg';
 
-// Show Load More button
-function showLoadMoreButton() {
-    const loadMoreBtn = document.getElementById('load-more-btn');
-    loadMoreBtn.style.display = 'block';  // Show the button
-}
-
-// Hide Load More button
-function hideLoadMoreButton() {
-    const loadMoreBtn = document.getElementById('load-more-btn');
-    loadMoreBtn.style.display = 'none';  // Hide the button
+          dealerDiv.innerHTML = `
+              <div class="dealer-photo">
+                  <img src="${photoUrl}" alt="${dealer.name}">
+              </div>
+              <div class="dealer-info">
+                  <h3>${dealer.name}</h3>
+                  <p>${dealer.vicinity}</p>
+                  <p>${dealer.distanceInMiles} miles away</p>
+              </div>
+          `;
+          resultsContainer.appendChild(dealerDiv);
+      });
+  });
 }
