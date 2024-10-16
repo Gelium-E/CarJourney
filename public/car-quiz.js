@@ -291,31 +291,58 @@ window.addEventListener('click', function(event) {
   }
 });
 
+// Car questionnaire functionality with images
 document.addEventListener("DOMContentLoaded", () => {
   const questionContainer = document.getElementById("question-container");
   const resultContainer = document.getElementById("result-container");
 
-  // Questions and answers for the car questionnaire
+  // Questions and answers for the car questionnaire with images
   const questions = [
     {
       question: "What type of car are you interested in?",
-      answers: ["Sedan", "SUV", "Truck", "Coupe", "Convertible"]
+      answers: [
+        { text: "Sedan", img: "https://res.cloudinary.com/dosquaqi2/image/upload/v1729108743/sedan-quiz_akwltu.svg" }, 
+        { text: "SUV", img: "https://res.cloudinary.com/dosquaqi2/image/upload/v1729108743/suv-quiz_ymxmu9.svg" }, 
+        { text: "Truck", img: "https://res.cloudinary.com/dosquaqi2/image/upload/v1729108743/truck-quiz_cltsmr.svg" }, 
+        { text: "Coupe", img: "https://res.cloudinary.com/dosquaqi2/image/upload/v1729108743/coupe-quiz_vp6gby.svg" }, 
+        { text: "Convertible", img: "https://res.cloudinary.com/dosquaqi2/image/upload/v1729108743/convertible-quiz_xuiaui.svg" },
+        { text: "Van", img: "https://res.cloudinary.com/dosquaqi2/image/upload/v1729108745/van-quiz_zmkhzf.svg" }
+      ]
     },
     {
       question: "What will you use the car for most?",
-      answers: ["Daily commute", "Long-distance travel", "Off-road", "City driving", "Family trips"]
+      answers: [
+        { text: "Daily commute" }, 
+        { text: "Long-distance travel" }, 
+        { text: "Off-road" }, 
+        { text: "City driving" }, 
+        { text: "Family trips" }
+      ]
     },
     {
       question: "How important is fuel efficiency?",
-      answers: ["Very important", "Moderately important", "Not important"]
+      answers: [
+        { text: "Very important" }, 
+        { text: "Moderately important" }, 
+        { text: "Not important" }
+      ]
     },
     {
       question: "What kind of performance are you looking for?",
-      answers: ["Comfort-oriented", "Sporty", "Balanced", "High performance"]
+      answers: [
+        { text: "Comfort-oriented" }, 
+        { text: "Sporty" }, 
+        { text: "Balanced" }, 
+        { text: "High performance" }
+      ]
     },
     {
       question: "Do you have a preference for technology features?",
-      answers: ["Advanced safety features", "Luxury and infotainment", "Basic features are fine"]
+      answers: [
+        { text: "Advanced safety features" }, 
+        { text: "Luxury and infotainment" }, 
+        { text: "Basic features are fine" }
+      ]
     }
   ];
 
@@ -351,10 +378,17 @@ document.addEventListener("DOMContentLoaded", () => {
     questionContainer.innerHTML = `
       <div class="question-card">
         <h2>${questionData.question}</h2>
-        ${questionData.answers.map(answer => `<button class="answer-btn">${answer}</button>`).join('')}
+        <div class="answer-options-container">
+          ${questionData.answers.map(answer => `
+            <div class="answer-option">
+              ${answer.img ? `<img src="${answer.img}" alt="${answer.text}" class="answer-img">` : ''}
+              <button class="answer-btn">${answer.text}</button>
+            </div>
+          `).join('')}
+        </div>
       </div>
     `;
-
+  
     // Add click event listeners to answer buttons
     document.querySelectorAll('.answer-btn').forEach((button) => {
       button.addEventListener('click', function () {
@@ -368,6 +402,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
   }
+  
 
   // Function to show the final result based on answers
   function showResult() {
