@@ -27,12 +27,12 @@ console.log("Firebase initialized successfully.");
 // Modal handling (For future use with header/login functionality)
 const loginModal = document.getElementById('login-modal');
 const registerModal = document.getElementById('register-modal');
-const forgotPasswordModal = document.getElementById('forgot-password-modal');
+const forgotPasswordModal = document.getElementById('forgot-password-modal'); // Added Forgot Password Modal
 const loginBtn = document.getElementById('login-btn');
 const registerBtn = document.getElementById('register-btn');
 const loginClose = document.getElementById('login-close');
 const registerClose = document.getElementById('register-close');
-const forgotPasswordClose = document.getElementById('forgot-password-close');
+const forgotPasswordClose = document.getElementById('forgot-password-close'); // Close for Forgot Password Modal
 
 // Open login modal
 loginBtn.addEventListener('click', function () {
@@ -91,8 +91,9 @@ document.getElementById('forgot-password-form').addEventListener('submit', funct
   const email = document.getElementById('forgot-password-email').value;
   const errorContainer = document.getElementById('forgot-password-error');
 
-  showError(errorContainer, "");
+  showError(errorContainer, ""); // Clear any previous errors
 
+  // Use Firebase's sendPasswordResetEmail function to send the reset email
   sendPasswordResetEmail(auth, email)
     .then(() => {
       showError(errorContainer, 'If an account exists, a reset email has been sent.');
@@ -179,6 +180,7 @@ document.getElementById('register-form').addEventListener('submit', function(eve
     .then((userCredential) => {
       const user = userCredential.user;
 
+      // Add the user to Firestore using the UID
       return setDoc(doc(db, "users", user.uid), {
         email: user.email,
         name: `${firstName} ${lastName}`
@@ -202,21 +204,22 @@ document.getElementById('register-form').addEventListener('submit', function(eve
 
 // Handle login form submission with POST
 document.getElementById('login-form').addEventListener('submit', function(event) {
-  event.preventDefault();
+  event.preventDefault(); // Prevent default form submission
 
   const email = document.getElementById('login-email').value;
   const password = document.getElementById('login-password').value;
   const errorContainer = document.getElementById('login-error');
 
-  showError(errorContainer, "");
+  showError(errorContainer, ""); // Clear any previous errors
 
+  // Use Firebase sign-in method to authenticate
   signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       const user = userCredential.user;
 
       if (user.emailVerified) {
         showError(errorContainer, 'Login successful!');
-        loginModal.style.display = 'none';
+        loginModal.style.display = 'none'; // Close modal on success
       } else {
         showError(errorContainer, 'Please verify your email before logging in.');
         sendEmailVerification(user).then(() => {
@@ -288,87 +291,91 @@ window.addEventListener('click', function(event) {
   }
 });
 
-// Car Quiz Implementation - Step by Step Navigation
-document.addEventListener("DOMContentLoaded", function () {
-  let currentStep = 1;
-  const totalSteps = document.querySelectorAll('.quiz-step').length;
+// New Code for Car Questionnaire
+document.addEventListener("DOMContentLoaded", () => {
+  const questionContainer = document.getElementById("question-container");
+  const resultContainer = document.getElementById("result-container");
 
-  document.getElementById('next-button').addEventListener('click', function() {
-    if (currentStep < totalSteps && validateStep(currentStep)) {
-      showStep(currentStep + 1);
-    } else if (currentStep === totalSteps) {
-      document.getElementById('car-quiz-form').dispatchEvent(new Event('submit'));
+  // Questions and answers for the car questionnaire
+  const questions = [
+    {
+      question: "What type of car are you interested in?",
+      answers: ["Sedan", "SUV", "Truck", "Coupe", "Convertible"]
+    },
+    {
+      question: "What will you use the car for most?",
+      answers: ["Daily commute", "Long-distance travel", "Off-road", "City driving", "Family trips"]
+    },
+    {
+      question: "How important is fuel efficiency?",
+      answers: ["Very important", "Moderately important", "Not important"]
+    },
+    {
+      question: "What kind of performance are you looking for?",
+      answers: ["Comfort-oriented", "Sporty", "Balanced", "High performance"]
+    },
+    {
+      question: "Do you have a preference for technology features?",
+      answers: ["Advanced safety features", "Luxury and infotainment", "Basic features are fine"]
     }
-  });
+  ];
 
-  document.getElementById('car-quiz-form').addEventListener('submit', function(event) {
-    event.preventDefault();
+  const carRecommendations = {
+    "Sedan,Daily commute,Very important,Comfort-oriented,Advanced safety features": "Toyota Corolla Hybrid",
+    "SUV,Family trips,Moderately important,Comfort-oriented,Luxury and infotainment": "Honda CR-V",
+    "Truck,Off-road,Not important,High performance,Basic features are fine": "Ford F-150 Raptor",
+    "Coupe,Sporty,Not important,High performance,Luxury and infotainment": "Chevrolet Corvette",
+    "Convertible,City driving,Very important,Sporty,Luxury and infotainment": "Mazda MX-5 Miata",
+    "Sedan,Long-distance travel,Very important,Comfort-oriented,Advanced safety features": "Honda Accord",
+    "SUV,Daily commute,Moderately important,Comfort-oriented,Advanced safety features": "Toyota RAV4",
+    "Truck,Daily commute,Not important,High performance,Basic features are fine": "Ram 1500",
+    "Coupe,Daily commute,Not important,Sporty,Luxury and infotainment": "BMW 4 Series",
+    "SUV,Off-road,Moderately important,Sporty,Advanced safety features": "Jeep Wrangler",
+    "Convertible,Long-distance travel,Very important,Sporty,Luxury and infotainment": "BMW Z4",
+    // Add more combinations based on research...
+  };
 
-    const location = document.querySelector('input[name="driving-location"]:checked')?.value;
-    const offRoading = document.querySelector('input[name="off-roading"]:checked')?.value;
-    const cargoSpace = document.querySelector('input[name="cargo-space"]:checked')?.value;
-    const carUse = document.querySelector('input[name="car-use"]:checked')?.value;
-    const mustHave = document.querySelector('input[name="must-have"]:checked')?.value;
-    const higherUp = document.querySelector('input[name="higher-up"]:checked')?.value;
-    const towing = document.querySelector('input[name="towing"]:checked')?.value;
-    const seatingRows = document.querySelector('input[name="seating-rows"]:checked')?.value;
+  let currentQuestionIndex = 0;
+  let selectedAnswers = [];
 
-    if (!location || !offRoading || !cargoSpace || !carUse || !mustHave || !higherUp || !towing || !seatingRows) {
-      alert('Please complete all questions before submitting.');
-      return;
-    }
+  // Function to load a question
+  function loadQuestion() {
+    const questionData = questions[currentQuestionIndex];
+    questionContainer.innerHTML = `
+      <div class="question-card">
+        <h2>${questionData.question}</h2>
+        ${questionData.answers.map(answer => `<button class="answer-btn">${answer}</button>`).join('')}
+      </div>
+    `;
 
-    let recommendation = '';
-    let recommendationDescription = '';
-
-    if (location === 'off-road' || offRoading === 'yes' || mustHave === 'off-road' || towing === 'yes') {
-      recommendation = 'Truck';
-      recommendationDescription = 'Trucks are ideal for off-roading and towing heavy loads.';
-    } else if (cargoSpace === 'family' || carUse === 'kids' || seatingRows === '3') {
-      recommendation = 'Minivan';
-      recommendationDescription = 'Minivans provide ample space for families and multiple rows of seating.';
-    } else if (location === 'suburbs' || higherUp === 'yes' || cargoSpace === 'extra' || towing === 'maybe') {
-      recommendation = 'SUV';
-      recommendationDescription = 'SUVs offer a balance of cargo space, higher driving position, and sometimes off-road capabilities.';
-    } else if (carUse === 'performance' || seatingRows === '1') {
-      recommendation = 'Coupe';
-      recommendationDescription = 'Coupes are sporty vehicles designed for high performance.';
-    } else {
-      recommendation = 'Sedan';
-      recommendationDescription = 'Sedans offer a great balance of performance, comfort, and efficiency.';
-    }
-
-    const resultDiv = document.getElementById('quiz-result');
-    resultDiv.innerHTML = `<h3>We recommend you get a ${recommendation}!</h3><p>${recommendationDescription}</p>`;
-    resultDiv.style.display = 'block';
-
-    document.querySelector('.quiz-navigation').style.display = 'none';
-  });
-
-  function showStep(step) {
-    const currentStepElement = document.querySelector(`.quiz-step[data-step="${currentStep}"]`);
-    if (currentStepElement) {
-      currentStepElement.style.display = 'none';
-    }
-
-    if (step > totalSteps || step < 1) {
-      console.error(`Element for step ${step} not found.`);
-      return;
-    }
-
-    const newStepElement = document.querySelector(`.quiz-step[data-step="${step}"]`);
-    if (newStepElement) {
-      newStepElement.style.display = 'block';
-      currentStep = step;
-    }
+    // Add click event listeners to answer buttons
+    document.querySelectorAll('.answer-btn').forEach((button) => {
+      button.addEventListener('click', function () {
+        selectedAnswers.push(button.innerText);
+        currentQuestionIndex++;
+        if (currentQuestionIndex < questions.length) {
+          loadQuestion();
+        } else {
+          showResult();
+        }
+      });
+    });
   }
 
-  function validateStep(step) {
-    const inputs = document.querySelectorAll(`.quiz-step[data-step="${step}"] input[type="radio"]`);
-    for (const input of inputs) {
-      if (input.checked) return true;
-    }
-    alert('Please answer the question before proceeding.');
-    return false;
+  // Function to show the final result based on answers
+  function showResult() {
+    questionContainer.style.display = "none";
+    resultContainer.style.display = "block";
+    const resultKey = selectedAnswers.join(",");
+    const recommendedCar = carRecommendations[resultKey] || "Sorry, no exact match found. Try again.";
+
+    resultContainer.innerHTML = `
+      <div class="result-title">Your Car Recommendation</div>
+      <div class="result-car">${recommendedCar}</div>
+      <div class="result-description">Based on your preferences, this car best matches your needs.</div>
+    `;
   }
+
+  // Start the questionnaire by loading the first question
+  loadQuestion();
 });

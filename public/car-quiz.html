@@ -28,10 +28,12 @@
           <li><a href="#"><i class="fas fa-search"></i> Used & New Cars</a></li>
           <li><a href="#" id="login-btn"><i class="fas fa-sign-in-alt"></i> Login</a></li>
           <li><a href="#" id="register-btn"><i class="fas fa-user-plus"></i> Register</a></li>
+          <!-- User icon placeholder (hidden by default) -->
           <li id="user-icon" style="display: none; position: relative;">
             <a href="#" id="user-icon-link">
               <img src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png" alt="User Icon" style="width: 24px; height: 24px;">
             </a>
+            <!-- Dropdown Menu -->
             <div id="dropdown-menu" class="dropdown-menu">
               <a href="#" id="account-settings">Account Settings</a>
               <a href="#" id="sign-out">Sign Out</a>
@@ -42,185 +44,16 @@
     </div>
   </header>
 
-  <!-- Quiz section -->
+  <!-- Main section for the Car Questionnaire -->
   <main>
-    <div class="container">
-      <h2>Find Your Ideal Car Body Type</h2>
-      <form id="car-quiz-form">
-        <!-- Question 1 -->
-        <div class="quiz-step" data-step="1">
-          <div class="question">
-            <label>Where do you do most of your driving?</label>
-            <div>
-              <input type="radio" id="city" name="driving-location" value="city" required>
-              <label for="city">City</label>
-            </div>
-            <div>
-              <input type="radio" id="suburbs" name="driving-location" value="suburbs">
-              <label for="suburbs">Suburbs</label>
-            </div>
-            <div>
-              <input type="radio" id="off-road" name="driving-location" value="off-road">
-              <label for="off-road">Off-Roads/Backroads</label>
-            </div>
-          </div>
-        </div>
-
-        <!-- Question 2 -->
-        <div class="quiz-step" data-step="2" style="display: none;">
-          <div class="question">
-            <label>Will you use this vehicle for off-roading?</label>
-            <div>
-              <input type="radio" id="offroading-yes" name="off-roading" value="yes" required>
-              <label for="offroading-yes">Yes</label>
-            </div>
-            <div>
-              <input type="radio" id="offroading-no" name="off-roading" value="no">
-              <label for="offroading-no">No</label>
-            </div>
-            <div>
-              <input type="radio" id="offroading-maybe" name="off-roading" value="maybe">
-              <label for="offroading-maybe">Maybe</label>
-            </div>
-          </div>
-        </div>
-
-        <!-- Question 3 -->
-        <div class="quiz-step" data-step="3" style="display: none;">
-          <div class="question">
-            <label>Do you need a vehicle with a lot of cargo space?</label>
-            <div>
-              <input type="radio" id="cargo-family" name="cargo-space" value="family" required>
-              <label for="cargo-family">Yes, I need a lot of room for my family's belongings.</label>
-            </div>
-            <div>
-              <input type="radio" id="cargo-extra" name="cargo-space" value="extra">
-              <label for="cargo-extra">Yes, I like having the extra space.</label>
-            </div>
-            <div>
-              <input type="radio" id="cargo-move" name="cargo-space" value="move">
-              <label for="cargo-move">Yes, I need the space to move things often.</label>
-            </div>
-            <div>
-              <input type="radio" id="cargo-none" name="cargo-space" value="none">
-              <label for="cargo-none">No, I don't need that much extra space.</label>
-            </div>
-          </div>
-        </div>
-
-        <!-- Question 4 -->
-        <div class="quiz-step" data-step="4" style="display: none;">
-          <div class="question">
-            <label>What do you use your car for?</label>
-            <div>
-              <input type="radio" id="commute" name="car-use" value="commute" required>
-              <label for="commute">Daily Commute</label>
-            </div>
-            <div>
-              <input type="radio" id="all-purpose" name="car-use" value="all-purpose">
-              <label for="all-purpose">All-Purpose Driving</label>
-            </div>
-            <div>
-              <input type="radio" id="kids" name="car-use" value="kids">
-              <label for="kids">Driving around Kids</label>
-            </div>
-            <div>
-              <input type="radio" id="job-site" name="car-use" value="job-site">
-              <label for="job-site">Working at the Job Site</label>
-            </div>
-            <div>
-              <input type="radio" id="performance" name="car-use" value="performance">
-              <label for="performance">Performance</label>
-            </div>
-          </div>
-        </div>
-
-        <!-- Question 5 -->
-        <div class="quiz-step" data-step="5" style="display: none;">
-          <div class="question">
-            <label>What is your number one must-have in a new car?</label>
-            <div>
-              <input type="radio" id="fuel" name="must-have" value="fuel" required>
-              <label for="fuel">Fuel Economy</label>
-            </div>
-            <div>
-              <input type="radio" id="weather" name="must-have" value="weather">
-              <label for="weather">Ability to Drive in Different Weather Conditions</label>
-            </div>
-            <div>
-              <input type="radio" id="family" name="must-have" value="family">
-              <label for="family">Enough Space for My Whole Family</label>
-            </div>
-            <div>
-              <input type="radio" id="off-road-must" name="must-have" value="off-road">
-              <label for="off-road-must">Off Road Capabilities</label>
-            </div>
-          </div>
-        </div>
-
-        <!-- Question 6 -->
-        <div class="quiz-step" data-step="6" style="display: none;">
-          <div class="question">
-            <label>Do you prefer to be higher up when driving?</label>
-            <div>
-              <input type="radio" id="higher-yes" name="higher-up" value="yes" required>
-              <label for="higher-yes">Yes</label>
-            </div>
-            <div>
-              <input type="radio" id="higher-no" name="higher-up" value="no">
-              <label for="higher-no">No</label>
-            </div>
-          </div>
-        </div>
-
-        <!-- Question 7 -->
-        <div class="quiz-step" data-step="7" style="display: none;">
-          <div class="question">
-            <label>Do you need a vehicle for towing purposes?</label>
-            <div>
-              <input type="radio" id="towing-yes" name="towing" value="yes" required>
-              <label for="towing-yes">Yes, I tow things often.</label>
-            </div>
-            <div>
-              <input type="radio" id="towing-no" name="towing" value="no">
-              <label for="towing-no">No, I never need to tow anything.</label>
-            </div>
-            <div>
-              <input type="radio" id="towing-maybe" name="towing" value="maybe">
-              <label for="towing-maybe">Maybe, I need to tow things every so often.</label>
-            </div>
-          </div>
-        </div>
-
-        <!-- Question 8 -->
-        <div class="quiz-step" data-step="8" style="display: none;">
-          <div class="question">
-            <label>How many rows of seating do you need?</label>
-            <div>
-              <input type="radio" id="seating-1" name="seating-rows" value="1" required>
-              <label for="seating-1">1 row of seating</label>
-            </div>
-            <div>
-              <input type="radio" id="seating-2" name="seating-rows" value="2">
-              <label for="seating-2">2 rows of seating</label>
-            </div>
-            <div>
-              <input type="radio" id="seating-3" name="seating-rows" value="3">
-              <label for="seating-3">3 rows of seating</label>
-            </div>
-          </div>
-        </div>
-
-        <!-- Final step - show result -->
-        <div id="quiz-result" class="quiz-step result" style="display: none;"></div>
-
-        <!-- Navigation buttons -->
-        <div class="quiz-navigation">
-          <button type="button" id="next-button" class="btn">Next</button>
-          <button type="submit" id="submit-button" class="btn" style="display: none;">Submit</button>
-        </div>
-      </form>
-    </div>
+    <section id="car-questionnaire" class="container">
+      <div id="question-container">
+        <!-- Questions will dynamically load here -->
+      </div>
+      <div id="result-container" style="display: none;">
+        <!-- This section will show the final car recommendation -->
+      </div>
+    </section>
   </main>
 
   <!-- Login Modal -->
@@ -287,7 +120,27 @@
     </div>
   </div>
 
-  <!-- Footer -->
+  <!-- Forgot Password Modal -->
+  <div id="forgot-password-modal" class="modal">
+    <div class="modal-content">
+      <span class="close" id="forgot-password-close">&times;</span>
+      <h2>Reset Password</h2>
+      <p>If an account exists with the email provided, you will be sent an email to reset your password.</p>
+      <form id="forgot-password-form">
+        <label for="forgot-password-email">Email:</label>
+        <input type="email" id="forgot-password-email" name="email" required>
+        <div id="forgot-password-error"></div>
+        <button type="submit" class="btn">Send Reset Email</button>
+      </form>
+      
+      <!-- Back to Login link -->
+      <p style="text-align: center; margin-top: 10px;">
+        <a href="#" id="back-to-login-link" class="forgot-password-link">Back to Login</a>
+      </p>
+    </div>
+  </div>
+
+  <!-- Footer remains intact -->
   <footer>
     <div class="container">
       <p>&copy; 2024 CarJourney. All rights reserved.</p>

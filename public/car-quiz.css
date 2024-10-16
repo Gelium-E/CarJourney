@@ -4,20 +4,20 @@
     padding: 0;
     box-sizing: border-box;
 }
-
+  
 /* Body Styling */
 body {
     font-family: 'Roboto', sans-serif;
     background-color: #f4f4f4;
 }
-
+  
 /* Container */
 .container {
     width: 90%;
     max-width: 1200px;
     margin: 0 auto;
 }
-
+  
 /* Header */
 header {
     background-color: #2c3e50;
@@ -25,19 +25,19 @@ header {
     padding: 20px 0;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
-
+  
 header .container {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
-
+  
 header h1 {
     font-family: 'Montserrat', sans-serif;
     font-size: 2em;
     margin-right: auto;
 }
-
+  
 /* Navigation */
 nav ul {
     list-style-type: none;
@@ -46,57 +46,74 @@ nav ul {
     margin-left: auto;
     align-items: center;
 }
-
+  
 nav ul li {
     display: flex;
     align-items: center;
 }
-
+  
 nav ul li a {
     color: #fff;
     text-decoration: none;
     padding: 8px 12px;
     transition: background-color 0.3s, color 0.3s;
 }
-
+  
 nav ul li a:hover,
 nav ul li a.active {
     background-color: #34495e;
     border-radius: 4px;
 }
-
+  
+/* User Icon */
+#user-icon {
+    display: flex;
+    align-items: center;
+}
+  
+#user-icon img {
+    width: 24px;
+    height: 24px;
+}
+  
+/* Optional: add padding between the user icon and dropdown arrow if needed */
+#user-icon-link {
+    display: flex;
+    align-items: center;
+}
+  
 /* Loader/Spinner Styling */
 .loader {
-    display: none;
+    display: none; /* Hidden by default */
     position: fixed;
-    z-index: 1000;
+    z-index: 1000; /* Ensure it's above other elements */
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    border: 8px solid #f3f3f3;
-    border-top: 8px solid #e74c3c;
+    border: 8px solid #f3f3f3; /* Light gray */
+    border-top: 8px solid #e74c3c; /* Red */
     border-radius: 50%;
     width: 60px;
     height: 60px;
     animation: spin 1s linear infinite;
 }
-
+  
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
-
+  
 /* Password visibility toggle */
 .password-container {
     position: relative;
     width: fit-content;
 }
-
+  
 .password-container input {
     padding-right: 35px;
     width: 360px;
 }
-
+  
 .password-container .toggle-password {
     position: absolute;
     right: 10px;
@@ -106,11 +123,11 @@ nav ul li a.active {
     color: #ccc;
     transition: color 0.3s;
 }
-
+  
 .password-container .toggle-password:hover {
     color: #2c3e50;
 }
-
+  
 /* Forgot Password link styling */
 .forgot-password-link {
     color: #3498db;
@@ -118,11 +135,11 @@ nav ul li a.active {
     font-size: 0.9em;
     transition: color 0.3s;
 }
-
+  
 .forgot-password-link:hover {
     color: #2980b9;
 }
-
+  
 /* Back to Login link styling */
 .back-to-login-link {
     color: #e74c3c;
@@ -133,11 +150,11 @@ nav ul li a.active {
     margin-top: 10px;
     transition: color 0.3s;
 }
-
+  
 .back-to-login-link:hover {
     color: #c0392b;
 }
-
+  
 /* Modal styling for Forgot Password */
 #forgot-password-modal {
     display: none;
@@ -149,7 +166,7 @@ nav ul li a.active {
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
 }
-
+  
 #forgot-password-modal .modal-content {
     background-color: #fff;
     margin: 10% auto;
@@ -161,7 +178,7 @@ nav ul li a.active {
     transition: height 0.3s ease-in-out;
     animation: fadeIn 0.3s ease-in-out;
 }
-
+  
 /* Modal Styling */
 .modal {
     display: none;
@@ -173,7 +190,7 @@ nav ul li a.active {
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
 }
-
+  
 .modal-content {
     background-color: #fff;
     margin: 10% auto;
@@ -185,7 +202,7 @@ nav ul li a.active {
     transition: height 0.3s ease-in-out;
     animation: fadeIn 0.3s ease-in-out;
 }
-
+  
 /* Password validation */
 .password-requirements {
     margin-top: 10px;
@@ -195,33 +212,33 @@ nav ul li a.active {
     background-color: #f9f9f9;
     border: 1px solid #ddd;
 }
-
+  
 .password-requirements p {
     margin: 5px 0;
     font-size: 14px;
 }
-
+  
 .password-requirements .valid {
     color: green;
     font-weight: bold;
 }
-
+  
 .password-requirements .invalid {
     color: red;
     font-weight: bold;
 }
-
+  
 /* Error message container */
 #error-container {
     transition: all 0.3s ease-in-out;
     padding: 10px 0;
     margin-top: 10px;
 }
-
+  
 #error-container p {
     margin: 0;
 }
-
+  
 /* Animation for modal */
 @keyframes fadeIn {
     from {
@@ -233,7 +250,7 @@ nav ul li a.active {
         transform: translateY(0);
     }
 }
-
+  
 /* Close Button */
 .close {
     color: #aaa;
@@ -241,13 +258,13 @@ nav ul li a.active {
     font-size: 28px;
     font-weight: bold;
 }
-
+  
 .close:hover,
 .close:focus {
     color: #000;
     cursor: pointer;
 }
-
+  
 /* Modal Form Styling */
 .modal-content h2 {
     margin-bottom: 20px;
@@ -255,17 +272,17 @@ nav ul li a.active {
     font-size: 24px;
     color: #2c3e50;
 }
-
+  
 .modal-content form {
     display: flex;
     flex-direction: column;
 }
-
+  
 .modal-content form label {
     margin-bottom: 5px;
     font-weight: bold;
 }
-
+  
 .modal-content form input {
     padding: 10px;
     margin-bottom: 15px;
@@ -273,7 +290,7 @@ nav ul li a.active {
     border-radius: 4px;
     font-size: 16px;
 }
-
+  
 .modal-content form .btn {
     padding: 12px;
     background-color: #e74c3c;
@@ -282,147 +299,56 @@ nav ul li a.active {
     border-radius: 25px;
     cursor: pointer;
 }
-
+  
 .modal-content form .btn:hover {
     background-color: #c0392b;
 }
-
-/* Main Quiz Section */
-main {
-    padding: 40px 0;
-}
-
-h2 {
-    color: #2c3e50;
-    font-family: 'Montserrat', sans-serif;
-    text-align: center;
-    margin-bottom: 30px;
-}
-
-form {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.question {
-    margin-bottom: 30px;
-}
-
-.question label {
-    display: block;
-    font-size: 1.2em;
-    color: #2c3e50;
-    margin-bottom: 10px;
-}
-
-/* Styling each answer option */
-.question div {
-    margin-bottom: 1px;
-    display: flex;
-    align-items: center;
-}
-
-.question input[type="radio"] {
-    margin-right: 10px;
-    transform: scale(1.2);
-    accent-color: #e74c3c;
-}
-
-/* Submit Button */
-.btn {
-    display: block;
-    width: 100%;
-    padding: 15px;
-    background-color: #e74c3c;
-    color: #fff;
-    font-size: 1.2em;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    text-align: center;
-    transition: background-color 0.3s ease;
-}
-
-.btn:hover {
-    background-color: #c0392b;
-}
-
-/* Result Section */
-.result {
-    margin-top: 30px;
-    padding: 20px;
-    background-color: #f0f0f0;
-    border-radius: 8px;
-    text-align: center;
-    font-size: 1.5em;
-    color: #2c3e50;
-    display: none;
-}
-
+  
 /* Footer */
 footer {
     background-color: #2c3e50;
     color: #fff;
     padding: 20px 0;
 }
-
+  
 footer .container {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
-
+  
 footer p {
     margin-bottom: 10px;
 }
-
+  
 .social-icons {
     display: flex;
     gap: 15px;
 }
-
+  
 .social-icons a {
     color: #fff;
     font-size: 1.2em;
     transition: color 0.3s;
 }
-
+  
 .social-icons a:hover {
     color: #e74c3c;
 }
-
+  
 /* Responsive Design */
 @media (max-width: 768px) {
     header .container {
         flex-direction: column;
         text-align: center;
     }
-
+  
     nav ul {
         flex-direction: column;
         gap: 10px;
     }
-
-    #hero h2 {
-        font-size: 2em;
-    }
-
-    #search-form {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    .form-group {
-        flex: 1 1 100%;
-    }
-
-    #search-form button {
-        max-width: 100%;
-    }
 }
-
+  
 /* Style for user icon link in the navigation */
 #user-icon a {
     display: inline-flex;
@@ -432,18 +358,20 @@ footer p {
     border-radius: 4px;
     transition: background-color 0.3s, color 0.3s;
 }
-
-/* Adjust the size of the user icon */
+  
 #user-icon img {
     width: 20px;
     height: 20px;
 }
-
-/* Hover effect to match other nav items */
+  
 #user-icon a:hover {
     background-color: #34495e;
 }
-
+  
+#user-icon a[title]::after {
+    content: none;
+}
+  
 /* Dropdown menu styling */
 .dropdown-menu {
     display: none;
@@ -458,7 +386,7 @@ footer p {
     z-index: 1000;
     padding: 8px 0;
 }
-
+  
 .dropdown-menu a {
     display: block;
     padding: 12px 16px;
@@ -468,29 +396,65 @@ footer p {
     transition: background-color 0.3s ease, color 0.3s ease;
     border-radius: 4px;
 }
-
+  
 .dropdown-menu a:hover {
     background-color: #f0f0f0;
     color: #f0f0f0;
     z-index: 1;
 }
 
-.dropdown-menu a {
-    background-clip: padding-box;
+/* Car Questionnaire Styling */
+#car-questionnaire {
+    margin-top: 50px;
 }
 
-/* Ensure each step is initially hidden, except the first one */
-.quiz-step {
-    display: none;
+.question-card {
+    background-color: #fff;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
 }
 
-.quiz-step[data-step="1"] {
-    display: block;
+.question-card h2 {
+    font-size: 1.5em;
+    margin-bottom: 20px;
 }
 
-/* Navigation button styles */
-.quiz-navigation {
-    margin-top: 20px;
-    display: flex;
-    justify-content: space-between;
+.answer-btn {
+    background-color: #3498db;
+    color: #fff;
+    padding: 10px 20px;
+    margin: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.answer-btn:hover {
+    background-color: #2980b9;
+}
+
+/* Result section styling */
+#result-container {
+    text-align: center;
+    padding: 50px;
+}
+
+.result-title {
+    font-size: 2em;
+    margin-bottom: 20px;
+}
+
+.result-description {
+    font-size: 1.2em;
+    margin-top: 10px;
+}
+
+.result-car {
+    margin-top: 30px;
+    font-size: 1.5em;
+    font-weight: bold;
 }
