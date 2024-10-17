@@ -481,3 +481,25 @@ footer p {
 .dealer-info p {
     margin: 5px 0;
 }
+
+/* Button to Visit Website */
+.btn-visit {
+    margin-top: 10px;
+    padding: 10px 15px;
+    background-color: #3498db;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+    display: inline-block;
+}
+
+.btn-visit a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.btn-visit:hover {
+    background-color: #2980b9;
+}

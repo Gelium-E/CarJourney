@@ -288,7 +288,7 @@ function findDealersNearZipcode(zipcode) {
           userLocation = results[0].geometry.location;
 
           const service = new google.maps.places.PlacesService(document.createElement('div'));
-
+          
           service.nearbySearch({
               location: userLocation,
               radius: 50000,  // Set a large radius (50km) to get more results
@@ -309,6 +309,23 @@ function handleResults(results, status) {
   }
 }
 
+// Fetch additional details such as phone number and website
+function getDealerDetails(dealer, callback) {
+  const service = new google.maps.places.PlacesService(document.createElement('div'));
+  
+  service.getDetails({ placeId: dealer.place_id }, function(result, status) {
+      if (status === google.maps.places.PlacesServiceStatus.OK) {
+          // Add phone number and website to the dealer object
+          dealer.phone = result.formatted_phone_number || "N/A";
+          dealer.website = result.website || "N/A";
+          callback(dealer);
+      } else {
+          console.log('Error fetching details:', status);
+          callback(null);
+      }
+  });
+}
+
 // Remove duplicate dealers by unique place_id
 function removeDuplicates(dealers) {
   const uniqueDealers = [];
@@ -326,7 +343,7 @@ function removeDuplicates(dealers) {
 // Display dealer results, sorted by distance
 function displayDealerResults(dealers) {
   const resultsContainer = document.getElementById('dealer-results');
-
+  
   const distanceService = new google.maps.DistanceMatrixService();
   const dealerPromises = dealers.map(dealer => {
       return new Promise((resolve) => {
@@ -338,7 +355,15 @@ function displayDealerResults(dealers) {
               if (status === 'OK' && response.rows[0].elements[0].status === 'OK') {
                   const distanceInMiles = response.rows[0].elements[0].distance.value * 0.000621371; // Convert meters to miles
                   dealer.distanceInMiles = distanceInMiles.toFixed(1);
-                  resolve(dealer);
+
+                  // Get additional dealer details (phone and website)
+                  getDealerDetails(dealer, function(updatedDealer) {
+                      if (updatedDealer) {
+                          resolve(updatedDealer);
+                      } else {
+                          resolve(null); // Handle errors gracefully
+                      }
+                  });
               } else {
                   resolve(null); // Handle errors gracefully
               }
@@ -347,31 +372,37 @@ function displayDealerResults(dealers) {
   });
 
   Promise.all(dealerPromises).then((dealerResults) => {
-      const validDealers = dealerResults.filter(dealer => dealer !== null);
-      
-      validDealers.sort((a, b) => parseFloat(a.distanceInMiles) - parseFloat(b.distanceInMiles));
+    const validDealers = dealerResults.filter(dealer => dealer !== null);
 
-      // Clear previous results before displaying new ones
-      resultsContainer.innerHTML = ''; 
+    validDealers.sort((a, b) => parseFloat(a.distanceInMiles) - parseFloat(b.distanceInMiles));
 
-      validDealers.forEach(dealer => {
-          const dealerDiv = document.createElement('div');
-          dealerDiv.classList.add('dealer-item');
+    // Clear previous results before displaying new ones
+    resultsContainer.innerHTML = ''; 
 
-          // Use a placeholder image for dealers with no photo
-          const photoUrl = dealer.photos ? dealer.photos[0].getUrl({ maxWidth: 200 }) : 'public/placeholder-locate-dealer.jpg';
+    validDealers.forEach(dealer => {
+        const dealerDiv = document.createElement('div');
+        dealerDiv.classList.add('dealer-item');
 
-          dealerDiv.innerHTML = `
-              <div class="dealer-photo">
-                  <img src="${photoUrl}" alt="${dealer.name}">
-              </div>
-              <div class="dealer-info">
-                  <h3>${dealer.name}</h3>
-                  <p>${dealer.vicinity}</p>
-                  <p>${dealer.distanceInMiles} miles away</p>
-              </div>
-          `;
-          resultsContainer.appendChild(dealerDiv);
-      });
+        const photoUrl = dealer.photos ? dealer.photos[0].getUrl({ maxWidth: 200 }) : 'public/placeholder-locate-dealer.jpg';
+
+        // Create the Visit Website button without showing the visible link
+        const visitWebsiteButton = dealer.website !== "N/A" 
+            ? `<button class="btn-visit"><a href="${dealer.website}" target="_blank">Visit Website</a></button>`
+            : '<p>No Website Available</p>';  // Handle cases where there's no website
+
+        dealerDiv.innerHTML = `
+            <div class="dealer-photo">
+                <img src="${photoUrl}" alt="${dealer.name}">
+            </div>
+            <div class="dealer-info">
+                <h3>${dealer.name}</h3>
+                <p>${dealer.vicinity}</p>
+                <p>${dealer.distanceInMiles} miles away</p>
+                <p><strong>Phone:</strong> ${dealer.phone}</p>
+                ${visitWebsiteButton}  <!-- Insert the button for visiting the website -->
+            </div>
+        `;
+        resultsContainer.appendChild(dealerDiv);
+    });
   });
 }
