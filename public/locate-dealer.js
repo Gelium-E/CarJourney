@@ -291,7 +291,7 @@ function findDealersNearZipcode(zipcode) {
           
           service.nearbySearch({
               location: userLocation,
-              radius: 50000,  // Set a large radius (50km) to get more results
+              radius: 50000, // 31 miles
               type: ['car_dealer']
           }, handleResults);
       } else {
