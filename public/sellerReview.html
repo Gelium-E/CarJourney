@@ -1,107 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Customer Reviews</title>
-  <link rel="stylesheet" href="sellerReview.css">
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght@600&display=swap" rel="stylesheet">
-  <!-- Font Awesome for icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <!-- Firebase SDK -->
-  <script type="module" src="https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js"></script>
-  <script type="module" src="https://www.gstatic.com/firebasejs/9.19.1/firebase-auth.js"></script>
-  <script type="module" src="https://www.gstatic.com/firebasejs/9.19.1/firebase-firestore.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CarJourney - Reviews</title>
+    <link rel="stylesheet" href="sellerReview.css">
 </head>
 <body>
-
-  <!-- Header section -->
-  <header>
-    <div class="container">
-      <h1>CarJourney</h1>
-      <nav>
-        <ul>
-          <li><a href="homepage.html" class="active"><i class="fas fa-home"></i> Home</a></li>
-          <li><a href="#"><i class="fas fa-search"></i> Used & New Cars</a></li>
-          <li><a href="#" id="login-btn"><i class="fas fa-sign-in-alt"></i> Login</a></li>
-          <li><a href="#" id="register-btn"><i class="fas fa-user-plus"></i> Register</a></li>
-          <li id="user-icon" style="display: none; position: relative;">
-            <a href="#" id="user-icon-link">
-              <img src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png" alt="User Icon" style="width: 24px; height: 24px;">
-            </a>
-            <div id="dropdown-menu" class="dropdown-menu">
-              <a href="#" id="account-settings">Account Settings</a>
-              <a href="#" id="sign-out">Sign Out</a>
+    <header>
+        <div class="nav-bar">
+            <div class="logo">
+                <h1>CarJourney</h1>
             </div>
-          </li>
-        </ul>
-      </nav>
-    </div>
-  </header>
+            <nav>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Used & New Cars</a></li>
+                    <li><a href="#">Login</a></li>
+                    <li><a href="#">Register</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
 
-  <!-- Review Section -->
-  <div class="review-summary">
-    <h2>Customer Reviews</h2>
-    <div class="rating-overview">
-      <div class="average-rating">
-        <span class="stars">★★★★☆</span>
-        <span class="rating-number">4.4 out of 5</span>
-      </div>
-      <div class="total-ratings">994 global ratings</div>
-    </div>
+    <main>
+        <section class="review-section">
+            <div class="filter-options">
+                <label for="filter-rating">Filter by Star Rating:</label>
+                <select id="filter-rating">
+                    <option value="all">All Ratings</option>
+                    <option value="5">5 Stars</option>
+                    <option value="4">4 Stars</option>
+                    <option value="3">3 Stars</option>
+                    <option value="2">2 Stars</option>
+                    <option value="1">1 Star</option>
+                </select>
 
-    <div class="rating-breakdown">
-      <div class="rating-row">
-        <span>5 star</span>
-        <div class="rating-bar"><div class="filled-bar" style="width: 74%;"></div></div>
-        <span>74%</span>
-      </div>
-      <div class="rating-row">
-        <span>4 star</span>
-        <div class="rating-bar"><div class="filled-bar" style="width: 8%;"></div></div>
-        <span>8%</span>
-      </div>
-      <div class="rating-row">
-        <span>3 star</span>
-        <div class="rating-bar"><div class="filled-bar" style="width: 6%;"></div></div>
-        <span>6%</span>
-      </div>
-      <div class="rating-row">
-        <span>2 star</span>
-        <div class="rating-bar"><div class="filled-bar" style="width: 4%;"></div></div>
-        <span>4%</span>
-      </div>
-      <div class="rating-row">
-        <span>1 star</span>
-        <div class="rating-bar"><div class="filled-bar" style="width: 8%;"></div></div>
-        <span>8%</span>
-      </div>
-    </div>
-  </div>
+                <label for="filter-date">Filter by Date:</label>
+                <select id="filter-date">
+                    <option value="all">All Dates</option>
+                    <option value="recent">Most Recent</option>
+                    <option value="oldest">Oldest</option>
+                </select>
+            </div>
 
-  <div class="user-review">
-    <h3>Recent Reviews</h3>
-    <div class="review">
-      <span class="review-stars">★★★★★</span>
-      <p>I had an easy time buying from them.</p>
-      <span class="review-date">a week ago</span>
-    </div>
-    
-  </div>
+            <div class="user-review">
+                <h3>Reviews</h3>
+                <div class="review-list">
+                    <!-- Reviews will be injected here dynamically by JavaScript -->
+                </div>
+            </div>
+        </section>
+    </main>
 
-  <!-- Footer Section -->
-  <footer>
-    <div class="container">
-      <p>&copy; 2024 CarJourney. All rights reserved.</p>
-      <div class="social-icons">
-        <a href="#"><i class="fab fa-facebook-f"></i></a>
-        <a href="#"><i class="fab fa-twitter"></i></a>
-        <a href="#"><i class="fab fa-instagram"></i></a>
-      </div>
-    </div>
-  </footer>
+    <footer>
+        <p>&copy; 2024 CarJourney. All rights reserved.</p>
+    </footer>
 
-  <script src="sellerReview.js"></script>
+    <script src="sellerReview.js"></script>
 </body>
 </html>
