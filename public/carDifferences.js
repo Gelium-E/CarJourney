@@ -290,3 +290,23 @@ window.addEventListener('click', function(event) {
     dropdownMenu.style.display = 'none';
   }
 });
+
+document.getElementById('compare-button').addEventListener('click', function () {
+  // Get car 1 details
+  const make1 = document.getElementById('make1').value;
+  const model1 = document.getElementById('model1').value;
+  const year1 = document.getElementById('year1').value;
+
+  // Get car 2 details
+  const make2 = document.getElementById('make2').value;
+  const model2 = document.getElementById('model2').value;
+  const year2 = document.getElementById('year2').value;
+
+  // Store the information in localStorage
+  localStorage.setItem('car1', JSON.stringify({ make: make1, model: model1, year: year1 }));
+  localStorage.setItem('car2', JSON.stringify({ make: make2, model: model2, year: year2 }));
+
+  // Redirect to carComparison.html (optional if using anchor tag)
+  window.location.href = 'carComparison.html';
+});
+
