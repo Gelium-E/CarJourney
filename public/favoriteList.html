@@ -77,14 +77,18 @@
           const carElement = `
             <div class="car-item">
               <div class="car-image">
-                <img src="${car.image}" alt="${car.name}">
-                <i class="fas fa-heart heart-icon"></i> <!-- Heart icon moved inside the image container -->
+                <a href="carListing.html?car=${car.name}">
+                  <img src="${car.image}" alt="${car.name}">
+                </a>
+                <i class="fas fa-heart heart-icon"></i>
               </div>
               <div class="car-details">
-                <h3>${car.name}</h3>
-                <p><strong>Cost:</strong> ${car.cost}</p>
-                <p><strong>Odometer:</strong> ${car.odometer}</p>
-                <p><strong>Seller:</strong> ${car.seller}</p>
+                <div class="title-cost">
+                  <h3>${car.name}</h3>
+                  <p class="car-cost">${car.cost}</p>
+                </div>
+                <p class="odometer">${car.odometer}</p>
+                <p class="seller">${car.seller}</p>
               </div>
             </div>
           `;
@@ -92,6 +96,10 @@
         });
       }
     }
+
+  // Query cars
+  const urlParams = new URLSearchParams(window.location.search);
+  const carName = urlParams.get('car'); // Get the car name from the URL
 
     // Call the function to display favorited cars on page load
     document.addEventListener("DOMContentLoaded", displayFavoritedCars);

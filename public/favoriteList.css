@@ -148,21 +148,69 @@
   .car-details {
     padding: 15px;
   }
-  
-  .car-details h3 {
+
+/* Style for the car cost */
+.car-cost {
+    font-size: 1.5rem;
+    color: #000000; /* Use a green color similar to AutoTrader's cost */
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+/* Style for the car title */
+.car-details h3 {
     font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+
+/* Styling for the title and cost on the same line */
+.title-cost {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 10px;
   }
   
-  .car-details p {
-    margin: 5px 0;
+  .title-cost h3 {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin: 0;
   }
   
-/* Position the heart icon at the top-left of the image */
+  .title-cost .car-cost {
+    font-size: 1.5rem;
+    color: #000000; /* Adjust color to match your design */
+    font-weight: bold;
+  }
+
+/* Style for odometer text */
+.odometer {
+    color: #7a7a7a; /* Light gray color */
+    font-size: 1rem;
+    font-weight: bold; /* Bold text */
+    margin-bottom: 10px; /* Add space between the odometer and the line */
+    padding-bottom: 10px; /* Space between text and the line */
+    border-bottom: 1px solid #ddd; /* Light horizontal line */
+  }
+  
+/* Style for the seller text */
+.seller {
+    margin-top: 10px; /* Add space above the seller text to balance the space */
+    font-size: 1rem;
+  }
+ 
+/* Align the text and add spacing */
+.car-details p {
+    margin: 5px 0;
+    font-size: 1rem;
+  }
+  
+/* Styling for the heart icon */
 .heart-icon {
     position: absolute;
     top: 10px;
-    right: 10px; /* Move the icon to the right */
+    right: 10px;
     color: red;
     font-size: 1.5rem;
     background-color: white;
@@ -171,7 +219,7 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     cursor: pointer;
   }
-
+  
   .heart-icon:hover {
     color: darkred;
   }
