@@ -75,15 +75,13 @@
       } else {
         favorites.forEach(car => {
           const carElement = `
-            <div class="car-item" style="display: flex; align-items: center; border: 1px solid #ddd; padding: 20px; margin-bottom: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
-              <!-- Car Image -->
-              <div style="flex-shrink: 0;">
-                <img src="${car.image}" alt="${car.name}" style="width: 200px; height: auto; border-radius: 10px;">
+            <div class="car-item">
+              <div class="car-image">
+                <img src="${car.image}" alt="${car.name}">
+                <i class="fas fa-heart heart-icon"></i> <!-- Heart icon moved inside the image container -->
               </div>
-
-              <!-- Car Info -->
-              <div style="margin-left: 20px;">
-                <h3 style="margin-bottom: 10px; font-size: 1.5rem;">${car.name} <i class="fas fa-heart heart-icon" style="color: red;"></i></h3>
+              <div class="car-details">
+                <h3>${car.name}</h3>
                 <p><strong>Cost:</strong> ${car.cost}</p>
                 <p><strong>Odometer:</strong> ${car.odometer}</p>
                 <p><strong>Seller:</strong> ${car.seller}</p>
