@@ -190,13 +190,13 @@
     font-size: 1rem;
     font-weight: bold; /* Bold text */
     margin-bottom: 10px; /* Add space between the odometer and the line */
-    padding-bottom: 10px; /* Space between text and the line */
+    padding-bottom: 15px; /* Space between text and the line */
     border-bottom: 1px solid #ddd; /* Light horizontal line */
   }
   
 /* Style for the seller text */
 .seller {
-    margin-top: 10px; /* Add space above the seller text to balance the space */
+    padding-top: 10px; /* Add space above the seller text to balance the space */
     font-size: 1rem;
   }
  
