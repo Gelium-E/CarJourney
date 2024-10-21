@@ -198,8 +198,27 @@
 .seller {
     padding-top: 10px; /* Add space above the seller text to balance the space */
     font-size: 1rem;
+    padding-bottom: 10px;
   }
- 
+
+/* Styling for the Contact Seller link */
+.contact-seller-link {
+  color: #007bff; /* Blue color */
+  text-decoration: none;
+  font-size: 0.9rem; 
+  display: inline-flex; /* Align the icon with the text */
+  align-items: center;
+}
+
+.contact-seller-link i {
+  font-size: 0.7rem; /* Smaller icon size */
+  margin-left: 5px; /* Space between text and icon */
+}
+
+.contact-seller-link:hover {
+  text-decoration: underline; /* Underline on hover */
+}
+
 /* Align the text and add spacing */
 .car-details p {
     margin: 5px 0;
