@@ -62,6 +62,7 @@
     </div>
   </footer>
 
+  <!-- Display Favorited Cars -->
   <script>
     // Function to display favorited cars from localStorage
     function displayFavoritedCars() {
@@ -73,14 +74,14 @@
       if (favorites.length === 0) {
         favCarsContainer.innerHTML = "<p>No favorited cars found.</p>";
       } else {
-        favorites.forEach(car => {
+        favorites.forEach((car, index) => {
           const carElement = `
             <div class="car-item">
               <div class="car-image">
                 <a href="carListing.html?car=${car.name}">
                   <img src="${car.image}" alt="${car.name}">
                 </a>
-                <i class="fas fa-heart heart-icon"></i>
+                <i class="fas fa-heart heart-icon" data-index="${index}"></i>
               </div>
               <div class="car-details">
                 <div class="title-cost">
@@ -99,15 +100,31 @@
           `;
           favCarsContainer.innerHTML += carElement;
         });
+
+        // Attach event listeners to all heart icons
+        document.querySelectorAll(".heart-icon").forEach((icon) => {
+          icon.addEventListener("click", (event) => {
+            const carIndex = event.target.getAttribute("data-index");
+            removeFromFavorites(carIndex);
+          });
+        });
       }
     }
 
-  // Query cars
-  const urlParams = new URLSearchParams(window.location.search);
-  const carName = urlParams.get('car'); // Get the car name from the URL
+    // Function to remove a car from favorites
+    function removeFromFavorites(index) {
+      let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+      favorites.splice(index, 1);  // Remove the car from the list
+      localStorage.setItem("favorites", JSON.stringify(favorites));  // Update localStorage
+      displayFavoritedCars();  // Refresh the display
+    }
 
     // Call the function to display favorited cars on page load
     document.addEventListener("DOMContentLoaded", displayFavoritedCars);
+
+    // Query cars
+    const urlParams = new URLSearchParams(window.location.search);
+    const carName = urlParams.get('car'); // Get the car name from the URL
   </script>
 
   <script src="favoriteList.js"></script>
