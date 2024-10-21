@@ -119,12 +119,13 @@
       displayFavoritedCars();  // Refresh the display
     }
 
-    // Call the function to display favorited cars on page load
-    document.addEventListener("DOMContentLoaded", displayFavoritedCars);
-
     // Query cars
     const urlParams = new URLSearchParams(window.location.search);
     const carName = urlParams.get('car'); // Get the car name from the URL
+    
+    // Call the function to display favorited cars on page load
+    document.addEventListener("DOMContentLoaded", displayFavoritedCars);
+
   </script>
 
   <script src="favoriteList.js"></script>
