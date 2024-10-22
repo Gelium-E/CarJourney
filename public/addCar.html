@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Add Car - CarJourney</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="addCar.css">
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght@600&display=swap" rel="stylesheet">
   <!-- Font Awesome for icons -->
@@ -49,6 +49,7 @@
       <!-- Add Car Section -->
       <div class="container add-car-section">
         <h2>Option Select</h2>
+        <!-- Option Select -->
         <div class="input-toggle">
           <input type="radio" id="vin" name="searchType" value="VIN">
           <label for="vin">VIN</label>
@@ -60,51 +61,60 @@
           <label for="licensePlate">License Plate</label>
         </div>
 
-        <!-- Input Section -->
-        <div class="car-details-inputs">
+        <!-- VIN Section -->
+        <div id="vin-inputs" class="car-details-inputs">
+          <div class="input-group vin-input-group">
+            <label for="vinNumber">VIN Number</label>
+            <input type="text" name="vinNumber" id="vinNumber" placeholder="Enter your 17-digit VIN">
+            <button type="button" class="vin-go-btn">Go</button>
+          </div>
+        </div>
+
+        <!-- Make/Model Section (shown by default) -->
+        <div id="makeModel-inputs" class="car-details-inputs">
+        <!-- Make/Model Section (shown by default) -->
+        <div id="makeModel-inputs" class="car-details-inputs">
           <div class="input-group">
             <label for="year">Year</label>
-            <input type="text" name="year" id="year" placeholder="2023" />
+            <input type="text" name="year" id="year" placeholder="2023">
           </div>
-        
+
           <div class="input-group">
             <label for="make">Make</label>
-            <input type="text" name="make" id="make" placeholder="Toyota" />
+            <input type="text" name="make" id="make" placeholder="Toyota">
           </div>
-        
+
           <div class="input-group">
             <label for="model">Model</label>
-            <input type="text" name="model" id="model" placeholder="Camry" />
+            <input type="text" name="model" id="model" placeholder="Camry">
           </div>
-        
+
           <div class="input-group">
-            <label for="seller">Seller Name</label>
-            <input type="text" name="seller" id="seller" placeholder="John Adams" />
+            <label for="mileage">Mileage</label>
+            <input type="text" name="mileage" id="mileage" placeholder="32,000 miles">
           </div>
-        
+
+          <div class="input-group">
+            <label for="zipCode">ZIP Code</label>
+            <input type="text" name="zipCode" id="zipCode" placeholder="ZIP Code">
+          </div>
+
           <div class="input-group">
             <label for="cost">Cost</label>
-            <input type="text" name="cost" id="cost" placeholder="$22,000" />
+            <input type="text" name="cost" id="cost" placeholder="$22,000">
           </div>
 
+          <button type="button" class="go-btn">Go</button>
+        </div>
+
+        <!-- License Plate Section -->
+        <div id="licensePlate-inputs" class="car-details-inputs" style="display: none;">
           <div class="input-group">
-            <label for="mileage">ZIP Code</label>
-            <input type="text" name="mileage" id="mileage" placeholder="32,000 miles" />
+            <label for="licensePlate">License Plate</label>
+            <input type="text" name="licensePlate" id="licensePlate" placeholder="Enter License Plate">
           </div>
-
         </div>
         
-        <!-- Add Info Section -->
-        <h2>Add Information</h2>
-        <!-- Add Overview -->
-        <textarea class="comment-box" placeholder="Type out the overview of your car..."></textarea>
-
-        <h2>Add Features and Specs</h2>
-        <!-- Add Features -->
-        <textarea class="comment-box" placeholder="Type out the features and specs of your car..."></textarea>
-        
-        <!-- Submit Button -->
-        <button type="button" class="go-btn">Submit</button>
       </div>
     </div>
   </main>
@@ -121,6 +131,6 @@
     </div>
   </footer>
 
-  <script src="scripts.js"></script>
+  <script src="addCar.js"></script>
 </body>
 </html>
