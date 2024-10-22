@@ -1,507 +1,388 @@
 /* Basic Reset */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  /* Body Styling */
-  body {
-    font-family: 'Roboto', sans-serif;
-    background-color: #f4f4f4;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  /* Main Section */
-  main {
-    flex-grow: 1;
-  }
-  
-  /* Container */
-  .container {
-    width: 90%;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-  
-  /* Navigation Header */
-  .headerNav {
-    background-color: #fff;
-    padding: 10px 0;
-    border-bottom: 1px solid #ddd;
-  }
-  
-  .headerNav-container {
-    display: flex;
-    justify-content: flex-start; /* Aligns the nav list to the left */
-    padding-left: 360px; /* Optional: Adds some padding from the left */
-    margin-top: 20px; /* This will bring the navigation down */
-    border-bottom: 2px solid #ddd; /* Add a light gray horizontal line */
-    padding-bottom: 10px; /* Add some space under the navigation */
-  }
-  
-  .header-nav-list {
-    list-style-type: none;
-    display: flex;
-    gap: 20px;
-  }
-  
-  .header-nav-list li {
-    display: inline;
-  }
-  
-  .header-nav-list li a {
-    text-decoration: none;
-    color: #000000;
-    font-weight: bold;
-    padding: 8px 12px;
-    position: relative; /* This allows us to position the underline */
-    transition: color 0.3s ease; /* Smooth color transition */
-  }
-  
-  /* Add underline effect on hover */
-  .header-nav-list li a::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    bottom: -5px; /* Adjusts the position of the underline */
-    width: 100%;
-    height: 2px; /* Thickness of the underline */
-    background-color: #000000; /* Navy blue color */
-    transform: scaleX(0); /* Initially hidden */
-    transform-origin: right;
-    transition: transform 0.3s ease; /* Smooth scaling */
-  }
-  
-  .header-nav-list li a:hover::after {
-    transform: scaleX(1); /* Show the underline on hover */
-    transform-origin: left;
-  }
-  
-  .header-nav-list a.active {
-    background-color: transparent; /* No background color */
-    color: #0d47a1; /* Or your desired active link color */
-    border-bottom: 2px solid #0d47a1; /* Optional: underline the active link */
-  }
-  
-  .header-nav-list li a.active {
-    color: #0d47a1;
-    border-bottom: none; /* Remove border-bottom to avoid duplicate lines */
-  }
-  
-  .header-nav-list li a.active::after {
-    transform: scaleX(1); /* Keep the pseudo-element underline */
-  }
-  
-  /* Change color when hovered */
-  .header-nav-list li a:hover {
-    color: #0d47a1; /* Change the text color to your desired color */
-    background-color: transparent; /* This removes the blue background on hover */
-  }
-  
-  /* Header / Top Task Bar */
-  header {
-    background-color: #2c3e50;
-    color: #fff;
-    padding: 20px 0;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  header .container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  header h1 {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 2em;
-  }
-  
-  nav ul {
-    list-style-type: none;
-    display: flex;
-    gap: 15px;
-  }
-  
-  nav ul li a {
-    color: #fff;
-    text-decoration: none;
-    padding: 8px 12px;
-    transition: background-color 0.3s, color 0.3s;
-  }
-  
-  nav ul li a:hover,
-  nav ul li a.active {
-    background-color: #34495e;
-    border-radius: 4px;
-  }
-  
-  /* Car Details Section */
-  .car-details {
-    background-color: #fff;
-    padding: 40px;
-    margin-top: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .car-name {
-    font-size: 2em;
-    color: #2c3e50;
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-  }
-  
-  .car-name .heart-icon {
-    margin-left: 10px;
-    font-size: 24px;
-    cursor: pointer;
-  }
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Body Styling */
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: #f4f4f4;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Main Section */
+main {
+  flex-grow: 1;
+}
+
+/* Container */
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Navigation Header */
+.headerNav {
+  background-color: #fff;
+  padding: 10px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.headerNav-container {
+  display: flex;
+  justify-content: flex-start; /* Aligns the nav list to the left */
+  padding-left: 360px; /* Optional: Adds some padding from the left */
+  margin-top: 20px; /* This will bring the navigation down */
+  border-bottom: 2px solid #ddd; /* Add a light gray horizontal line */
+  padding-bottom: 10px; /* Add some space under the navigation */
+}
+
+.header-nav-list {
+  list-style-type: none;
+  display: flex;
+  gap: 20px;
+}
+
+.header-nav-list li {
+  display: inline;
+}
+
+.header-nav-list li a {
+  text-decoration: none;
+  color: #000000;
+  font-weight: bold;
+  padding: 8px 12px;
+  position: relative; /* This allows us to position the underline */
+  transition: color 0.3s ease; /* Smooth color transition */
+}
+
+/* Add underline effect on hover */
+.header-nav-list li a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -5px; /* Adjusts the position of the underline */
+  width: 100%;
+  height: 2px; /* Thickness of the underline */
+  background-color: #000000; /* Navy blue color */
+  transform: scaleX(0); /* Initially hidden */
+  transform-origin: right;
+  transition: transform 0.3s ease; /* Smooth scaling */
+}
+
+.header-nav-list li a:hover::after {
+  transform: scaleX(1); /* Show the underline on hover */
+  transform-origin: left;
+}
+
+.header-nav-list a.active {
+  background-color: transparent; /* No background color */
+  color: #0d47a1; /* Or your desired active link color */
+  border-bottom: 2px solid #0d47a1; /* Optional: underline the active link */
+}
+
+.header-nav-list li a.active {
+  color: #0d47a1;
+  border-bottom: none; /* Remove border-bottom to avoid duplicate lines */
+}
+
+.header-nav-list li a.active::after {
+  transform: scaleX(1); /* Keep the pseudo-element underline */
+}
+
+/* Change color when hovered */
+.header-nav-list li a:hover {
+  color: #0d47a1; /* Change the text color to your desired color */
+  background-color: transparent; /* This removes the blue background on hover */
+}
+
+/* Main car section styling */
+.car-details {
+  background-color: #ffffff; 
+  color: #000000; /* Black text for better contrast */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  margin-top: 30px;
+}
+
+.add-car-section {
+  background-color: #244375; /* Same blue as car-details */
+  color: #ffffff; /* White text */
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.instruction-text {
+  font-size: 1.1em;
+  color: #000000; 
+  margin-bottom: 20px;
+}
+
+/* Refine input toggle section */
+.input-toggle {
+  display: flex;
+  gap: 15px;
+  justify-content: left; /* Arrange the radio buttons */
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+.input-toggle input[type="radio"] {
+  display: none; /* Hide the default radio button */
+}
+
+.input-toggle label {
+  background-color: #ffffff; /* White background */
+  color: #2c3e50; /* Blue text */
+  padding: 10px 20px;
+  border-radius: 30px;
+  font-weight: bold;
+  cursor: pointer;
+  border: 2px solid #2c3e50; /* Blue border */
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Styling for when a radio button is selected */
+.input-toggle input[type="radio"]:checked + label {
+  background-color: #007bff; /* Light blue background when selected */
+  color: white;
+  border-color: #007bff;
+}
+
+.input-toggle label:hover {
+  background-color: #f1f1f1; /* Light hover effect */
+  color: #2c3e50;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow on hover */
+}
+
+/* VIN description text */
+.vin-description {
+  font-size: 0.9em;
+  color: #ffffff; /* White text to contrast with the blue background */
+  margin-bottom: 15px; /* Adds space between the text and input field */
+}
+
+/* VIN section - input styling */
+.vin-input-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.vin-input-group input {
+  background-color: #ffffff; /* White background for the input */
+  color: #000000; /* Black text */
+  padding: 15px; /* Increased padding for a cleaner look */
+  border-radius: 5px; /* Rounded corners */
+  border: 1px solid #ccc; /* Light gray border */
+  width: 400px; /* Make the input field narrower */
+  font-size: 1em;
+}
+
+.vin-input-group input:focus {
+  border-color: #007bff; /* Blue border on focus */
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Subtle shadow on focus */
+  outline: none; /* Remove default outline */
+}
+
+.vin-go-btn {
+  background-color: #e67e22; /* Orange color */
+  color: white;
+  padding: 15px 15px; /* Adjust padding to make the button more compact */
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  font-size: 1em; /* Match text size with input field */
+  width: 200px; /* Set button width to align properly */
+}
+
+.vin-go-btn:hover {
+  background-color: #d35400; /* Darker color on hover */
+}
+
+/* VIN Help */
+.vin-help-link {
+  display: block;
+  margin-top: 15px;
+  font-size: 0.8em;
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.vin-help-link:hover {
+  text-decoration: underline;
+}
+
+/* Styling for the Make/Model input group */
+.make-input-group, .additional-input-group {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.make-input-group input, .additional-input-group input {
+  background-color: #ffffff;
+  color: #000000;
+  padding: 15px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  width: calc(33.33% - 10px); /* Each input field takes up one-third of the width */
+  font-size: 1em;
+}
+
+.additional-input-group input {
+  width: calc(25% - 10px); /* Adjust for a quarter width in the second row */
+}
+
+.additional-input-group button {
+  background-color: #e67e22; /* Orange color */
+  color: white;
+  padding: 15px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  font-size: 1em;
+  width: calc(25% - 10px); /* Same width as input fields */
+}
+
+.additional-input-group button:hover {
+  background-color: #d35400; /* Darker color on hover */
+}
+
+/* Make description text */
+.make-description {
+  font-size: 0.9em;
+  color: #ffffff; /* White text to contrast with the blue background */
+  margin-bottom: 15px; /* Adds space between the text and input field */
+}
+
+/* License Plate Section */
+.license-input-group {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.license-input-group input {
+  background-color: #ffffff;
+  color: #000000;
+  padding: 15px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  width: 250px; /* Adjust width of the license plate input */
+  font-size: 1em;
+}
+
+.license-input-group select {
+  background-color: #ffffff;
+  color: #000000;
+  padding: 15px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 1em;
+  width: 150px; /* Width for the state dropdown */
+}
+
+.license-go-btn {
+  background-color: #e67e22; /* Orange color */
+  color: white;
+  padding: 15px 20px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  font-size: 1em;
+  width: 250px; /* Adjust button width */
+}
+
+.license-go-btn:hover {
+  background-color: #d35400; /* Darker color on hover */
+}
+
+.license-description {
+  font-size: 0.9em;
+  color: #ffffff; /* White text */
+  margin-bottom: 15px;
+}
+
+/* Add spacing below each section */
+.car-details-inputs {
+  margin-bottom: 30px;
+}
+
+ /* Header / Top Task Bar */
+ header {
+  background-color: #2c3e50;
+  color: #fff;
+  padding: 20px 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+header .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header h1 {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 2em;
+}
+
+nav ul {
+  list-style-type: none;
+  display: flex;
+  gap: 15px;
+}
+
+nav ul li a {
+  color: #fff;
+  text-decoration: none;
+  padding: 8px 12px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+nav ul li a:hover,
+nav ul li a.active {
+  background-color: #34495e;
+  border-radius: 4px;
+}
 
 /* Footer / Bottom Task Bar */
 footer {
-    background-color: #2c3e50;
-    color: #fff;
-    padding: 20px 0;
-    text-align: center;
-    margin-top: auto;
-  }
-  
-  footer .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  footer p {
-    margin-bottom: 10px;
-  }
-  
-  .social-icons {
-    display: flex;
-    gap: 15px;
-  }
-  
-  .social-icons a {
-    color: #fff;
-    font-size: 1.2em;
-    transition: color 0.3s;
-  }
-  
-  .social-icons a:hover {
-    color: #e74c3c;
-  }
-  
-  /* Active link styles */
-  .header-nav-list li a.active::after {
-    transform: scaleX(1); /* Show underline for the active link */
-    transform-origin: left;
-  }
-  
-  .header-nav-list li a.active {
-    color: #0d47a1; /* Active link color */
-  }
-  
-  /* Add Car Section */
-  .add-car-section {
-    background-color: #1F3A66; /* Dark blue background */
-    padding: 20px;
-    border-radius: 8px;
-    color: white;
-    margin-top: 20px;
-    width: 100%;  /* Make the section take full width */
-    max-width: 100%;  /* Remove the width limit */
-    margin-left: 0; /* Align to the left edge */
-    margin-right: 0; /* Align to the right edge */
-    box-sizing: border-box; /* Make padding part of width */
-  }
-  
-  .add-car-section h3 {
-    font-size: 1.8em;
-    margin-bottom: 20px;
-  }
-  
-  .input-toggle {
-    display: flex;
-    gap: 15px;
-    margin-top: 10px;
-    margin-bottom: 20px;
-    align-items: center;
-  }
-  
-  .input-toggle label {
-    background-color: #e0e0e0;
-    padding: 10px 20px;
-    border-radius: 20px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .input-toggle input[type="radio"]:checked + label {
-    background-color: #3498db;
-    color: white;
-  }
-  
-  .car-details-inputs {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 15px;
-  }
-  
-  .car-details-inputs select,
-  .car-details-inputs input {
-    padding: 10px;
-    font-size: 1em;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-  }
- 
-  /* VIN */
-  .vin-input-group {
-    display: flex;
-    align-items: center;
-  }
-  
-  .vin-input-group input {
-    flex-grow: 1; /* Allows the input to take up available space */
-    margin-right: 10px; /* Adds space between the input and the button */
-  }
-  
-  .vin-go-btn {
-    background-color: #e67e22; /* Orange background */
-    color: white;
-    padding: 10px 20px;
-    font-size: 1.2em;
-    border-radius: 5px;
-    border: none;
-    cursor: pointer;
-  }
-  
-  .vin-go-btn:hover {
-    background-color: #d35400; /* Darker orange on hover */
-  }
-
-  @media (max-width: 768px) {
-    .vin-input-group {
-      flex-direction: column; /* Stack the input and button vertically on small screens */
-    }
-  
-    .vin-input-group input {
-      margin-right: 0; /* Remove right margin on small screens */
-      margin-bottom: 10px; /* Add space below input on small screens */
-    }
-  
-    .vin-go-btn {
-      width: 100%; /* Make the button full width on small screens */
-    }
-  }
-
-  /* Go Button Styling */
-  .go-btn {
-    grid-column: span 3;
-    background-color: #e67e22; /* Orange background */
-    color: white;
-    padding: 15px;
-    font-size: 1.2em;
-    border-radius: 5px;
-    border: none;
-    cursor: pointer;
-    width: 100%; /* Full width button */
-  }
-  
-  .go-btn:hover {
-    background-color: #d35400; /* Darker orange on hover */
-  }
-
-/* Style for the label and input group */
-.input-group {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 15px;
-  }
-  
-  .input-group label {
-    font-size: 0.9rem;  /* Small text */
-    margin-bottom: 5px;
-    color: #fff;  /* White color to match the background */
-  }
-  
-  .car-details-inputs input {
-    padding: 10px;
-    font-size: 1em;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-  }
-  
-  /* Collapsible button styling */
-  .collapsible {
-    background-color: #1F3A66; /* Dark blue */
-    color: white;
-    cursor: pointer;
-    padding: 18px;
-    width: 100%;
-    border: none;
-    text-align: left;
-    outline: none;
-    font-size: 18px;
-    border-radius: 5px;
-  }
-  
-  .collapsible:after {
-    content: '\002B'; /* Plus symbol */
-    font-size: 13px;
-    color: white;
-    float: right;
-    margin-left: 5px;
-  }
-  
-  .collapsible.active:after {
-    content: "\2212"; /* Minus symbol */
-  }
-  
-  /* Styling for Questions & Comments Section */
-  .comment-box {
-    width: 100%; 
-    height: 150px; 
-    border: 2px solid black; 
-    border-radius: 5px;
-    padding: 10px;
-    font-size: 16px;
-    margin-top: 10px;
-    margin-bottom: 15px;
-    resize: none; /* Prevents resizing */
-  }
-  
-  .send-btn {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #3498db; /* Blue background */
-    color: #fff; 
-    text-decoration: none;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  .send-btn:hover {
-    background-color: #2980b9; /* Darker blue when hovered */
-  }
-  
-  /* Responsive Design */
-  @media (max-width: 768px) {
-    header .container {
-      flex-direction: column;
-      text-align: center;
-    }
-  
-    nav ul {
-      flex-direction: column;
-      gap: 10px;
-    }
-  
-    .image-gallery {
-      width: 100%;
-      height: auto; /* Auto height for smaller screens */
-    }
-  
-    .car-image {
-      height: auto; /* Adjust image to maintain aspect ratio */
-    }
-  
-    .prev, .next {
-      font-size: 24px;  /* Slightly smaller buttons on mobile */
-      left: 10px;
-      right: 10px;
-    }
-  
-  /* Enhanced Form Styling */
-  .input-toggle {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
-  }
-  
-  .input-toggle label {
-    background-color: #e0e0e0; /* Light grey background */
-    color: black; /* Black text color */
-    padding: 10px 20px;
-    border: 1px solid transparent; /* Hide borders */
-    transition: background-color 0.3s, color 0.3s;
-    cursor: pointer;
-    border-radius: 20px; /* Rounded corners for labels */
-  }
-  
-  .input-toggle input[type="radio"] {
-    display: none; /* Hide the default radio button */
-  }
-  
-  .input-toggle input[type="radio"]:checked + label {
-    background-color: #3498db; /* Blue background for active */
-    color: white; /* White text for active */
-    border-color: #3498db; /* Blue border for active */
-  }
-  
-  /* Unified Styling for Select and Input Fields */
-  .car-details-inputs select,
-  .car-details-inputs input {
-    padding: 8px 10px;
-    border: 1px solid #ccc; /* Light grey border */
-    border-radius: 4px; /* Rounded borders for fields */
-    margin-right: 10px; /* Spacing between fields */
-  }
-  
-    /* Enhancing the Go Button */
-    button {
-      background-color: #3498db; /* Consistent blue background */
-      color: white; /* White text color */
-      padding: 10px 20px;
-      border: none;
-      border-radius: 4px; /* Rounded corners */
-      cursor: pointer;
-      transition: background-color 0.3s; /* Smooth transition for hover effect */
-    }
-  
-    button:hover {
-      background-color: #2980b9; /* Darker blue on hover */
-    }
-  
-    /* Adjusting Form Container for Center Alignment */
-    .container {
-      display: flex;
-      flex-direction: column;
-      align-items: center; /* Center align the content */
-      padding: 20px;
-      background-color: #f4f4f4; /* Light background for the container */
-    }
-  
-    /* Styling for Header */
-    h2 {
-      color: #2c3e50; /* Dark blue for text */
-      margin-bottom: 10px; /* Space below the header */
-    }
-  
-    /* Minor tweaks for responsiveness */
-    @media (max-width: 768px) {
-      .car-details-inputs select,
-      .car-details-inputs input {
-        width: 100%; /* Full width on small screens */
-        margin-bottom: 10px; /* Spacing for stacked elements */
-      }
-  
-      .car-details-inputs {
-        flex-direction: column; /* Stack elements vertically */
-      }
-  
-      .input-toggle label {
-        padding: 8px 16px; /* Smaller padding on mobile */
-      }
-    }
-
-    
+  background-color: #2c3e50;
+  color: #fff;
+  padding: 20px 0;
+  text-align: center;
+  margin-top: auto;
 }
-  
+
+footer .container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+footer p {
+  margin-bottom: 10px;
+}
+
+.social-icons {
+  display: flex;
+  gap: 15px;
+}
+
+.social-icons a {
+  color: #fff;
+  font-size: 1.2em;
+  transition: color 0.3s;
+}
+
+.social-icons a:hover {
+  color: #e74c3c;
+}

@@ -1,33 +1,35 @@
-// Function to toggle input sections based on selected search type
-function toggleInputSections() {
-    const vinInput = document.getElementById('vin-inputs');
-    const makeModelInput = document.getElementById('makeModel-inputs');
-    const licensePlateInput = document.getElementById('licensePlate-inputs');
+document.addEventListener("DOMContentLoaded", function() {
+    const vinRadio = document.getElementById("vin");
+    const makeModelRadio = document.getElementById("makeModel");
+    const licensePlateRadio = document.getElementById("licensePlate");
   
-    // Get the selected search type
-    const selectedSearchType = document.querySelector('input[name="searchType"]:checked').value;
+    const vinSection = document.getElementById("vin-inputs");
+    const makeModelSection = document.getElementById("makeModel-inputs");
+    const licensePlateSection = document.getElementById("licensePlate-inputs");
   
-    // Show/hide sections based on the selected search type
-    if (selectedSearchType === 'VIN') {
-      vinInput.style.display = 'block';
-      makeModelInput.style.display = 'none';
-      licensePlateInput.style.display = 'none';
-    } else if (selectedSearchType === 'Make/Model') {
-      vinInput.style.display = 'none';
-      makeModelInput.style.display = 'block';
-      licensePlateInput.style.display = 'none';
-    } else if (selectedSearchType === 'LicensePlate') {
-      vinInput.style.display = 'none';
-      makeModelInput.style.display = 'none';
-      licensePlateInput.style.display = 'block';
+    // Function to show/hide sections
+    function toggleSections() {
+      if (vinRadio.checked) {
+        vinSection.style.display = "block";
+        makeModelSection.style.display = "none";
+        licensePlateSection.style.display = "none";
+      } else if (makeModelRadio.checked) {
+        vinSection.style.display = "none";
+        makeModelSection.style.display = "block";
+        licensePlateSection.style.display = "none";
+      } else if (licensePlateRadio.checked) {
+        vinSection.style.display = "none";
+        makeModelSection.style.display = "none";
+        licensePlateSection.style.display = "block";
+      }
     }
-  }
   
-  // Add event listeners to radio buttons
-  document.querySelectorAll('input[name="searchType"]').forEach(radio => {
-    radio.addEventListener('change', toggleInputSections);
+    // Add event listeners to radio buttons
+    vinRadio.addEventListener("change", toggleSections);
+    makeModelRadio.addEventListener("change", toggleSections);
+    licensePlateRadio.addEventListener("change", toggleSections);
+  
+    // Initialize the correct section
+    toggleSections();
   });
-  
-  // Call the function on page load to set the initial state
-  document.addEventListener('DOMContentLoaded', toggleInputSections);
   

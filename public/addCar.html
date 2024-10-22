@@ -38,83 +38,70 @@
       </ul>
     </nav>
   </div>
-  
-  <!-- Main Car Section -->
+
+  <!-- Add Car Section -->
   <main>
     <div class="container car-details">
-      <h2 class="car-name">
-        <strong>Add a Car</strong>
-      </h2>
-      <p><strong>Add a car to the listing by filling in the information below.</strong></p>
+      <h2 class="car-name"><strong>Add a Car</strong></h2>
+      <p class="instruction-text">Add a car to the listing by filling in the information below.</p>
+      
       <!-- Add Car Section -->
       <div class="container add-car-section">
         <h2>Option Select</h2>
-        <!-- Option Select -->
         <div class="input-toggle">
-          <input type="radio" id="vin" name="searchType" value="VIN">
+          <input type="radio" id="vin" name="searchType" value="VIN" checked>
           <label for="vin">VIN</label>
 
-          <input type="radio" id="makeModel" name="searchType" value="Make/Model" checked>
+          <input type="radio" id="makeModel" name="searchType" value="Make/Model">
           <label for="makeModel">Make/Model</label>
 
           <input type="radio" id="licensePlate" name="searchType" value="LicensePlate">
           <label for="licensePlate">License Plate</label>
         </div>
-
+        
         <!-- VIN Section -->
         <div id="vin-inputs" class="car-details-inputs">
-          <div class="input-group vin-input-group">
-            <label for="vinNumber">VIN Number</label>
+          <p class="vin-description">Your <u>VIN</u> or license plate will allow for more accurate details.</p>
+          <div class="vin-input-group">
             <input type="text" name="vinNumber" id="vinNumber" placeholder="Enter your 17-digit VIN">
             <button type="button" class="vin-go-btn">Go</button>
           </div>
+          <a href="#" class="vin-help-link">Where do I find my VIN?</a>
         </div>
 
-        <!-- Make/Model Section (shown by default) -->
-        <div id="makeModel-inputs" class="car-details-inputs">
-        <!-- Make/Model Section (shown by default) -->
-        <div id="makeModel-inputs" class="car-details-inputs">
-          <div class="input-group">
-            <label for="year">Year</label>
-            <input type="text" name="year" id="year" placeholder="2023">
+        <!-- Make/Model Section -->
+        <div id="makeModel-inputs" class="car-details-inputs" style="display:none;">
+          <p class="make-description">Make your own car.</p>
+          <div class="make-input-group">
+            <input type="text" name="year" id="year" placeholder="Year">
+            <input type="text" name="make" id="make" placeholder="Make">
+            <input type="text" name="model" id="model" placeholder="Model">
           </div>
-
-          <div class="input-group">
-            <label for="make">Make</label>
-            <input type="text" name="make" id="make" placeholder="Toyota">
-          </div>
-
-          <div class="input-group">
-            <label for="model">Model</label>
-            <input type="text" name="model" id="model" placeholder="Camry">
-          </div>
-
-          <div class="input-group">
-            <label for="mileage">Mileage</label>
-            <input type="text" name="mileage" id="mileage" placeholder="32,000 miles">
-          </div>
-
-          <div class="input-group">
-            <label for="zipCode">ZIP Code</label>
+          <div class="additional-input-group">
+            <input type="text" name="cost" id="cost" placeholder="Cost">
+            <input type="text" name="mileage" id="mileage" placeholder="Mileage">
             <input type="text" name="zipCode" id="zipCode" placeholder="ZIP Code">
+            <button type="button" class="make-go-btn">Go</button>
           </div>
-
-          <div class="input-group">
-            <label for="cost">Cost</label>
-            <input type="text" name="cost" id="cost" placeholder="$22,000">
-          </div>
-
-          <button type="button" class="go-btn">Go</button>
         </div>
 
         <!-- License Plate Section -->
-        <div id="licensePlate-inputs" class="car-details-inputs" style="display: none;">
-          <div class="input-group">
-            <label for="licensePlate">License Plate</label>
-            <input type="text" name="licensePlate" id="licensePlate" placeholder="Enter License Plate">
+        <div id="licensePlate-inputs" class="car-details-inputs" style="display:none;">
+          <p class="license-description">Your VIN or <u>license plate</u> will allow for more accurate details.</p>
+          <div class="license-input-group">
+            <input type="text" name="licensePlate" id="licensePlate" placeholder="Enter your plate">
+            <select name="state" id="state">
+              <option value="" disabled selected>State</option>
+              <option value="CA">CA</option>
+              <option value="TX">TX</option>
+              <!-- Add more state options here -->
+            </select>
+            <button type="button" class="license-go-btn">Go</button>
           </div>
         </div>
-        
+
+        <!-- Add Make/Model and License Plate sections similarly, initially hidden -->
+
       </div>
     </div>
   </main>
