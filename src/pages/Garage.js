@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import {
   Typography,
   Box,
@@ -9,71 +9,80 @@ import {
   Divider,
   Paper,
   IconButton,
+  Button,
+  TextField,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { AuthContext } from '../AuthContext'; // Ensure you have this
+import { db } from '../firebase'; // Import your Firestore configuration
+import { collection, addDoc, query, where, getDocs, deleteDoc, doc } from 'firebase/firestore'; // Add doc and deleteDoc here
 
 export default function Garage() {
-  // Sample data for owned cars
-  const [cars] = useState([
-    {
-      id: 1,
-      make: 'Toyota',
-      model: 'Camry',
-      year: 2019,
-      color: 'Blue',
-      mileage: 15000,
-      imageUrl:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRENy11OwlDkxdwjalVia9uY4HXEBNEfdhMIsaGJZCOEZuKL5Zc',
-    },
-    {
-      id: 2,
-      make: 'Honda',
-      model: 'Civic',
-      year: 2018,
-      color: 'Red',
-      mileage: 20000,
-      imageUrl: 'https://via.placeholder.com/400x300?text=Honda+Civic',
-    },
-    {
-      id: 3,
-      make: 'Ford',
-      model: 'Mustang',
-      year: 2020,
-      color: 'Black',
-      mileage: 5000,
-      imageUrl: 'https://via.placeholder.com/400x300?text=Ford+Mustang',
-    },
-    {
-      id: 4,
-      make: 'Chevrolet',
-      model: 'Malibu',
-      year: 2017,
-      color: 'White',
-      mileage: 30000,
-      imageUrl: 'https://via.placeholder.com/400x300?text=Chevrolet+Malibu',
-    },
-    {
-      id: 5,
-      make: 'Nissan',
-      model: 'Altima',
-      year: 2021,
-      color: 'Silver',
-      mileage: 10000,
-      imageUrl: '',
-    },
-    {
-      id: 6,
-      make: 'BMW',
-      model: '3 Series',
-      year: 2016,
-      color: 'Grey',
-      mileage: 40000,
-      imageUrl: '',
-    },
-    // Add more cars as needed
-  ]);
-
+  const { currentUser } = useContext(AuthContext); // Get the current user
+  const userId = currentUser ? currentUser.uid : null;
+  
+  const [cars, setCars] = useState([]); // State to store cars from Firestore
+  const [newCar, setNewCar] = useState({
+    make: '',
+    model: '',
+    year: '',
+    color: '',
+    mileage: '',
+    imageUrl: '',
+  });
   const [selectedCar, setSelectedCar] = useState(null);
+
+  // Fetch cars for the logged-in user from Firestore
+  useEffect(() => {
+    if (currentUser) {
+      const fetchCars = async () => {
+        const carCollection = collection(db, 'cars'); // Your Firestore collection name
+        const q = query(carCollection, where('userId', '==', currentUser.uid));
+        const querySnapshot = await getDocs(q);
+        const userCars = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+        setCars(userCars); // Set the fetched cars
+      };
+      fetchCars();
+    }
+  }, [currentUser]);
+
+  // Handle form input changes
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setNewCar((prevCar) => ({ ...prevCar, [name]: value }));
+  };
+
+  // Adds a new car to Firestore
+  const handleAddCar = async () => {
+    if (currentUser) {
+      try {
+        const carCollection = collection(db, 'carList');
+        await addDoc(carCollection, {
+          ...newCar,
+          userId: currentUser.uid, // Have car be associated with the current user 
+        });
+        
+        // Refresh the car list
+        setCars((prevCars) => [...prevCars, { ...newCar, id: Math.random().toString() }]); 
+        setNewCar({ make: '', model: '', year: '', color: '', mileage: '', imageUrl: '' }); 
+      } catch (error) {
+        console.error('Error adding car:', error);
+      }
+    }
+  };
+
+   // Delete car from Firestore and remove from UI
+   const handleDeleteCar = async (carId) => {
+    try {
+      const carDocRef = doc(db, 'cars', carId); // Reference to the car document
+      await deleteDoc(carDocRef); // Delete the document from Firestore
+      // Update the UI by removing the deleted car
+      setCars((prevCars) => prevCars.filter((car) => car.id !== carId));
+    } catch (error) {
+      console.error('Error deleting car:', error);
+    }
+  };
 
   const handleCarClick = (car) => {
     setSelectedCar(car);
@@ -90,6 +99,54 @@ export default function Garage() {
         My Car Garage
       </Typography>
 
+      {/* FORM TO ADD A NEW CAR */}
+      <Box component={Paper} sx={{ p: 2, mb: 2 }}>
+        <Typography variant="h6" gutterBottom>
+          Add a New Car
+        </Typography>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+          <TextField
+            label="Make"
+            name="make"
+            value={newCar.make}
+            onChange={handleInputChange}
+          />
+          <TextField
+            label="Model"
+            name="model"
+            value={newCar.model}
+            onChange={handleInputChange}
+          />
+          <TextField
+            label="Year"
+            name="year"
+            value={newCar.year}
+            onChange={handleInputChange}
+          />
+          <TextField
+            label="Color"
+            name="color"
+            value={newCar.color}
+            onChange={handleInputChange}
+          />
+          <TextField
+            label="Mileage"
+            name="mileage"
+            value={newCar.mileage}
+            onChange={handleInputChange}
+          />
+          <TextField
+            label="Image URL"
+            name="imageUrl"
+            value={newCar.imageUrl}
+            onChange={handleInputChange}
+          />
+          <Button variant="contained" color="primary" onClick={handleAddCar}>
+            Add Car
+          </Button>
+        </Box>
+      </Box>
+
       {/* CONTAINER FOR LISTS AND DETAILS */}
       <Box sx={{ display: 'flex', mt: 2 }}>
         {/* Left side: List of cars */}
@@ -101,14 +158,7 @@ export default function Garage() {
             flexDirection: 'column',
           }}
         >
-          {/* CONTAINERS FOR HEIGHT */}
-          <Box
-            component={Paper}
-            sx={{
-              height: 400, 
-              overflowY: 'auto',
-            }}
-          >
+          <Box component={Paper} sx={{ height: 400, overflowY: 'auto' }}>
             {/* CARS LIST */}
             <List>
               {cars.map((car, index) => (
@@ -136,11 +186,7 @@ export default function Garage() {
                           component="img"
                           src={car.imageUrl || 'https://via.placeholder.com/56x56?text=No+Image'}
                           alt={`${car.make} ${car.model}`}
-                          sx={{
-                            maxWidth: '100%',
-                            maxHeight: '100%',
-                            objectFit: 'contain',
-                          }}
+                          sx={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }}
                         />
                       </Box>
                     </ListItemAvatar>
@@ -148,6 +194,12 @@ export default function Garage() {
                       primary={`${car.year} ${car.make} ${car.model}`}
                       secondary={`Mileage: ${car.mileage} miles`}
                     />
+
+                    {/* Trash Icon for Deleting */}
+                    <IconButton edge="end" aria-label="delete" onClick={() => handleDeleteCar(car.id)}>
+                      <DeleteIcon />
+                    </IconButton>
+
                   </ListItem>
                   {index < cars.length - 1 && <Divider component="li" />}
                 </React.Fragment>
@@ -157,11 +209,7 @@ export default function Garage() {
         </Box>
 
         {/* CAR DETAILS BOX */}
-        <Box
-          sx={{
-            width: '60%',
-          }}
-        >
+        <Box sx={{ width: '60%' }}>
           {selectedCar ? (
             <Paper sx={{ p: 2, position: 'relative' }}>
               <IconButton
