@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Favorite Cars - CarJourney</title>
+  <link rel="stylesheet" href="savedSearch.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght@600&display=swap" rel="stylesheet">
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <!-- Header / Top Task Bar with Navigation -->
+  <header>
+    <div class="container">
+      <h1>CarJourney</h1>
+      <nav>
+        <ul class="nav-list">
+          <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+          <li><a href="carListing.html"><i class="fas fa-search"></i> Used & New Cars</a></li>
+          <li><a href="favoriteList.html"><i class="fas fa-star"></i> Favorited Cars</a></li>
+          <li><a href="#" id="login-btn"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+          <li><a href="#" id="register-btn"><i class="fas fa-user-plus"></i> Register</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Header Navigator -->
+  <div class="headerNav-container">
+    <nav>
+      <ul class="header-nav-list">
+        <li><a href="addCar.html">Add Cars</a></li>
+        <li><a href="favoriteList.html">Favorited Cars</a></li>
+        <li><a href="savedSearch.html" class="active">Saved Searches</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <!-- Main Body -->
+  <main>
+    <section class="saved-searches">
+      <h2>You Have 0 Saved Searches</h2>
+      <p>Save your searches by organizing them here in just one click!</p>
+      <p>Here's how:</p>
+      <ul>
+        <li><strong>Step 1:</strong> Start a new search and select the search criteria you want.</li>
+        <li><strong>Step 2:</strong> View results - if you like what you see, click "Save this search."</li>
+        <li><strong>Step 3:</strong> Name your search criteria for easy organizing.</li>
+      </ul>
+      <button class="new-search-button">Start a New Search</button>
+    </section>
+  </main>
+  
+  <!-- Footer / Bottom Task Bar -->
+  <footer>
+    <div class="container">
+      <p>&copy; 2024 Car Listings. All rights reserved.</p>
+      <div class="social-icons">
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="savedSearch.js"></script>
+</body>
+</html>
