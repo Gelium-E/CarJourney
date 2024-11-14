@@ -8,7 +8,10 @@ import About from './pages/About';
 import Garage from './pages/Garage';
 import User from './pages/User';
 import CarQuiz from './pages/Car-Quiz';
-import LocateDealer from './pages/LocateDealer'; // Import for LocateDealer component
+import LocateDealer from './pages/LocateDealer';
+import CarSearchPage from './pages/CarSearchPage';
+import ResultsPage from './pages/ResultsPage'; // Import for ResultsPage component
+import AdvancedSearchPage from './pages/AdvancedSearchPage'; // Import for AdvancedSearchPage component
 
 function App() {
   return (
@@ -20,7 +23,10 @@ function App() {
         <Route path="/garage" element={<Garage />} />
         <Route path="/user" element={<User />} />
         <Route path="/car-quiz" element={<CarQuiz />} />
-        <Route path="/locate-dealer" element={<LocateDealer />} /> {/* Route for Locate Dealer */}
+        <Route path="/locate-dealer" element={<LocateDealer />} />
+        <Route path="/search" element={<CarSearchPage />} />
+        <Route path="/results" element={<ResultsPage />} /> {/* Route for ResultsPage */}
+        <Route path="/advanced-search" element={<AdvancedSearchPage />} /> {/* Route for AdvancedSearchPage */}
       </Routes>
       <Footer />
     </Router>
