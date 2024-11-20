@@ -1,5 +1,5 @@
 import React from "react";
-import VehicleCard from "../components/VehicleCard"; // Use VehicleCard
+import VehicleCard from "../components/VehicleCard";
 import "../styles/CarListing.css";
 
 const CarListingPage = () => {
@@ -9,10 +9,7 @@ const CarListingPage = () => {
     year: 2022,
     price: 22000,
     mileage: 32000,
-    location: "Los Angeles, CA",
-    image: "images/camry1.jpg", // Adjust the path to your image
-    dateAdded: "2024-10-15",
-    drivetrain: "RWD",
+    image: "/images/camry1.jpg", // Correct path for the public folder
   };
 
   return (

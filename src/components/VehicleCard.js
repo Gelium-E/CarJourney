@@ -1,4 +1,3 @@
-// src/components/VehicleCard.js
 import React from "react";
 import "../styles/CarListing.css";
 import { FaCar, FaGasPump, FaCogs, FaRoad, FaPaintBrush, FaUser } from "react-icons/fa";
@@ -6,23 +5,26 @@ import { FaCar, FaGasPump, FaCogs, FaRoad, FaPaintBrush, FaUser } from "react-ic
 const VehicleCard = ({ vehicle, detailed = false }) => {
   return (
     <div className={`vehicle-card ${detailed ? "detailed-vehicle-card" : ""}`}>
-      <div className="image-box">
-        <img src={vehicle.image} alt={`${vehicle.make} ${vehicle.model}`} className="vehicle-image" />
-      </div>
       <h2 className="vehicle-title">{vehicle.make} {vehicle.model}</h2>
       <p className="vehicle-price">Cost: ${vehicle.price}</p>
       <p className="vehicle-odometer">Odometer: {vehicle.mileage} miles</p>
       <p className="vehicle-seller">Sold by: John Adams</p>
-      <p>Year: {vehicle.year}</p>
-      <p className="location">Location: {vehicle.location}</p>
-      <p>Date Listed: {vehicle.dateAdded}</p>
-      <p>Drivetrain: {vehicle.drivetrain}</p>
+
+      {/* Move the Contact Seller button here */}
+      <button className="contact-button">Contact Seller</button>
+
+      <div className="image-box">
+        <img src={vehicle.image} alt={`${vehicle.make} ${vehicle.model}`} className="vehicle-image" />
+      </div>
 
       {detailed && (
         <>
           <div className="vehicle-overview">
             <h2>Overview</h2>
-            <p>The {vehicle.make} {vehicle.model} is a reliable, fuel-efficient sedan offering comfortable seating and advanced safety features, making it popular among families and commuters alike.</p>
+            <p>
+              The {vehicle.make} {vehicle.model} is a reliable, fuel-efficient sedan offering comfortable
+              seating and advanced safety features, making it popular among families and commuters alike.
+            </p>
           </div>
 
           <div className="vehicle-highlights">
@@ -52,8 +54,6 @@ const VehicleCard = ({ vehicle, detailed = false }) => {
           </div>
         </>
       )}
-
-      {!detailed && <button className="view-more-button">View More</button>}
     </div>
   );
 };
