@@ -1,7 +1,7 @@
 // src/components/CarListing.js
 import React, { useState } from "react";
 import VehicleCard from "./VehicleCard";
-import "./CarListing.css";
+import "../styles/CarListing.css";
 
 const CarListing = () => {
   const [vehicles] = useState([
@@ -16,7 +16,28 @@ const CarListing = () => {
       dateAdded: "2024-09-12",
       drivetrain: "FWD",
     },
-    // Add other vehicles here...
+    {
+      make: "Honda",
+      model: "Civic",
+      year: 2019,
+      price: 17000,
+      mileage: 30000,
+      location: "Los Angeles, CA",
+      image: "/images/civic.jpg",
+      dateAdded: "2024-09-10",
+      drivetrain: "FWD",
+    },
+    {
+      make: "Tesla",
+      model: "Model 3",
+      year: 2022,
+      price: 45000,
+      mileage: 5000,
+      location: "Pasadena, CA",
+      image: "/images/tesla.jpg",
+      dateAdded: "2024-08-20",
+      drivetrain: "AWD",
+    },
   ]);
 
   return (

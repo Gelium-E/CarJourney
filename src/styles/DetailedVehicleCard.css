@@ -1,0 +1,90 @@
+.detailed-vehicle-card {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .vehicle-title {
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  
+  .vehicle-price, .vehicle-odometer, .vehicle-seller {
+    text-align: center;
+    font-size: 1rem;
+    margin-bottom: 5px;
+  }
+  
+  .contact-button {
+    display: block;
+    margin: 10px auto;
+    padding: 10px 20px;
+    background: #3498db;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  
+  .contact-button:hover {
+    background: #2980b9;
+  }
+  
+  .vehicle-image-container {
+    position: relative;
+    text-align: center;
+    margin: 20px 0;
+  }
+  
+  .vehicle-image {
+    max-width: 100%;
+    border-radius: 8px;
+  }
+  
+  .image-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    font-size: 1.5rem;
+    padding: 10px;
+    cursor: pointer;
+  }
+  
+  .image-nav.prev {
+    left: 10px;
+  }
+  
+  .image-nav.next {
+    right: 10px;
+  }
+  
+  .vehicle-overview, .vehicle-highlights, .vehicle-specs {
+    margin: 20px 0;
+  }
+  
+  .vehicle-highlights .highlights-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
+    margin-top: 10px;
+  }
+  
+  .vehicle-highlights .highlights-grid div {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  
+  .vehicle-specs ul {
+    list-style: disc;
+    padding-left: 20px;
+  }
+  

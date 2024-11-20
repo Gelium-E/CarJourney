@@ -1,6 +1,6 @@
 // src/components/VehicleCard.js
 import React from "react";
-import "./styles.css";
+import "../styles/CarListing.css";
 
 const VehicleCard = ({ vehicle }) => {
   return (
