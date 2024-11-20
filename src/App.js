@@ -12,6 +12,7 @@ const Garage = lazy(() => import('./pages/Garage'));
 const User = lazy(() => import('./pages/User'));
 const CarQuiz = lazy(() => import('./pages/Car-Quiz'));
 const LocateDealer = lazy(() => import('./pages/LocateDealer'));
+const CarListingPage = lazy(() => import('./pages/CarListingPage')); // New CarListingPage
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
               <Route path="/user" element={<User />} />
               <Route path="/car-quiz" element={<CarQuiz />} />
               <Route path="/locate-dealer" element={<LocateDealer />} />
+              <Route path="/car-listing" element={<CarListingPage />} /> {/* New Route */}
             </Routes>
           </div>
         </Suspense>
