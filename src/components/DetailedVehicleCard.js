@@ -1,5 +1,5 @@
 import React from "react";
-import "../styles/DetailedVehicleCard.css";
+import "../styles/CarListing.css";
 import { FaCar, FaGasPump, FaCogs, FaRoad, FaPaintBrush, FaUser } from "react-icons/fa";
 
 const DetailedVehicleCard = ({ vehicle }) => {

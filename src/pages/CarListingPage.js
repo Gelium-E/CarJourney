@@ -1,6 +1,7 @@
 import React from "react";
 import DetailedVehicleCard from "../components/DetailedVehicleCard";
-import "../styles/DetailedVehicleCard.css";
+import "../styles/CarListing.css";
+
 import camry1 from "../assets/camry1.jpg"; // Import the image
 
 const CarListingPage = () => {
