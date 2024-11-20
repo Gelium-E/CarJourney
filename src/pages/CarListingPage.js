@@ -1,8 +1,6 @@
 import React from "react";
-import DetailedVehicleCard from "../components/DetailedVehicleCard";
+import VehicleCard from "../components/VehicleCard"; // Use VehicleCard
 import "../styles/CarListing.css";
-
-import camry1 from "../assets/camry1.jpg"; // Import the image
 
 const CarListingPage = () => {
   const exampleVehicle = {
@@ -12,14 +10,14 @@ const CarListingPage = () => {
     price: 22000,
     mileage: 32000,
     location: "Los Angeles, CA",
-    image: camry1, // Use the imported image
+    image: "images/camry1.jpg", // Adjust the path to your image
     dateAdded: "2024-10-15",
     drivetrain: "RWD",
   };
 
   return (
     <div className="car-listing-page">
-      <DetailedVehicleCard vehicle={exampleVehicle} />
+      <VehicleCard vehicle={exampleVehicle} detailed={true} />
     </div>
   );
 };
