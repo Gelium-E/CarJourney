@@ -38,7 +38,7 @@ const Chatbot = () => {
                 },
                 {
                     headers: { 'Content-Type': 'application/json' },
-                    params: { key: 'YOUR_API_KEY' },
+                    params: { key: 'AIzaSyDWlAXzOL4dLYGhqksDHCOAdpy82uzwvWk' },
                 }
             );
 
