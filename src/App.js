@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import ContactSeller from "./pages/ContactSeller";
+import CustomerTestimonials from "./pages/CustomerTestimonials";
 import './styles/Footer.css'; // Ensure CSS is imported to apply the styles
 
 // Lazy load page components
@@ -31,6 +32,7 @@ function App() {
               <Route path="/locate-dealer" element={<LocateDealer />} />
               <Route path="/car-listing" element={<CarListingPage />} /> {/* New Route */}
               <Route path="/contact-seller" element={<ContactSeller />} />
+              <Route path="/customer-testimonials" element={<CustomerTestimonials />} />
             </Routes>
           </div>
         </Suspense>
