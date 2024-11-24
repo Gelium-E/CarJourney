@@ -11,7 +11,9 @@ const VehicleCard = ({ vehicle, detailed = false }) => {
       <p className="vehicle-seller">Sold by: John Adams</p>
 
       {/* Move the Contact Seller button here */}
-      <button className="contact-button">Contact Seller</button>
+      <button className="contact-button" onClick={() => window.location.href = "/contact-seller"}>
+        Contact Seller
+      </button>
 
       <div className="image-box">
         <img src={vehicle.image} alt={`${vehicle.make} ${vehicle.model}`} className="vehicle-image" />
