@@ -117,7 +117,11 @@ const MyCars = () => {
                         <div class="car-image-container">
                           <img src={selectedCar.image} alt={selectedCar.name} className="car-image-large" />
                         </div>
-                         
+
+                        { /* Horizontal Line */ }
+                        <hr className="horizontal-line" />
+
+                        { /* Car Details */ }
                         <div className="car-details-text">
                           <p>Price: <span>${Number(selectedCar.price).toLocaleString()}</span></p>
                           <p>Mileage: <span>{Number(selectedCar.mileage).toLocaleString()} miles</span></p>

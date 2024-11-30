@@ -31,7 +31,7 @@ const AddCar = () => {
     const [showResults, setShowResults] = useState(false);
     const [results, setResults] = useState([]);
 
-    // Color
+    // Colors
     const colors = [
       { name: "Beige", hex: "#F5F5DC" },
       { name: "Black", hex: "#000000" },
@@ -143,7 +143,7 @@ const AddCar = () => {
           vin,
           message: "VIN Results: Successfully fetched!",
         });
-      } else if (activeTab === "Make/Model" && make && model && year) {
+      } else if (activeTab === "Make/Model" && year && make) {
         setResults({
           year,
           make,
@@ -396,12 +396,11 @@ const AddCar = () => {
           {carDetails.driveType && <p>Drive Type: <strong>{carDetails.driveType}</strong></p>}
         </div>
 
-        <p className="vin-additional-details">Additional Details</p>
-        
-        { /* Input */ }
-        <div className="vin-extra-inputs">
+        { /* Image */ }
+        <p className="vin-image-text">What does Your Vehicle Look Like?</p>
 
-          { /* Image */ }
+        <div className="vin-image-container">
+
           <div className="vin-image-upload" onClick={handleImageClick}>
             {carImage ? (
               <img src={carImage} alt="Car Preview" />
@@ -410,9 +409,48 @@ const AddCar = () => {
             )}
           <input id="car-image-input" type="file" accept="image/*" onChange={handleImageChange} style={{ display: 'none' }}/>
           </div>
+    
+        </div>
+
+        { /* Color Selector */ }
+        <p className="vin-color">What Color is Your Vehicle?</p>
+
+        <div className="color-grid">
+          {colors.map((selectedColor) => (
+            <div
+              key={selectedColor.name}
+              className={`color-box ${color === selectedColor.name ? "selected" : ""}`}
+              onClick={() => setColor(selectedColor.name)}
+            >
+              <div className="color-swatch" style={{ backgroundColor: selectedColor.hex }}></div>
+              <p className="color-name">{selectedColor.name}</p>
+            </div>
+          ))}
+        </div>
+
+        { /* Price */ }
+        <p className="vin-price">What's Your Desired Price?</p>
+
+        <p className="vin-price-description">
+          The price for your vehicle is listed in <span>dollars</span> (<span>$</span>).
+        </p>
+
+        <div className="price-container">
+          <p className="price-symbol">$</p>
+          <input
+            type="number"
+            placeholder="Price"
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
+            className="price-input"
+          />
+        </div>
+
+        { /* Mileage and ZIP Code */ }
+        <p className="vin-extra-text">What's Your Mileage and ZIP Code?</p>
           
-          { /* Additional Details */ }
           <div className="vin-additional-input">
+            { /* Mileage */ }
             <input
               type="number"
               className="vin-input-btn"
@@ -420,33 +458,16 @@ const AddCar = () => {
               value={mileage}
               onChange={(e) => setMileage(e.target.value)}
             />
-            <input
-              type="number"
-              className="vin-input-btn"
-              placeholder="ZIP Code"
-              value={zipCode}
-              onChange={(e) => setZipCode(e.target.value)}
-            />
-          </div>
-
-          <div className="vin-additional-input">
+            { /* ZIP Code */ }
             <input
                 type="number"
                 className="vin-input-btn"
-                placeholder="Price"
-                value={price}
-                onChange={(e) => setPrice(e.target.value)}
-            />
-            <input
-              type="text"
-              className="vin-input-btn"
-              placeholder="Color"
-              value={color}
-              onChange={(e) => setColor(e.target.value)}
+                placeholder="ZIP Code"
+                value={zipCode}
+                onChange={(e) => setZipCode(e.target.value)}
             />
           </div>
 
-        </div>
 
         { /* Button */ }
         <div className="vin-buttons">
@@ -494,7 +515,7 @@ const AddCar = () => {
         </div>
 
         { /* Engine */ }
-        <p className="make-engine">What is Your Vehicle's Engine?</p>
+        <p className="make-engine">What's Your Vehicle's Engine?</p>
         <p className="make-engine-description">
           Engines are described with "<span>V#</span> notation", where # represents the number of cylinders
         </p>
@@ -534,9 +555,9 @@ const AddCar = () => {
         </div>
         
         { /* Price */ }
-        <p className="make-price">What is Your Desired Price?</p>
+        <p className="make-price">What's Your Desired Price?</p>
 
-        <p className="make-engine-description">
+        <p className="make-price-description">
           The price for your vehicle is listed in <span>dollars</span> (<span>$</span>).
         </p>
 

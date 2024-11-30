@@ -66,6 +66,8 @@ function Navbar() {
           {isLoggedIn && <Button component={Link} to="/garage" className="nav-link">Garage</Button>}
           <Button component={Link} to="/car-quiz" className="nav-link">Car Quiz</Button>
           <Button component={Link} to="/locate-dealer" className="nav-link">Locate Dealer</Button>
+          <Button component={Link} to="/finance" className="nav-link">Finance</Button>
+          <Button component={Link} to="/add-car" className="nav-link">Add Car</Button>
         </Box>
 
         {/* Right Aligned User Icon / Login & Register */}
