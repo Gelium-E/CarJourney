@@ -85,7 +85,8 @@ const AddCar = () => {
     const [yearList, setYearList] = useState([]); // Available years
     const [makeList, setMakeList] = useState([]); // Available makes for the selected year
     const [modelList , setModelList] = useState([]); // Available models for the selected make and year
-  
+    const [loadingModels, setLoadingModels] = useState(false);  // Loading state for Models
+
     // Generate a range of years between 1992 and the current year
     const getYearRange = () => {
       const currentYear = new Date().getFullYear();
@@ -119,6 +120,7 @@ const AddCar = () => {
     // Fetch Models for Selected Make and Year
     useEffect(() => {
       if (makeModelData.year && makeModelData.make) {
+        setLoadingModels(true); // Start loading
         fetch(
           `https://vpic.nhtsa.dot.gov/api/vehicles/GetModelsForMakeYear/make/${makeModelData.make}/modelyear/${makeModelData.year}?format=json`
         )
@@ -126,8 +128,10 @@ const AddCar = () => {
           .then((data) => {
             const modelValues = data.Results.map((item) => item.Model_Name);
             setModelList(modelValues);
+            setLoadingModels(false); // End loading
           })
           .catch((error) => console.error("Error fetching models:", error));
+          setLoadingModels(false); // End loading even on error
       }
     }, [makeModelData.year, makeModelData.make]);
 
@@ -173,6 +177,7 @@ const AddCar = () => {
 
     // Determine if the "Go" button should be enabled
     const enableGoButton =
+      !loadingModels && // Ensure models are not loading
       makeModelData.year && // Year is required
       makeModelData.make && // Make is required
       makeModelData.mileage && // Mileage is required
@@ -347,7 +352,7 @@ const AddCar = () => {
           {/* Year Dropdown */}
           <select
             value={makeModelData.year}
-            onChange={(e) => setMakeModelData({ ...makeModelData, year: e.target.value })}
+            onChange={(e) => setMakeModelData({ ...makeModelData, year: e.target.value, make: "", model: "" })}
             disabled={!yearList.length}
             className="make-input"
           >
