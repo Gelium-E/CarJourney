@@ -261,6 +261,14 @@
     margin-top: 2px;
   }
 
+  /* VIN Description */
+  .vin-extra-description {
+    margin-top: 5px;
+    font-size: 0.9em;
+    font-weight: 700;
+    color: gray;
+  }
+
   .vin-car-text {
     font-size: 2em;
     font-weight: 900;

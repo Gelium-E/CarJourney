@@ -3,11 +3,13 @@ import React, { useState, useEffect } from "react";
 import { doc, setDoc } from "firebase/firestore";
 import { auth, db } from "../firebaseConfig";
 import "./../styles/Add-Car.css";
+import { useNavigate } from "react-router-dom";
 
 // Add car
 const AddCar = () => {
     // Initialize variables
     const [activeTab, setActiveTab] = useState("VIN");  // Start as the VIN Tab
+    const navigate = useNavigate();
 
     // Messages
     const [error, setError] = useState("");
@@ -169,6 +171,14 @@ const AddCar = () => {
       setShowResults(true); // Show the results section
     };
 
+    // Determine if the "Go" button should be enabled
+    const enableGoButton =
+      makeModelData.year && // Year is required
+      makeModelData.make && // Make is required
+      makeModelData.mileage && // Mileage is required
+      makeModelData.zipCode && // ZIP Code is required
+      (modelList.length === 0 || makeModelData.model); // Either no models available, or a model is selected
+      
     // Handle Back Button (Reset Data)
     const handleBack = () => {
       if (activeTab === "VIN") {
@@ -298,7 +308,8 @@ const AddCar = () => {
 
     localStorage.setItem("addedCars", JSON.stringify(updatedCars));
 
-    alert("Car added successfully!");
+    // Navigate to "My Cars"
+    navigate("/my-cars");
   };
 
   // Tab configuration object
@@ -353,7 +364,9 @@ const AddCar = () => {
           {/* Make Dropdown */}
           <select
             value={makeModelData.make}
-            onChange={(e) => setMakeModelData({ ...makeModelData, make: e.target.value })}
+            onChange={ (e) => { // Make value and reset Model whenever Make changes
+              setMakeModelData({ ...makeModelData, make: e.target.value, model: "" }); 
+            }}
             disabled={!makeList.length}
             className="make-input"
           >
@@ -410,7 +423,7 @@ const AddCar = () => {
             type="button" 
             className="make-go-btn" 
             onClick={handleGo}
-            disabled={!makeModelData.year || !makeModelData.make || !makeModelData.mileage ||!makeModelData.zipCode }
+            disabled={!enableGoButton}
             >
             Go
           </button>
@@ -429,6 +442,9 @@ const AddCar = () => {
         <p className="vin-details-text">Car Details</p>
         <p className="vin-vin-text">VIN: <strong>{vin}</strong></p>
         <p className="vin-car-text">{vinDetails.year} {vinDetails.make} {vinDetails.model}</p>
+
+        { /* Extra Details */}
+        <p className="vin-extra-description"> Here's what we got from your VIN number.</p>
         <div className="vin-extra-details">
           <p>Category: <strong>{vinDetails.category}</strong></p>
 
