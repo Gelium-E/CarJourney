@@ -169,6 +169,36 @@ const AddCar = () => {
       setShowResults(true); // Show the results section
     };
 
+    // Handle Back Button (Reset Data)
+    const handleBack = () => {
+      if (activeTab === "VIN") {
+        // Reset vinData
+        setVinData({
+          ...vinData,
+          image: "",
+          mileage: "",
+          zipCode: "",
+          color: "",
+          price: "",
+        });
+        // Reset vinDetails
+        setVinDetails(null);
+
+      } else if (activeTab === "Make/Model") {
+        // Reset makeModelData
+        setMakeModelData({
+          ...makeModelData,
+          image: "",
+          engine: "",
+          color: "",
+          price: "",
+        });
+      }
+
+      // Unshow Results Section
+      setShowResults(false);
+    };
+
     // Handle VIN
     const handleVinLookup = () => {
       // VIN must be exactly 17 characters
@@ -489,7 +519,7 @@ const AddCar = () => {
 
         { /* Button */ }
         <div className="vin-buttons">
-          <button className="back-button" onClick={() => {setShowResults(false); setVinDetails(null); }}>
+          <button className="back-button" onClick={handleBack}>
             Back
           </button>
           <button 
@@ -592,7 +622,7 @@ const AddCar = () => {
 
         { /* Button */ }
         <div className="make-buttons">
-          <button className="back-button" onClick={() => {setShowResults(false); setVinDetails(null); }}>
+          <button className="back-button" onClick={handleBack}>
             Back
           </button>
           <button 
