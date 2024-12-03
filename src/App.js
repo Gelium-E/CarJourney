@@ -5,6 +5,8 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import ContactSeller from "./pages/ContactSeller";
 import CustomerTestimonials from "./pages/CustomerTestimonials";
+import CarComparison from "./pages/CarComparison";
+import CarDifferencesMenu from "./pages/CarDifferencesMenu";
 import './styles/Footer.css'; // Ensure CSS is imported to apply the styles
 
 // Lazy load page components
@@ -33,6 +35,8 @@ function App() {
               <Route path="/car-listing" element={<CarListingPage />} /> {/* New Route */}
               <Route path="/contact-seller" element={<ContactSeller />} />
               <Route path="/customer-testimonials" element={<CustomerTestimonials />} />
+              <Route path="/compare-menu" element={<CarDifferencesMenu />} />
+              <Route path="/compare" element={<CarComparison />} />
             </Routes>
           </div>
         </Suspense>
