@@ -3,6 +3,11 @@ import { useLocation } from 'react-router-dom';
 import '../styles/ResultsPage.css';
 import { NestCamWiredStand } from '@mui/icons-material';
 
+/* FontAwesome Icons */
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faHeart as farHeart } from '@fortawesome/free-regular-svg-icons'; // Regular heart
+import { faHeart as fasHeart } from '@fortawesome/free-solid-svg-icons';   // Solid heart
+
 const ResultsPage = () => {
   const sampleCars = [
     // Toyota
@@ -107,6 +112,9 @@ const ResultsPage = () => {
 
   {/* Miguel's Code
     Handle Save Search */}
+  // Handle Saves
+  const [isSaved, setIsSaved] = useState(false);
+
   // Save Filters to Storage
   const filters = {
     make: make,
@@ -126,6 +134,9 @@ const ResultsPage = () => {
 
   // Handle Save Search
   const handleSaveSearch = () => {
+    // Set Saved to True
+    setIsSaved(true);
+
     // Take existing searches
     const existingSearches = JSON.parse(localStorage.getItem("savedSearches")) || [];
 
@@ -143,10 +154,15 @@ const ResultsPage = () => {
     const updatedSearches = [newSearch, ...existingSearches];
 
     localStorage.setItem("savedSearches", JSON.stringify(updatedSearches));
-    alert("Search saved!");
+
+    // Change "Save Search" button after 1 second
+    setTimeout(() => {
+      setIsSaved(false);
+    }, 1000); // Revert text after 1 second
+
   };
 
-
+  // HTML
   return (
     <div className="results-page">
       <h2 className="results-title">Search Results</h2>
@@ -154,15 +170,22 @@ const ResultsPage = () => {
         
         {/* Filter Panel */}
         <div className="filter-panel">
-          {/* Save Search Button */}
-          <button
-              className="save-search-button"
-              onClick={handleSaveSearch}
-          >
-              Save Search
-          </button>
-          { /* End of Miguel's Code */}
-          
+
+            {/* Save Search Button */}
+            <div className="save-container">
+              <button className="save-search-button" 
+                onClick={handleSaveSearch}
+                disabled={isSaved} // Prevent multiple clicks while in 'Saved' state
+              >
+                <FontAwesomeIcon
+                  icon={isSaved ? fasHeart : farHeart}
+                  className="heart-icon"
+                />
+                <span className="save-text">{isSaved ? 'Saved!' : 'Save Search'}</span>             
+              </button>
+            </div>
+            { /* End of Miguel's Code */}
+
           <div className="form-section">
             <label>Make:</label>
             <select value={make} onChange={(e) => { setMake(e.target.value); setModel(''); }}>

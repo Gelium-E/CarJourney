@@ -70,40 +70,55 @@
   margin: 5px 10px;
 }
 
-.heart-icon {
-  font-size: 24px;
-  color: #ccc;
-  cursor: pointer;
-  transition: color 0.3s;
-  position: absolute;
-  top: 10px;
-  right: 10px;
-}
-
-.heart-icon.fas {
-  color: #e74c3c;
-}
-
-.heart-icon:hover {
-  color: #e74c3c;
-}
-
 /* Save Search Button */
-.save-search-button {
-  display: block;
+/* Heart Icon and "Save Search" Container */
+.save-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin-bottom: 20px;
-  padding: 10px 15px;
+}
+
+.save-search-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 180px;
+  height: 50px;
   background-color: #e74c3c;
-  color: #fff;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  font-size: 14px;
-  text-align: center;
   transition: background-color 0.3s ease;
+  gap: 10px;
+}
+
+.save-search-button:disabled {
+  cursor: not-allowed; /* Indicate the button is not clickable */
 }
 
 .save-search-button:hover {
   background-color: #c0392b;
 }
 
+.save-container .save-text {
+  color: #fff;
+  font-weight: bold;
+  font-size: 18px;
+  text-align: center;
+}
+
+.save-container:hover .save-text {
+  color: rgb(240, 240, 240);
+}
+
+/* Heart Icon */
+.heart-icon {
+  color: white;
+  cursor: pointer;
+  font-size: 24px;
+}
+
+.save-container:hover .heart-icon {
+  color: rgb(240, 240, 240);
+}
