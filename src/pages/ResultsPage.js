@@ -1,8 +1,35 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import { useJsApiLoader, Autocomplete } from '@react-google-maps/api';
 import '../styles/ResultsPage.css';
 
+const getDistance = async (origin, destination) => {
+  const service = new window.google.maps.DistanceMatrixService();
+  return new Promise((resolve, reject) => {
+    service.getDistanceMatrix(
+      {
+        origins: [origin],
+        destinations: [destination],
+        travelMode: window.google.maps.TravelMode.DRIVING,
+      },
+      (response, status) => {
+        if (status === 'OK') {
+          const distance = response.rows[0].elements[0].distance.value / 1609.34; // Convert meters to miles
+          resolve(distance);
+        } else {
+          reject(status);
+        }
+      }
+    );
+  });
+};
+
 const ResultsPage = () => {
+  const { isLoaded } = useJsApiLoader({
+    googleMapsApiKey: 'AIzaSyAY4vk_b9RuHBKY89uUt_vMD7OTwAgY5TU', // Replace with your actual key
+    libraries: ['places'], // Ensure 'places' is included
+  });
+  
   const sampleCars = [
     // Toyota
     { id: 1, make: 'Toyota', model: 'Camry', year: 2018, price: 20000, mileage: 30000, transmission: 'Automatic', fuelType: 'Gasoline', location: '90001', driveType: 'FWD', bodyStyle: 'Sedan', engineType: 'V4', color: 'Red', image: 'https://via.placeholder.com/280x180' },
@@ -40,6 +67,9 @@ const ResultsPage = () => {
   const queryParams = new URLSearchParams(location.search);
 
   // Filter states
+  const [selectedLocation, setSelectedLocation] = useState(''); // Renamed state for Google Autocomplete
+  const [autocomplete, setAutocomplete] = useState(null); // Google Autocomplete instance
+
   const [make, setMake] = useState(queryParams.get('make') || '');
   const [model, setModel] = useState(queryParams.get('model') || '');
   const [zip, setZip] = useState(queryParams.get('location') || '');
@@ -85,8 +115,10 @@ const ResultsPage = () => {
     Kia: ['Sorento', 'Sportage', 'Optima']
   };
 
-  const filteredCars = sampleCars.filter(car => {
+    const filteredCars = sampleCars.filter(async (car) => {
+    const withinDistance = !radius || (await getDistance(zip, car.location)) <= parseInt(radius);
     return (
+      withinDistance &&
       (!make || car.make === make) &&
       (!model || car.model === model) &&
       (!zip || car.location === zip) &&
@@ -103,6 +135,11 @@ const ResultsPage = () => {
       (!color || car.color === color)
     );
   });
+
+  if (!isLoaded) {
+    return <p>Loading Google Maps...</p>;
+  }
+  
 
   return (
     <div className="results-page">
@@ -146,9 +183,39 @@ const ResultsPage = () => {
 
           <div className="form-section">
             <label>ZIP Code:</label>
-            <input type="text" placeholder="Enter ZIP code" value={zip} onChange={(e) => setZip(e.target.value)} />
-          </div>
+  <Autocomplete
+    onLoad={(autocompleteInstance) => setAutocomplete(autocompleteInstance)}
+    onPlaceChanged={() => {
+      if (autocomplete) {
+        const place = autocomplete.getPlace();
+        const postalCode = place?.address_components?.find(
+          (comp) => comp.types.includes('postal_code')
+        )?.short_name;
 
+        if (postalCode) {
+          setZip(postalCode); // Update ZIP code filter
+          setSelectedLocation(place.formatted_address); // Update selected location
+        } else {
+          alert('Please select a valid location with a ZIP code.');
+        }
+      }
+    }}
+  >
+    <input
+      type="text"
+      placeholder="Enter ZIP code or location"
+      value={selectedLocation}
+      onChange={(e) => setSelectedLocation(e.target.value)}
+    />
+  </Autocomplete>
+
+  {/* Display selected location below ZIP code input */}
+  {selectedLocation && (
+    <p className="selected-location">
+      Selected Location: {selectedLocation}
+    </p>
+  )}
+</div>
           <div className="form-section">
             <label>Year Range:</label>
             <select value={minYear} onChange={(e) => setMinYear(e.target.value)}>
