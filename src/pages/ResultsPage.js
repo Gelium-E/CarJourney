@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { useJsApiLoader, Autocomplete } from '@react-google-maps/api';
 import '../styles/ResultsPage.css';
 
-const getDistance = async (origin, destination) => {
+const useMemo = async (origin, destination) => {
   const service = new window.google.maps.DistanceMatrixService();
   return new Promise((resolve, reject) => {
     service.getDistanceMatrix(
@@ -26,11 +26,11 @@ const getDistance = async (origin, destination) => {
 
 const ResultsPage = () => {
   const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: 'AIzaSyAY4vk_b9RuHBKY89uUt_vMD7OTwAgY5TU', // Replace with your actual key
-    libraries: ['places'], // Ensure 'places' is included
-  });
+    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
+    libraries: ['places'],
+  });  
   
-  const sampleCars = [
+  const sampleCars = useMemo(() => [
     // Toyota
     { id: 1, make: 'Toyota', model: 'Camry', year: 2018, price: 20000, mileage: 30000, transmission: 'Automatic', fuelType: 'Gasoline', location: '90001', driveType: 'FWD', bodyStyle: 'Sedan', engineType: 'V4', color: 'Red', image: 'https://via.placeholder.com/280x180' },
     { id: 2, make: 'Toyota', model: 'Corolla', year: 2019, price: 18000, mileage: 25000, transmission: 'Automatic', fuelType: 'Gasoline', location: '90002', driveType: 'FWD', bodyStyle: 'Sedan', engineType: 'V4', color: 'Blue', image: 'https://via.placeholder.com/280x180' },
@@ -62,7 +62,7 @@ const ResultsPage = () => {
     { id: 18, make: 'BMW', model: 'X5', year: 2021, price: 50000, mileage: 5000, transmission: 'Automatic', fuelType: 'Gasoline', location: '90014', driveType: 'AWD', bodyStyle: 'SUV', engineType: 'V6', color: 'Blue', image: 'https://via.placeholder.com/280x180' },
     
     // Add Mercedes, Audi, Hyundai, and Kia similarly...
-  ];
+  ], []);
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
 
@@ -115,26 +115,51 @@ const ResultsPage = () => {
     Kia: ['Sorento', 'Sportage', 'Optima']
   };
 
-    const filteredCars = sampleCars.filter(async (car) => {
-    const withinDistance = !radius || (await getDistance(zip, car.location)) <= parseInt(radius);
-    return (
-      withinDistance &&
-      (!make || car.make === make) &&
-      (!model || car.model === model) &&
-      (!zip || car.location === zip) &&
-      (!minYear || car.year >= parseInt(minYear)) &&
-      (!maxYear || car.year <= parseInt(maxYear)) &&
-      (!minPrice || car.price >= parseInt(minPrice)) &&
-      (!maxPrice || car.price <= parseInt(maxPrice)) &&
-      (!mileage || car.mileage <= parseInt(mileage)) &&
-      (!transmission || car.transmission === transmission) &&
-      (!fuelType || car.fuelType === fuelType) &&
-      (!driveType || car.driveType === driveType) &&
-      (!bodyStyle || car.bodyStyle === bodyStyle) &&
-      (!engineType || car.engineType === engineType) &&
-      (!color || car.color === color)
-    );
-  });
+  const filteredCars = useMemo(() => {
+    return sampleCars.filter((car) => {
+      // ZIP Code Filtering
+      const matchesZip = !zip || car.location === zip;
+  
+      // Make and Model Filtering
+      const matchesMake = !make || car.make === make;
+      const matchesModel = !model || (matchesMake && car.model === model);
+  
+      // Combine all filters
+      return (
+        matchesZip &&
+        matchesMake &&
+        matchesModel &&
+        (!minYear || car.year >= parseInt(minYear)) &&
+        (!maxYear || car.year <= parseInt(maxYear)) &&
+        (!minPrice || car.price >= parseInt(minPrice)) &&
+        (!maxPrice || car.price <= parseInt(maxPrice)) &&
+        (!mileage || car.mileage <= parseInt(mileage)) &&
+        (!transmission || car.transmission === transmission) &&
+        (!fuelType || car.fuelType === fuelType) &&
+        (!driveType || car.driveType === driveType) &&
+        (!bodyStyle || car.bodyStyle === bodyStyle) &&
+        (!engineType || car.engineType === engineType) &&
+        (!color || car.color === color)
+      );
+    });
+  }, [
+    sampleCars,
+    zip,
+    make,
+    model,
+    minYear,
+    maxYear,
+    minPrice,
+    maxPrice,
+    mileage,
+    transmission,
+    fuelType,
+    driveType,
+    bodyStyle,
+    engineType,
+    color,
+  ]);
+  
 
   if (!isLoaded) {
     return <p>Loading Google Maps...</p>;
@@ -183,32 +208,31 @@ const ResultsPage = () => {
 
           <div className="form-section">
             <label>ZIP Code:</label>
-  <Autocomplete
-    onLoad={(autocompleteInstance) => setAutocomplete(autocompleteInstance)}
-    onPlaceChanged={() => {
-      if (autocomplete) {
-        const place = autocomplete.getPlace();
-        const postalCode = place?.address_components?.find(
-          (comp) => comp.types.includes('postal_code')
-        )?.short_name;
+            <Autocomplete
+  onLoad={(autocompleteInstance) => setAutocomplete(autocompleteInstance)}
+  onPlaceChanged={() => {
+    if (autocomplete) {
+      const place = autocomplete.getPlace();
+      const postalCode = place?.address_components?.find(
+        (comp) => comp.types.includes('postal_code')
+      )?.short_name;
 
-        if (postalCode) {
-          setZip(postalCode); // Update ZIP code filter
-          setSelectedLocation(place.formatted_address); // Update selected location
-        } else {
-          alert('Please select a valid location with a ZIP code.');
-        }
+      if (postalCode) {
+        setZip(postalCode); // Set the ZIP code filter
+        setSelectedLocation(place.formatted_address); // Display the location
+      } else {
+        alert('Please select a valid location with a ZIP code.');
       }
-    }}
-  >
-    <input
-      type="text"
-      placeholder="Enter ZIP code or location"
-      value={selectedLocation}
-      onChange={(e) => setSelectedLocation(e.target.value)}
-    />
-  </Autocomplete>
-
+    }
+  }}
+>
+  <input
+    type="text"
+    placeholder="Enter ZIP code or location"
+    value={selectedLocation}
+    onChange={(e) => setSelectedLocation(e.target.value)}
+  />
+</Autocomplete>
   {/* Display selected location below ZIP code input */}
   {selectedLocation && (
     <p className="selected-location">
