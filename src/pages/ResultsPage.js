@@ -1,365 +1,259 @@
-import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useJsApiLoader, Autocomplete } from '@react-google-maps/api';
 import '../styles/ResultsPage.css';
-
-const useMemo = async (origin, destination) => {
-  const service = new window.google.maps.DistanceMatrixService();
-  return new Promise((resolve, reject) => {
-    service.getDistanceMatrix(
-      {
-        origins: [origin],
-        destinations: [destination],
-        travelMode: window.google.maps.TravelMode.DRIVING,
-      },
-      (response, status) => {
-        if (status === 'OK') {
-          const distance = response.rows[0].elements[0].distance.value / 1609.34; // Convert meters to miles
-          resolve(distance);
-        } else {
-          reject(status);
-        }
-      }
-    );
-  });
-};
 
 const ResultsPage = () => {
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
     libraries: ['places'],
-  });  
-  
-  const sampleCars = useMemo(() => [
-    // Toyota
-    { id: 1, make: 'Toyota', model: 'Camry', year: 2018, price: 20000, mileage: 30000, transmission: 'Automatic', fuelType: 'Gasoline', location: '90001', driveType: 'FWD', bodyStyle: 'Sedan', engineType: 'V4', color: 'Red', image: 'https://via.placeholder.com/280x180' },
-    { id: 2, make: 'Toyota', model: 'Corolla', year: 2019, price: 18000, mileage: 25000, transmission: 'Automatic', fuelType: 'Gasoline', location: '90002', driveType: 'FWD', bodyStyle: 'Sedan', engineType: 'V4', color: 'Blue', image: 'https://via.placeholder.com/280x180' },
-    { id: 3, make: 'Toyota', model: 'RAV4', year: 2020, price: 25000, mileage: 15000, transmission: 'Automatic', fuelType: 'Gasoline', location: '90003', driveType: 'AWD', bodyStyle: 'SUV', engineType: 'V4', color: 'White', image: 'https://via.placeholder.com/280x180' },
+  });
 
-    // Honda
-    { id: 4, make: 'Honda', model: 'Civic', year: 2020, price: 18000, mileage: 20000, transmission: 'Manual', fuelType: 'Gasoline', location: '90002', driveType: 'FWD', bodyStyle: 'Sedan', engineType: 'V4', color: 'Blue', image: 'https://via.placeholder.com/280x180' },
-    { id: 5, make: 'Honda', model: 'Accord', year: 2019, price: 22000, mileage: 15000, transmission: 'Automatic', fuelType: 'Gasoline', location: '90004', driveType: 'FWD', bodyStyle: 'Sedan', engineType: 'V4', color: 'Black', image: 'https://via.placeholder.com/280x180' },
-    { id: 6, make: 'Honda', model: 'CR-V', year: 2018, price: 23000, mileage: 30000, transmission: 'Automatic', fuelType: 'Gasoline', location: '90005', driveType: 'AWD', bodyStyle: 'SUV', engineType: 'V4', color: 'Gray', image: 'https://via.placeholder.com/280x180' },
+  // Define state for Autocomplete
+  const [autocomplete, setAutocomplete] = useState(null);
 
-    // Ford
-    { id: 7, make: 'Ford', model: 'F-150', year: 2021, price: 35000, mileage: 10000, transmission: 'Automatic', fuelType: 'Diesel', location: '90001', driveType: 'AWD', bodyStyle: 'Truck', engineType: 'V6', color: 'Black', image: 'https://via.placeholder.com/280x180' },
-    { id: 8, make: 'Ford', model: 'Escape', year: 2020, price: 24000, mileage: 12000, transmission: 'Automatic', fuelType: 'Gasoline', location: '90006', driveType: 'FWD', bodyStyle: 'SUV', engineType: 'V4', color: 'Blue', image: 'https://via.placeholder.com/280x180' },
-    { id: 9, make: 'Ford', model: 'Mustang', year: 2019, price: 28000, mileage: 20000, transmission: 'Manual', fuelType: 'Gasoline', location: '90007', driveType: 'RWD', bodyStyle: 'Coupe', engineType: 'V8', color: 'Red', image: 'https://via.placeholder.com/280x180' },
-
-    // Chevrolet
-    { id: 10, make: 'Chevrolet', model: 'Silverado', year: 2020, price: 30000, mileage: 10000, transmission: 'Automatic', fuelType: 'Gasoline', location: '90008', driveType: 'AWD', bodyStyle: 'Truck', engineType: 'V8', color: 'White', image: 'https://via.placeholder.com/280x180' },
-    { id: 11, make: 'Chevrolet', model: 'Malibu', year: 2019, price: 17000, mileage: 15000, transmission: 'Automatic', fuelType: 'Gasoline', location: '90009', driveType: 'FWD', bodyStyle: 'Sedan', engineType: 'V4', color: 'Gray', image: 'https://via.placeholder.com/280x180' },
-    { id: 12, make: 'Chevrolet', model: 'Equinox', year: 2018, price: 19000, mileage: 20000, transmission: 'Automatic', fuelType: 'Gasoline', location: '90010', driveType: 'AWD', bodyStyle: 'SUV', engineType: 'V4', color: 'Blue', image: 'https://via.placeholder.com/280x180' },
-
-    // Nissan
-    { id: 13, make: 'Nissan', model: 'Altima', year: 2021, price: 22000, mileage: 10000, transmission: 'Automatic', fuelType: 'Hybrid', location: '90002', driveType: 'FWD', bodyStyle: 'Sedan', engineType: 'V4', color: 'Gray', image: 'https://via.placeholder.com/280x180' },
-    { id: 14, make: 'Nissan', model: 'Rogue', year: 2020, price: 25000, mileage: 12000, transmission: 'Automatic', fuelType: 'Gasoline', location: '90011', driveType: 'AWD', bodyStyle: 'SUV', engineType: 'V4', color: 'White', image: 'https://via.placeholder.com/280x180' },
-    { id: 15, make: 'Nissan', model: 'Sentra', year: 2019, price: 15000, mileage: 22000, transmission: 'Automatic', fuelType: 'Gasoline', location: '90012', driveType: 'FWD', bodyStyle: 'Sedan', engineType: 'V4', color: 'Black', image: 'https://via.placeholder.com/280x180' },
-
-    // BMW
-    { id: 16, make: 'BMW', model: '3 Series', year: 2020, price: 35000, mileage: 15000, transmission: 'Automatic', fuelType: 'Gasoline', location: '90001', driveType: 'RWD', bodyStyle: 'Sedan', engineType: 'V6', color: 'Black', image: 'https://via.placeholder.com/280x180' },
-    { id: 17, make: 'BMW', model: '5 Series', year: 2019, price: 45000, mileage: 18000, transmission: 'Automatic', fuelType: 'Gasoline', location: '90013', driveType: 'RWD', bodyStyle: 'Sedan', engineType: 'V6', color: 'Gray', image: 'https://via.placeholder.com/280x180' },
-    { id: 18, make: 'BMW', model: 'X5', year: 2021, price: 50000, mileage: 5000, transmission: 'Automatic', fuelType: 'Gasoline', location: '90014', driveType: 'AWD', bodyStyle: 'SUV', engineType: 'V6', color: 'Blue', image: 'https://via.placeholder.com/280x180' },
-    
-    // Add Mercedes, Audi, Hyundai, and Kia similarly...
-  ], []);
-  const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-
-  // Filter states
-  const [selectedLocation, setSelectedLocation] = useState(''); // Renamed state for Google Autocomplete
-  const [autocomplete, setAutocomplete] = useState(null); // Google Autocomplete instance
-
-  const [make, setMake] = useState(queryParams.get('make') || '');
-  const [model, setModel] = useState(queryParams.get('model') || '');
-  const [zip, setZip] = useState(queryParams.get('location') || '');
-  const [radius, setRadius] = useState('10'); 
+  // Define filter states
+  const [make, setMake] = useState('');
+  const [model, setModel] = useState('');
+  const [zip, setZip] = useState('');
   const [minYear, setMinYear] = useState('');
   const [maxYear, setMaxYear] = useState('');
   const [minPrice, setMinPrice] = useState('');
   const [maxPrice, setMaxPrice] = useState('');
-  const [mileage, setMileage] = useState('');
-  const [transmission, setTransmission] = useState('');
-  const [fuelType, setFuelType] = useState('');
-  const [driveType, setDriveType] = useState('');
-  const [bodyStyle, setBodyStyle] = useState('');
-  const [engineType, setEngineType] = useState('');
-  const [color, setColor] = useState('');
-  const [savedCars, setSavedCars] = useState([]);
+  const [radius, setRadius] = useState(10); // Default distance in miles
+  const [filteredCars, setFilteredCars] = useState([]);
 
+  const sampleCars = useMemo(
+    () => [
+      { id: 1, make: 'Toyota', model: 'Camry', year: 2018, price: 20000, mileage: 30000, transmission: 'Automatic', fuelType: 'Gasoline', location: '90001', driveType: 'FWD', bodyStyle: 'Sedan', engineType: 'V4', color: 'Red', lat: 33.973951, lng: -118.248405, image: 'https://via.placeholder.com/280x180' },
+      { id: 4, make: 'Honda', model: 'Civic', year: 2020, price: 18000, mileage: 20000, transmission: 'Manual', fuelType: 'Gasoline', location: '90002', driveType: 'FWD', bodyStyle: 'Sedan', engineType: 'V4', color: 'Blue', lat: 33.950396, lng: -118.247621, image: 'https://via.placeholder.com/280x180' },
+      { id: 5, make: 'Toyota', model: 'Corolla', year: 2019, price: 15000, mileage: 25000, transmission: 'Automatic', fuelType: 'Gasoline', location: '90003', driveType: 'FWD', bodyStyle: 'Sedan', engineType: 'V4', color: 'Gray', lat: 33.965495, lng: -118.261867, image: 'https://via.placeholder.com/280x180' },
+      // Add more cars as necessary
+    ],
+    []
+  );
+
+  // Helper function to calculate distance between two coordinates
+  const calculateDistance = (lat1, lng1, lat2, lng2) => {
+    const toRad = (value) => (value * Math.PI) / 180;
+    const R = 3958.8; // Radius of Earth in miles
+    const dLat = toRad(lat2 - lat1);
+    const dLng = toRad(lng2 - lng1);
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(toRad(lat1)) *
+        Math.cos(toRad(lat2)) *
+        Math.sin(dLng / 2) *
+        Math.sin(dLng / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c; // Distance in miles
+  };
+
+  const handlePlaceChanged = () => {
+    if (autocomplete) {
+      const place = autocomplete.getPlace();
+      const postalCode = place?.address_components?.find((comp) =>
+        comp.types.includes('postal_code')
+      )?.short_name;
+
+      if (postalCode && /^[0-9]{5}$/.test(postalCode)) {
+        setZip(postalCode);
+        console.log('Selected ZIP Code:', postalCode);
+      } else {
+        setZip(''); // Clear ZIP code if invalid
+        console.log('Invalid ZIP code or incomplete location.');
+      }
+    }
+  };
+
+  // Filtering logic
   useEffect(() => {
-    const saved = JSON.parse(localStorage.getItem('savedCars')) || [];
-    setSavedCars(saved);
-  }, []);
+    const filterCarsByDistance = async () => {
+      let userCoordinates = null;
 
-  const toggleSaveCar = (car) => {
-    const updatedSavedCars = savedCars.some(savedCar => savedCar.id === car.id)
-      ? savedCars.filter(savedCar => savedCar.id !== car.id)
-      : [...savedCars, car];
+      if (zip && /^[0-9]{5}$/.test(zip)) {
+        const geocoder = new window.google.maps.Geocoder();
+        try {
+          const result = await new Promise((resolve, reject) => {
+            geocoder.geocode({ address: zip }, (results, status) => {
+              if (status === 'OK') {
+                resolve(results[0].geometry.location);
+              } else if (status === 'ZERO_RESULTS') {
+                console.log(`No location found for ZIP code: ${zip}`);
+                resolve(null); // Gracefully handle no results
+              } else {
+                reject(`Geocode failed due to: ${status}`);
+              }
+            });
+          });
 
-    setSavedCars(updatedSavedCars);
-    localStorage.setItem('savedCars', JSON.stringify(updatedSavedCars));
-  };
+          if (result) {
+            userCoordinates = { lat: result.lat(), lng: result.lng() };
+          }
+        } catch (error) {
+          console.error(error);
+          return;
+        }
+      }
 
-  // Models based on selected make
-  const modelsByMake = {
-    Toyota: ['Camry', 'Corolla', 'RAV4'],
-    Honda: ['Civic', 'Accord', 'CR-V'],
-    Ford: ['F-150', 'Escape', 'Mustang'],
-    Chevrolet: ['Silverado', 'Malibu', 'Equinox'],
-    Nissan: ['Altima', 'Rogue', 'Sentra'],
-    BMW: ['3 Series', '5 Series', 'X5'],
-    Mercedes: ['C-Class', 'E-Class', 'GLA'],
-    Audi: ['A4', 'Q5', 'A6'],
-    Hyundai: ['Elantra', 'Sonata', 'Tucson'],
-    Kia: ['Sorento', 'Sportage', 'Optima']
-  };
+      const newFilteredCars = sampleCars.filter((car) => {
+        const matchesMake = !make || car.make === make;
+        const matchesModel = !model || car.model === model;
+        const matchesMinYear = !minYear || car.year >= parseInt(minYear, 10);
+        const matchesMaxYear = !maxYear || car.year <= parseInt(maxYear, 10);
+        const matchesMinPrice = !minPrice || car.price >= parseInt(minPrice, 10);
+        const matchesMaxPrice = !maxPrice || car.price <= parseInt(maxPrice, 10);
 
-  const filteredCars = useMemo(() => {
-    return sampleCars.filter((car) => {
-      // ZIP Code Filtering
-      const matchesZip = !zip || car.location === zip;
-  
-      // Make and Model Filtering
-      const matchesMake = !make || car.make === make;
-      const matchesModel = !model || (matchesMake && car.model === model);
-  
-      // Combine all filters
-      return (
-        matchesZip &&
-        matchesMake &&
-        matchesModel &&
-        (!minYear || car.year >= parseInt(minYear)) &&
-        (!maxYear || car.year <= parseInt(maxYear)) &&
-        (!minPrice || car.price >= parseInt(minPrice)) &&
-        (!maxPrice || car.price <= parseInt(maxPrice)) &&
-        (!mileage || car.mileage <= parseInt(mileage)) &&
-        (!transmission || car.transmission === transmission) &&
-        (!fuelType || car.fuelType === fuelType) &&
-        (!driveType || car.driveType === driveType) &&
-        (!bodyStyle || car.bodyStyle === bodyStyle) &&
-        (!engineType || car.engineType === engineType) &&
-        (!color || car.color === color)
-      );
-    });
-  }, [
-    sampleCars,
-    zip,
-    make,
-    model,
-    minYear,
-    maxYear,
-    minPrice,
-    maxPrice,
-    mileage,
-    transmission,
-    fuelType,
-    driveType,
-    bodyStyle,
-    engineType,
-    color,
-  ]);
-  
+        let withinDistance = true;
+        if (userCoordinates) {
+          const distance = calculateDistance(
+            userCoordinates.lat,
+            userCoordinates.lng,
+            car.lat,
+            car.lng
+          );
+          withinDistance = distance <= radius;
+        }
+
+        return (
+          matchesMake &&
+          matchesModel &&
+          matchesMinYear &&
+          matchesMaxYear &&
+          matchesMinPrice &&
+          matchesMaxPrice &&
+          withinDistance
+        );
+      });
+
+      setFilteredCars(newFilteredCars);
+    };
+
+    filterCarsByDistance();
+  }, [make, model, zip, minYear, maxYear, minPrice, maxPrice, radius, sampleCars]);
 
   if (!isLoaded) {
     return <p>Loading Google Maps...</p>;
   }
-  
 
   return (
     <div className="results-page">
       <h2 className="results-title">Search Results</h2>
       <div className="results-container">
-        
-        {/* Filter Panel */}
         <div className="filter-panel">
           <div className="form-section">
             <label>Make:</label>
-            <select value={make} onChange={(e) => { setMake(e.target.value); setModel(''); }}>
+            <select
+              value={make}
+              onChange={(e) => {
+                setMake(e.target.value);
+                setModel(''); // Reset model when make changes
+              }}
+            >
               <option value="">Any</option>
-              {Object.keys(modelsByMake).map(makeOption => (
-                <option key={makeOption} value={makeOption}>{makeOption}</option>
-              ))}
+              <option value="Toyota">Toyota</option>
+              <option value="Honda">Honda</option>
+              {/* Add more makes */}
             </select>
           </div>
 
           <div className="form-section">
             <label>Model:</label>
-            <select value={model} onChange={(e) => setModel(e.target.value)} disabled={!make}>
+            <select
+              value={model}
+              onChange={(e) => setModel(e.target.value)}
+              disabled={!make} // Disable model selection if no make is selected
+            >
               <option value="">Any</option>
-              {make && modelsByMake[make].map(modelOption => (
-                <option key={modelOption} value={modelOption}>{modelOption}</option>
-              ))}
-            </select>
-          </div>
-
-          <div className="form-section">
-            <label>Distance:</label>
-            <select value={radius} onChange={(e) => setRadius(e.target.value)}>
-              <option value="10">10 miles</option>
-              <option value="25">25 miles</option>
-              <option value="50">50 miles</option>
-              <option value="100">100 miles</option>
-              <option value="150">150 miles</option>
-              <option value="200">200 miles</option>
-              <option value="500">500 miles</option>
+              {make === 'Toyota' && (
+                <>
+                  <option value="Camry">Camry</option>
+                  <option value="Corolla">Corolla</option>
+                  {/* Add more Toyota models */}
+                </>
+              )}
+              {make === 'Honda' && (
+                <>
+                  <option value="Civic">Civic</option>
+                  {/* Add more Honda models */}
+                </>
+              )}
+              {/* Add more makes and their models */}
             </select>
           </div>
 
           <div className="form-section">
             <label>ZIP Code:</label>
             <Autocomplete
-  onLoad={(autocompleteInstance) => setAutocomplete(autocompleteInstance)}
-  onPlaceChanged={() => {
-    if (autocomplete) {
-      const place = autocomplete.getPlace();
-      const postalCode = place?.address_components?.find(
-        (comp) => comp.types.includes('postal_code')
-      )?.short_name;
+              onLoad={(instance) => setAutocomplete(instance)}
+              onPlaceChanged={handlePlaceChanged}
+            >
+              <input
+                type="text"
+                placeholder="Enter ZIP code or location"
+                value={zip}
+                onChange={(e) => setZip(e.target.value)}
+              />
+            </Autocomplete>
+          </div>
 
-      if (postalCode) {
-        setZip(postalCode); // Set the ZIP code filter
-        setSelectedLocation(place.formatted_address); // Display the location
-      } else {
-        alert('Please select a valid location with a ZIP code.');
-      }
-    }
-  }}
->
-  <input
-    type="text"
-    placeholder="Enter ZIP code or location"
-    value={selectedLocation}
-    onChange={(e) => setSelectedLocation(e.target.value)}
-  />
-</Autocomplete>
-  {/* Display selected location below ZIP code input */}
-  {selectedLocation && (
-    <p className="selected-location">
-      Selected Location: {selectedLocation}
-    </p>
-  )}
-</div>
+          <div className="form-section">
+            <label>Distance (miles):</label>
+            <select
+              value={radius}
+              onChange={(e) => setRadius(Number(e.target.value))}
+            >
+              {[10, 25, 50, 100, 250, 500, 1000].map((distance) => (
+                <option key={distance} value={distance}>
+                  {distance} miles
+                </option>
+              ))}
+            </select>
+          </div>
+
           <div className="form-section">
             <label>Year Range:</label>
-            <select value={minYear} onChange={(e) => setMinYear(e.target.value)}>
-              <option value="">Min Year</option>
-              {[...Array(23)].map((_, i) => (
-                <option key={i} value={2000 + i}>{2000 + i}</option>
-              ))}
-            </select>
-            <select value={maxYear} onChange={(e) => setMaxYear(e.target.value)}>
-              <option value="">Max Year</option>
-              {[...Array(23)].map((_, i) => (
-                <option key={i} value={2000 + i}>{2000 + i}</option>
-              ))}
-            </select>
+            <input
+              type="number"
+              value={minYear}
+              onChange={(e) => setMinYear(e.target.value)}
+              placeholder="Min Year"
+            />
+            <input
+              type="number"
+              value={maxYear}
+              onChange={(e) => setMaxYear(e.target.value)}
+              placeholder="Max Year"
+            />
           </div>
 
           <div className="form-section">
             <label>Price Range:</label>
-            <select value={minPrice} onChange={(e) => setMinPrice(e.target.value)}>
-              <option value="">Min Price</option>
-              {[10000, 20000, 30000, 40000, 50000, 60000].map(price => (
-                <option key={price} value={price}>{`$${price.toLocaleString()}`}</option>
-              ))}
-            </select>
-            <select value={maxPrice} onChange={(e) => setMaxPrice(e.target.value)}>
-              <option value="">Max Price</option>
-              {[20000, 30000, 40000, 50000, 60000, 70000, 80000].map(price => (
-                <option key={price} value={price}>{`$${price.toLocaleString()}`}</option>
-              ))}
-            </select>
-          </div>
-
-          <div className="form-section">
-            <label>Mileage (Max):</label>
-            <select value={mileage} onChange={(e) => setMileage(e.target.value)}>
-              <option value="">Any Mileage</option>
-              {[10000, 20000, 30000, 40000, 50000, 60000, 70000, 80000, 90000, 100000].map(m => (
-                <option key={m} value={m}>{`${m.toLocaleString()} miles`}</option>
-              ))}
-            </select>
-          </div>
-
-          {/* Additional filters (Transmission, Fuel Type, etc.) */}
-          <div className="form-section">
-            <label>Transmission:</label>
-            <select value={transmission} onChange={(e) => setTransmission(e.target.value)}>
-              <option value="">Any</option>
-              <option value="Automatic">Automatic</option>
-              <option value="Manual">Manual</option>
-            </select>
-          </div>
-
-          <div className="form-section">
-            <label>Fuel Type:</label>
-            <select value={fuelType} onChange={(e) => setFuelType(e.target.value)}>
-              <option value="">Any</option>
-              <option value="Gasoline">Gasoline</option>
-              <option value="Diesel">Diesel</option>
-              <option value="Electric">Electric</option>
-              <option value="Hybrid">Hybrid</option>
-            </select>
-          </div>
-
-          <div className="form-section">
-            <label>Drive Type:</label>
-            <select value={driveType} onChange={(e) => setDriveType(e.target.value)}>
-              <option value="">Any</option>
-              <option value="FWD">Front Wheel Drive (FWD)</option>
-              <option value="AWD">All Wheel Drive (AWD)</option>
-              <option value="RWD">Rear Wheel Drive (RWD)</option>
-            </select>
-          </div>
-
-          <div className="form-section">
-            <label>Body Style:</label>
-            <select value={bodyStyle} onChange={(e) => setBodyStyle(e.target.value)}>
-              <option value="">Any</option>
-              <option value="Sedan">Sedan</option>
-              <option value="SUV">SUV</option>
-              <option value="Truck">Truck</option>
-              <option value="Coupe">Coupe</option>
-            </select>
-          </div>
-
-          <div className="form-section">
-            <label>Engine Type:</label>
-            <select value={engineType} onChange={(e) => setEngineType(e.target.value)}>
-              <option value="">Any</option>
-              <option value="V4">V4</option>
-              <option value="V6">V6</option>
-              <option value="V8">V8</option>
-            </select>
-          </div>
-
-          <div className="form-section">
-            <label>Color:</label>
-            <select value={color} onChange={(e) => setColor(e.target.value)}>
-              <option value="">Any</option>
-              <option value="Red">Red</option>
-              <option value="Blue">Blue</option>
-              <option value="Black">Black</option>
-              <option value="White">White</option>
-              <option value="Gray">Gray</option>
-            </select>
+            <input
+              type="number"
+              value={minPrice}
+              onChange={(e) => setMinPrice(e.target.value)}
+              placeholder="Min Price"
+            />
+            <input
+              type="number"
+              value={maxPrice}
+              onChange={(e) => setMaxPrice(e.target.value)}
+              placeholder="Max Price"
+            />
           </div>
         </div>
 
-        {/* Vehicle List */}
         <div className="vehicle-list">
-          {filteredCars.length ? (
+          {filteredCars.length > 0 ? (
             filteredCars.map((car) => (
               <div key={car.id} className="vehicle-card">
                 <img src={car.image} alt={`${car.make} ${car.model}`} />
-                <h3>{car.year} {car.make} {car.model}</h3>
-                <p>Location: {car.location}</p>
+                <h3>
+                  {car.year} {car.make} {car.model}
+                </h3>
+                <p>Price: ${car.price}</p>
                 <p>Mileage: {car.mileage} miles</p>
-                <i
-                  className={`heart-icon ${savedCars.some(savedCar => savedCar.id === car.id) ? 'fas fa-heart' : 'far fa-heart'}`}
-                  onClick={() => toggleSaveCar(car)}
-                ></i>
+                <p>Location: {car.location}</p>
               </div>
             ))
           ) : (
