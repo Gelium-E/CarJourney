@@ -52,7 +52,7 @@ const AdvancedSearchPage = () => {
       driveType,
       color,
       keyword,
-      condition, // Vehicle Condition
+      condition,
       zipCode,
       distance,
       ...Object.entries(features)
@@ -60,7 +60,17 @@ const AdvancedSearchPage = () => {
         .reduce((acc, [key]) => ({ ...acc, [key]: 'true' }), {}),
     }).toString();
 
+    console.log(`/results?${searchParams}`); // Debugging output
     navigate(`/results?${searchParams}`);
+  };
+
+  const getModelsForMake = (make) => {
+    const models = {
+      Toyota: ['Camry', 'Corolla'],
+      Honda: ['Civic', 'Accord'],
+      Ford: ['F-150', 'Mustang'],
+    };
+    return models[make] || [];
   };
 
   return (
@@ -88,10 +98,6 @@ const AdvancedSearchPage = () => {
               <option value="Toyota">Toyota</option>
               <option value="Honda">Honda</option>
               <option value="Ford">Ford</option>
-              <option value="Chevrolet">Chevrolet</option>
-              <option value="BMW">BMW</option>
-              <option value="Mercedes">Mercedes</option>
-              <option value="Audi">Audi</option>
             </select>
           </div>
 
@@ -99,14 +105,13 @@ const AdvancedSearchPage = () => {
             <label>Model</label>
             <select value={model} onChange={(e) => setModel(e.target.value)} disabled={!make}>
               <option value="">Any</option>
-              {make === 'Toyota' && <option value="Camry">Camry</option>}
-              {make === 'Toyota' && <option value="Corolla">Corolla</option>}
-              {make === 'Honda' && <option value="Civic">Civic</option>}
-              {make === 'Honda' && <option value="Accord">Accord</option>}
+              {getModelsForMake(make).map((mod) => (
+                <option key={mod} value={mod}>{mod}</option>
+              ))}
             </select>
           </div>
 
-          {/* Vehicle Condition */}
+          {/* Condition */}
           <div className="form-group">
             <label>Condition</label>
             <select value={condition} onChange={(e) => setCondition(e.target.value)}>
@@ -271,12 +276,12 @@ const AdvancedSearchPage = () => {
             <Autocomplete
               onLoad={(autocomplete) => (autocompleteRef.current = autocomplete)}
               onPlaceChanged={() => {
-                const place = autocompleteRef.current.getPlace();
-                if (place && place.address_components) {
-                  const postalCode = place.address_components.find((comp) =>
+                if (autocompleteRef.current) {
+                  const place = autocompleteRef.current.getPlace();
+                  const postalCode = place?.address_components?.find((comp) =>
                     comp.types.includes('postal_code')
                   )?.long_name;
-                  setZipCode(postalCode || '');
+                  setZipCode(postalCode || zipCode);
                 }
               }}
             >
@@ -296,9 +301,7 @@ const AdvancedSearchPage = () => {
             <select value={distance} onChange={(e) => setDistance(e.target.value)}>
               <option value="">Any Distance</option>
               {[5, 10, 25, 50, 100].map((dist) => (
-                <option key={dist} value={dist}>
-                  {dist} miles
-                </option>
+                <option key={dist} value={dist}>{`${dist} miles`}</option>
               ))}
             </select>
           </div>
@@ -313,4 +316,3 @@ const AdvancedSearchPage = () => {
 };
 
 export default AdvancedSearchPage;
-
