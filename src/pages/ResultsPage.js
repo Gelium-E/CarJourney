@@ -19,6 +19,13 @@ const ResultsPage = () => {
   const [maxYear, setMaxYear] = useState('');
   const [minPrice, setMinPrice] = useState('');
   const [maxPrice, setMaxPrice] = useState('');
+  const [maxMileage, setMaxMileage] = useState('');
+  const [transmission, setTransmission] = useState('');
+  const [fuelType, setFuelType] = useState('');
+  const [driveType, setDriveType] = useState('');
+  const [bodyStyle, setBodyStyle] = useState('');
+  const [engineType, setEngineType] = useState('');
+  const [color, setColor] = useState('');
   const [radius, setRadius] = useState(10); // Default distance in miles
   const [filteredCars, setFilteredCars] = useState([]);
 
@@ -102,6 +109,13 @@ const ResultsPage = () => {
         const matchesMaxYear = !maxYear || car.year <= parseInt(maxYear, 10);
         const matchesMinPrice = !minPrice || car.price >= parseInt(minPrice, 10);
         const matchesMaxPrice = !maxPrice || car.price <= parseInt(maxPrice, 10);
+        const matchesMaxMileage = !maxMileage || car.mileage <= parseInt(maxMileage, 10);
+        const matchesTransmission = !transmission || car.transmission === transmission;
+        const matchesFuelType = !fuelType || car.fuelType === fuelType;
+        const matchesDriveType = !driveType || car.driveType === driveType;
+        const matchesBodyStyle = !bodyStyle || car.bodyStyle === bodyStyle;
+        const matchesEngineType = !engineType || car.engineType === engineType;
+        const matchesColor = !color || car.color === color;
 
         let withinDistance = true;
         if (userCoordinates) {
@@ -121,6 +135,13 @@ const ResultsPage = () => {
           matchesMaxYear &&
           matchesMinPrice &&
           matchesMaxPrice &&
+          matchesMaxMileage &&
+          matchesTransmission &&
+          matchesFuelType &&
+          matchesDriveType &&
+          matchesBodyStyle &&
+          matchesEngineType &&
+          matchesColor &&
           withinDistance
         );
       });
@@ -129,11 +150,23 @@ const ResultsPage = () => {
     };
 
     filterCarsByDistance();
-  }, [make, model, zip, minYear, maxYear, minPrice, maxPrice, radius, sampleCars]);
+  }, [make, model, zip, minYear, maxYear, minPrice, maxPrice, maxMileage, transmission, fuelType, driveType, bodyStyle, engineType, color, radius, sampleCars]);
 
   if (!isLoaded) {
     return <p>Loading Google Maps...</p>;
   }
+
+  const generateDropdownOptions = (start, end, step = 1) => {
+    const options = [];
+    for (let i = start; i <= end; i += step) {
+      options.push(
+        <option key={i} value={i}>
+          {i}
+        </option>
+      );
+    }
+    return options;
+  };
 
   return (
     <div className="results-page">
@@ -212,34 +245,126 @@ const ResultsPage = () => {
 
           <div className="form-section">
             <label>Year Range:</label>
-            <input
-              type="number"
+            <select
               value={minYear}
               onChange={(e) => setMinYear(e.target.value)}
-              placeholder="Min Year"
-            />
-            <input
-              type="number"
+            >
+              <option value="">Min Year</option>
+              {generateDropdownOptions(1990, 2025)}
+            </select>
+            <select
               value={maxYear}
               onChange={(e) => setMaxYear(e.target.value)}
-              placeholder="Max Year"
-            />
+            >
+              <option value="">Max Year</option>
+              {generateDropdownOptions(1990, 2025)}
+            </select>
           </div>
 
           <div className="form-section">
             <label>Price Range:</label>
-            <input
-              type="number"
+            <select
               value={minPrice}
               onChange={(e) => setMinPrice(e.target.value)}
-              placeholder="Min Price"
-            />
-            <input
-              type="number"
+            >
+              <option value="">Min Price</option>
+              {generateDropdownOptions(10000, 1000000, 10000)}
+            </select>
+            <select
               value={maxPrice}
               onChange={(e) => setMaxPrice(e.target.value)}
-              placeholder="Max Price"
-            />
+            >
+              <option value="">Max Price</option>
+              {generateDropdownOptions(10000, 1000000, 10000)}
+            </select>
+          </div>
+
+          <div className="form-section">
+            <label>Mileage (Max):</label>
+            <select
+              value={maxMileage}
+              onChange={(e) => setMaxMileage(e.target.value)}
+            >
+              <option value="">Any Mileage</option>
+              {generateDropdownOptions(10000, 200000, 10000)}
+            </select>
+          </div>
+
+          <div className="form-section">
+            <label>Transmission:</label>
+            <select
+              value={transmission}
+              onChange={(e) => setTransmission(e.target.value)}
+            >
+              <option value="">Any</option>
+              <option value="Automatic">Automatic</option>
+              <option value="Manual">Manual</option>
+            </select>
+          </div>
+
+          <div className="form-section">
+            <label>Fuel Type:</label>
+            <select
+              value={fuelType}
+              onChange={(e) => setFuelType(e.target.value)}
+            >
+              <option value="">Any</option>
+              <option value="Gasoline">Gasoline</option>
+              <option value="Diesel">Diesel</option>
+              <option value="Electric">Electric</option>
+            </select>
+          </div>
+
+          <div className="form-section">
+            <label>Drive Type:</label>
+            <select
+              value={driveType}
+              onChange={(e) => setDriveType(e.target.value)}
+            >
+              <option value="">Any</option>
+              <option value="FWD">FWD</option>
+              <option value="RWD">RWD</option>
+              <option value="AWD">AWD</option>
+            </select>
+          </div>
+
+          <div className="form-section">
+            <label>Body Style:</label>
+            <select
+              value={bodyStyle}
+              onChange={(e) => setBodyStyle(e.target.value)}
+            >
+              <option value="">Any</option>
+              <option value="Sedan">Sedan</option>
+              <option value="SUV">SUV</option>
+              <option value="Truck">Truck</option>
+            </select>
+          </div>
+
+          <div className="form-section">
+            <label>Engine Type:</label>
+            <select
+              value={engineType}
+              onChange={(e) => setEngineType(e.target.value)}
+            >
+              <option value="">Any</option>
+              <option value="V4">V4</option>
+              <option value="V6">V6</option>
+              <option value="V8">V8</option>
+            </select>
+          </div>
+
+          <div className="form-section">
+            <label>Color:</label>
+            <select
+              value={color}
+              onChange={(e) => setColor(e.target.value)}
+            >
+              <option value="">Any</option>
+              <option value="Red">Red</option>
+              <option value="Blue">Blue</option>
+              <option value="Gray">Gray</option>
+            </select>
           </div>
         </div>
 
