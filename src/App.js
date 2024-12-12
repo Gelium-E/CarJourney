@@ -12,6 +12,7 @@ import LocateDealer from './pages/LocateDealer';
 import CarSearchPage from './pages/CarSearchPage';
 import ResultsPage from './pages/ResultsPage'; // Import for ResultsPage component
 import AdvancedSearchPage from './pages/AdvancedSearchPage'; // Import for AdvancedSearchPage component
+import Contact from './pages/Contact';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
         <Route path="/search" element={<CarSearchPage />} />
         <Route path="/results" element={<ResultsPage />} /> {/* Route for ResultsPage */}
         <Route path="/advanced-search" element={<AdvancedSearchPage />} /> {/* Route for AdvancedSearchPage */}
+        <Route path="/contact" element={<Contact />} />
       </Routes>
       <Footer />
     </Router>
