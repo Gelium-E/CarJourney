@@ -1,0 +1,191 @@
+.advanced-search-page {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  background-color: #fff;
+  border: 1px solid #ddd; /* Light border for separation */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+.advanced-search-page h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+  font-size: 24px;
+}
+
+/* Form Styles */
+.advanced-search-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  row-gap: 15px; /* Additional row spacing */
+}
+
+/* Form Group Styling */
+.form-group {
+  width: 100%;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #333; /* Improved contrast */
+}
+
+.form-group select,
+.form-group input[type="text"] {
+  width: 100%;
+  padding: 10px; /* Increased padding for better spacing */
+  font-size: 16px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  box-sizing: border-box;
+  background-color: #f9f9f9; /* Light background for inputs */
+  transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Smooth focus animations */
+}
+
+/* Hover and Active States */
+.form-group select:hover,
+.form-group input[type="text"]:hover {
+  background-color: #f0f8ff; /* Light blue background */
+}
+
+.form-group select:focus,
+.form-group input[type="text"]:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Error Messages */
+.form-group .error {
+  color: red;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+/* Checkbox Group */
+.checkbox-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.checkbox-group label {
+  font-weight: normal;
+}
+
+/* Checkbox Container for Features */
+.features-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.features-container div {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-left: 5px; /* Align checkbox content */
+}
+
+.features-container div input[type="checkbox"] {
+  transform: scale(1.2); /* Slightly larger checkboxes */
+}
+
+/* Button Styling */
+.search-button {
+  display: block; /* Centers the button in the form */
+  margin: 20px auto; /* Adds spacing and centers it horizontally */
+  padding: 12px 20px; /* Increases vertical and horizontal padding for better proportions */
+  font-size: 16px; /* Makes the text size consistent with inputs */
+  color: #fff; /* White text */
+  background-color: #007bff; /* Primary blue color */
+  border: none; /* Removes the border */
+  border-radius: 5px; /* Slightly rounded corners */
+  cursor: pointer; /* Adds pointer cursor on hover */
+  transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Smooth hover animation */
+}
+
+.search-button:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Adds a subtle shadow for a pop effect */
+}
+
+/* Save Button (if applicable) */
+.save-button {
+  display: block;
+  margin: 20px auto;
+  padding: 12px 20px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #28a745;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.save-button:hover {
+  background-color: #218838;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Dark Mode */
+[data-theme="dark"] {
+  background-color: #1e1e1e;
+  color: #f1f1f1;
+}
+
+[data-theme="dark"] .advanced-search-page {
+  background-color: #2a2a2a;
+  border-color: #444;
+  box-shadow: none; /* Remove shadow for a flat look in dark mode */
+}
+
+[data-theme="dark"] .form-group select,
+[data-theme="dark"] .form-group input[type="text"] {
+  background-color: #3a3a3a;
+  border: 1px solid #555;
+  color: #f1f1f1;
+}
+
+[data-theme="dark"] .search-button,
+[data-theme="dark"] .save-button {
+  background-color: #007bff;
+  color: #fff;
+}
+
+[data-theme="dark"] .search-button:hover {
+  background-color: #0056b3;
+}
+
+[data-theme="dark"] .save-button:hover {
+  background-color: #218838;
+}
+
+/* Responsive Styles */
+@media (min-width: 600px) {
+  .form-group {
+    width: 48%; /* Two columns on medium screens */
+  }
+}
+
+@media (min-width: 900px) {
+  .form-group {
+    width: 30%; /* Three columns on larger screens */
+  }
+}
+
+/* Full width for buttons on smaller screens */
+@media (max-width: 600px) {
+  .search-button,
+  .save-button {
+    width: 100%;
+    margin-top: 15px;
+    text-align: center;
+  }
+}
